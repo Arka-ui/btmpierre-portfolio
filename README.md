@@ -1,91 +1,104 @@
-# Portfolio - Pierre Bouteman
+# ✨ Modern Portfolio — Pierre Bouteman
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-success?style=for-the-badge&logo=github)](https://nexos20lv.github.io/)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/fr/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/fr/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/fr/docs/Web/JavaScript)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained-Yes-green?style=for-the-badge)](https://github.com/nexos20lv/nexos20lv.github.io/graphs/commit-activity)
+![Static](https://img.shields.io/badge/Site-Statique-7c3aed?style=for-the-badge)
+![Stack](https://img.shields.io/badge/Stack-HTML%20%7C%20CSS%20%7C%20JS-0ea5e9?style=for-the-badge)
+![i18n](https://img.shields.io/badge/Langues-FR%20%2F%20EN-22c55e?style=for-the-badge)
 
-Bienvenue sur le dépôt de mon **portfolio personnel** — un site web moderne, responsive et interactif pour présenter mes projets, mes compétences et mon expérience en tant que développeur.
+Portfolio personnel avec identité visuelle moderne, animation canvas, carte Discord en temps réel et système multilingue.
 
-## ✨ Fonctionnalités
+## 🚀 Features
 
-- **🎨 Design Moderne** : Un thème **Violet** premium avec des effets de glassmorphism, des lueurs néon et des animations fluides.
-- **📱 Entièrement Responsive** : Optimisé pour tous les appareils, des grands écrans de bureau aux téléphones mobiles.
-- **⚡ Statut en Temps Réel** : Intégration de l'**API Lanyard** (via WebSocket) pour afficher mon statut Discord en temps réel, mes activités et ma musique Spotify.
-- **🎡 Carrousel 3D de Projets** : Un carrousel circulaire en 3D immersif pour naviguer parmi mes projets avec des effets visuels premium.
-- **🔄 Carrousel Infini** : Un carrousel à défilement infini fluide pour présenter mes compétences techniques.
-- **🌐 Multilingue** : Support de 10 langues (Français, Anglais, Espagnol, Allemand, Italien, Portugais, Russe, Chinois, Arabe) avec détection automatique.
-- **🎮 Easter Eggs** : Fonctionnalités cachées amusantes incluant le code Konami, un message console secret et un jeu Tron caché.
-- **🛠️ Stack Technique** : Construit avec **HTML5**, **CSS3** et **Vanilla JavaScript** pur pour des performances et un contrôle optimaux.
-- **⚡ Service Worker** : Cache intelligent pour une expérience hors ligne fluide et des temps de chargement ultra-rapides.
+- Hero full-screen avec effets visuels et typographie marquée
+- Grille de projets + modale de détails
+- Carte Discord live via Lanyard WebSocket
+- i18n FR/EN avec persistance utilisateur (`localStorage`)
+- Architecture front clean, sans framework
 
-## 🚀 Démo en Direct
+## 🧱 Stack technique
 
-👉 [Voir le Portfolio](https://nexos20lv.github.io/)
+- **HTML5**
+- **CSS3** (split en fichiers base/composants)
+- **JavaScript ES Modules**
+- **Canvas API** (particules)
+- **Lanyard API** (présence Discord)
 
----
+## 📂 Architecture
 
-## 🛠️ Technologies Utilisées
-
-### Front-End
-
-- **HTML5** : Structure sémantique.
-- **CSS3** : Variables personnalisées, Flexbox/Grid, Animations, Glassmorphism.
-- **JavaScript (ES6+)** : Manipulation du DOM, gestion WebSocket (Lanyard), logique du carrousel.
-- **FontAwesome** : Icônes vectorielles évolutives.
-# Portfolio - Pierre Bouteman
-
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-success?style=for-the-badge&logo=github)](https://nexos20lv.github.io/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-
-Site vitrine personnel développé en **HTML5**, **CSS3** et **Vanilla JS**.
-
-## Résumé des changements récents
-
-- Améliorations de performance : `loading="lazy"` / `decoding="async"` sur les images décoratives, `preload` du logo.
-- SEO : ajout de `rel="canonical"` et d'un script `application/ld+json` (Person & WebSite).
-- Accessibilité / i18n : menu de langue rendu navigable au clavier (Enter / Espace), menu items focusables.
-
-## Structure rapide
-
-- `index.html` — entrée principale
-- `assets/css/` — styles
-- `assets/js/` — scripts (i18n, carrousel, lanyard, etc.)
-- `assets/lang/` — fichiers de traduction JSON
-
-## Tester localement
-
-1. Cloner le dépôt :
-
-```bash
-git clone https://github.com/nexos20lv/nexos20lv.github.io.git
-cd nexos20lv.github.io
+```text
+modern-portfolio/
+├── index.html
+├── README.md
+├── css/
+│   ├── style.css          # Entrée CSS (imports)
+│   ├── base.css           # Variables, reset, layout, nav, hero
+│   └── components.css     # Cards, modale, sections, responsive
+└── js/
+    ├── main.js            # Entrée JS
+    ├── app.js             # Logique principale UI
+    ├── i18n.js            # Dictionnaires FR/EN
+    └── particles.js       # Effet particules canvas
 ```
 
-2. Lancer un serveur HTTP simple (recommandé pour tester Service Worker et chemins relatifs) :
+## ⚙️ Démarrage local
+
+### 1) Serveur Python
 
 ```bash
+cd modern-portfolio
 python3 -m http.server 8000
-# puis ouvrir http://localhost:8000
 ```
 
-#
+Ouvre ensuite :
 
-Le bouton du header utilise l'attribut `download` pour forcer le téléchargement.
+```text
+http://127.0.0.1:8000
+```
 
-## Améliorations Récentes
+### 2) VS Code Live Server
 
-- **Ajout du lien Discord communautaire** : Un lien vers le serveur Discord a été ajouté dans la section des liens sociaux.
-- **Optimisation des images** : Préparation pour servir des variantes WebP des images principales en utilisant l'élément `<picture>` (les fichiers WebP doivent être générés manuellement ou via un outil en ligne).
-- **Audit de performance** : Des optimisations générales ont été appliquées pour améliorer le temps de chargement et l'LCP, telles que l'ajout de `loading="lazy"` et `decoding="async"` sur les images décoratives.
-- **Meta tags Open Graph** : Les meta tags Open Graph sont déjà présents pour la page principale. Pour les projets individuels, considérez la création de pages dédiées si nécessaire.
+- Ouvre le dossier dans VS Code
+- Lance `index.html` avec l’extension Live Server
 
-## Contact
+## 🌍 i18n (FR/EN)
 
-- Email : pierre.bouteman@icloud.com
+- Langue par défaut : **français**
+- Switch de langue dans le header : `FR` / `EN`
+- Préférence persistée dans `localStorage` avec la clé `portfolio-lang`
+- Traductions centralisées dans `js/i18n.js`
 
----
+## 🎨 Personnalisation rapide
 
-Conçu et développé par **Pierre Bouteman**.
+### Contenu
+
+- Textes de page : `index.html`
+- Dictionnaires de traduction : `js/i18n.js`
+- Données projets : structure des cartes dans `index.html`
+
+### UI & thème
+
+- Variables de thème (`:root`) : `css/base.css`
+- Composants visuels : `css/components.css`
+
+### Discord
+
+- Configuration & logique de la carte : `js/app.js`
+
+## 🚢 Déploiement
+
+Le projet est statique, il fonctionne directement sur :
+
+- GitHub Pages
+- Netlify
+- Vercel (mode static)
+- Nginx / Apache
+
+## 🗺️ Roadmap (idées)
+
+- [ ] Ajouter une vue mobile de navigation complète
+- [ ] Ajouter une section expériences/formation
+- [ ] Ajouter des tests visuels (Playwright)
+
+## 📄 Licence
+
+Pas de licence définie actuellement.
+Si besoin, ajoute un fichier `LICENSE` (ex: MIT).
