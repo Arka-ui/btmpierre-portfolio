@@ -676,6 +676,14 @@ document.addEventListener('DOMContentLoaded', () => {
         function renderSearchResults(query) {
             resultsContainer.innerHTML = '';
             const q = query.toLowerCase().trim();
+            
+            // --- Command Palette Logic ---
+            if (q.startsWith('>')) {
+                const cmd = q.substring(1).trim();
+                renderCommands(cmd);
+                return;
+            }
+
             const projects = i18n[currentLang].projects;
             
             const matches = Object.keys(projects)
@@ -704,11 +712,63 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 item.addEventListener('click', () => {
                     toggleSearch(false);
-                    // Match with index (1-based id in i18n, 0-based index in items)
                     openModal(parseInt(p.id) - 1);
                 });
                 resultsContainer.appendChild(item);
             });
+        }
+
+        function renderCommands(cmd) {
+            const commands = [
+                { id: 'about', label: 'Go to About', icon: '👤', action: () => scrollToSection('about') },
+                { id: 'experience', label: 'Go to Experience', icon: '💼', action: () => scrollToSection('experience') },
+                { id: 'projects', label: 'Go to Projects', icon: '🚀', action: () => scrollToSection('projects') },
+                { id: 'contact', label: 'Go to Contact', icon: '📧', action: () => scrollToSection('contact') },
+                { id: 'theme', label: 'Toggle High Performance Mode', icon: '⚡', action: () => document.getElementById('perfToggle')?.click() },
+                { id: 'fr', label: 'Switch to French', icon: '🇫🇷', action: () => applyLanguage('fr') },
+                { id: 'en', label: 'Switch to English', icon: '🇬🇧', action: () => applyLanguage('en') },
+                { id: 'terminal', label: 'Open Terminal', icon: '⌨️', action: () => toggleTerminal(true) }
+            ];
+
+            const matches = commands.filter(c => c.id.includes(cmd) || c.label.toLowerCase().includes(cmd));
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = `<div style="padding: 2rem; text-align: center; color: var(--text-muted);">No command found starting with "${cmd}"</div>`;
+                return;
+            }
+
+            matches.forEach(c => {
+                const item = document.createElement('div');
+                item.className = 'search-item';
+                item.innerHTML = `
+                    <div class="search-icon">${c.icon}</div>
+                    <div class="search-info">
+                        <strong>${c.label}</strong>
+                        <span>Command: >${c.id}</span>
+                    </div>
+                `;
+                item.addEventListener('click', () => {
+                    toggleSearch(false);
+                    c.action();
+                });
+                resultsContainer.appendChild(item);
+            });
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const offset = 80;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
         }
 
         function getProjectIcon(id) {
@@ -876,6 +936,132 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("System Initialized: Ultra Modern Portfolio V3");
     
+    // 10. Reading Progress Bar
+    const initReadingProgress = () => {
+        const progressBar = document.getElementById('reading-progress');
+        if (!progressBar) return;
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        });
+    };
+
+    // 11. Interactive Terminal
+    const toggleTerminal = (show) => {
+        const modal = document.getElementById('terminal-modal');
+        const input = document.getElementById('terminal-input');
+        if (!modal || !input) return;
+
+        modal.classList.toggle('open', show);
+        if (show) {
+            input.focus();
+            if (dot && ring) {
+                dot.style.display = 'none';
+                ring.style.display = 'none';
+            }
+        } else {
+            if (dot && ring) {
+                dot.style.display = '';
+                ring.style.display = '';
+            }
+        }
+    };
+
+    const initTerminal = () => {
+        const input = document.getElementById('terminal-input');
+        const content = document.getElementById('terminal-content');
+        const modal = document.getElementById('terminal-modal');
+        const closeBtn = document.querySelector('.close-terminal');
+
+        if (!input || !content || !modal) return;
+
+        const commands = {
+            help: () => 'Available commands: about, projects, experience, contact, theme, fr, en, clear, exit, neofetch',
+            about: () => 'Pierre Bouteman - Full-Stack Developer based in France. Currently in 1ère STI2D.',
+            projects: () => 'Listing projects... Command "> projects" in Ctrl+K for a visual list.',
+            experience: () => 'Experience: Personal projects (Nexaria, HA Desktop), STI2D Student, Internships at Déclic Info & ASC Computer.',
+            contact: () => 'Contact: pierre.bouteman@icloud.com | Discord: @nexos20lv',
+            theme: () => {
+                document.getElementById('perfToggle')?.click();
+                return 'Toggled High Performance Mode.';
+            },
+            fr: () => {
+                applyLanguage('fr');
+                return 'Langue changée en Français.';
+            },
+            en: () => {
+                applyLanguage('en');
+                return 'Language switched to English.';
+            },
+            neofetch: () => `
+                <div style="display:flex; gap: 2rem;">
+                    <div style="color:var(--primary); font-family:var(--font-mono); white-space:pre;">
+   #####
+  #######
+  ##O#O##
+  #######
+  #######
+  #######
+                    </div>
+                    <div>
+                        <b style="color:var(--primary)">pierre@bouteman.dev</b><br>
+                        ---------------------<br>
+                        <b>OS:</b> Portfolio OS V3<br>
+                        <b>Kernel:</b> 2.1.0-stable<br>
+                        <b>Uptime:</b> ${Math.round(performance.now() / 1000)}s<br>
+                        <b>Shell:</b> pierre-sh 1.0<br>
+                        <b>Resolution:</b> ${window.innerWidth}x${window.innerHeight}<br>
+                        <b>Stack:</b> HTML, CSS, Vanilla JS
+                    </div>
+                </div>`,
+            clear: () => {
+                content.innerHTML = '<div class="terminal-welcome">Type \'help\' for available commands.</div>';
+                return '';
+            },
+            exit: () => {
+                toggleTerminal(false);
+                return 'Exiting...';
+            }
+        };
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const rawValue = input.value.trim();
+                const cmd = rawValue.toLowerCase();
+                input.value = '';
+
+                // Add command to feedback
+                const cmdLine = document.createElement('div');
+                cmdLine.className = 'terminal-line cmd';
+                cmdLine.textContent = `> ${rawValue}`;
+                content.appendChild(cmdLine);
+
+                if (cmd) {
+                    const result = commands[cmd] ? commands[cmd]() : `Command not found: ${cmd}. Type 'help' for possible commands.`;
+                    if (result) {
+                        const resLine = document.createElement('div');
+                        resLine.className = 'terminal-line';
+                        resLine.innerHTML = result;
+                        content.appendChild(resLine);
+                    }
+                }
+                content.scrollTop = content.scrollHeight;
+            }
+        });
+
+        closeBtn?.addEventListener('click', () => toggleTerminal(false));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) toggleTerminal(false);
+        });
+    };
+
+    initTerminal();
+
+    initReadingProgress();
+
     // Initial fetch of availability
     updateHeroFromJSON();
 });

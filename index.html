@@ -25,6 +25,8 @@
 </head>
 
 <body>
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress"></div>
 
     <!-- Loader -->
     <div id="loader">
@@ -508,6 +510,26 @@
             </div>
             <div id="search-results" class="search-results">
                 <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Terminal -->
+    <div id="terminal-modal" class="terminal-overlay">
+        <div class="terminal-container glass-panel">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="terminal-title mono">SYSTEM_TERMINAL_V3</div>
+                <button class="close-terminal">×</button>
+            </div>
+            <div id="terminal-content" class="terminal-output mono">
+                <div class="terminal-welcome">Type 'help' for available commands.</div>
+            </div>
+            <div class="terminal-input-row mono">
+                <span class="prompt">></span>
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
             </div>
         </div>
     </div>
