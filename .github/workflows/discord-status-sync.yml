@@ -27,11 +27,13 @@ jobs:
           RESPONSE=$(curl -s -H "Authorization: Bot $BOT_TOKEN" \
             "https://discord.com/api/v10/channels/$CHANNEL_ID/messages?limit=1")
           
-          CONTENT=$(echo $RESPONSE | jq -r '.[0].content')
+          echo "Debug Response: $RESPONSE"
+
+          CONTENT=$(echo $RESPONSE | jq -r '.[0].content // empty')
           echo "Last message: $CONTENT"
 
-          if [ "$CONTENT" == "null" ]; then
-             echo "⚠️ No messages found"
+          if [ -z "$CONTENT" ] || [ "$CONTENT" == "null" ]; then
+             echo "⚠️ No messages found or no content permission."
              exit 0
           fi
 
