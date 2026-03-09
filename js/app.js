@@ -169,17 +169,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Scroll Spy for Navbar
     window.addEventListener('scroll', () => {
         let current = "";
+        const scrollPos = window.scrollY + 150;
+
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop - sectionHeight / 3) {
+            if (scrollPos >= section.offsetTop) {
                 current = section.getAttribute("id");
             }
         });
 
         navLinks.forEach(link => {
             link.classList.remove("active");
-            if (link.getAttribute("href").includes(current)) {
+            if (link.getAttribute("href") === `#${current}`) {
                 link.classList.add("active");
             }
         });
@@ -269,12 +269,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updatePresence(data) {
         // Handle sync vs update structure
-        const presence = data.activities ? data : data; // INIT_STATE has full object, PRESENCE_UPDATE might be partial but Lanyard sends full usually for subscribed
+        const presence = data.activities ? data : data; 
 
         // 1. Update Avatar & Indicator
         if (presence.discord_user) {
             const avatarId = presence.discord_user.avatar;
             avatarImg.src = `https://cdn.discordapp.com/avatars/${discordID}/${avatarId}.png`;
+        }
+
+        // Update Global Status Text & Color
+        const status = presence.discord_status || 'offline';
+        lastDiscordStatus = status;
+        
+        if (statusIndicator) {
+            statusIndicator.style.backgroundColor = colors[status] || colors.offline;
+            statusIndicator.style.boxShadow = `0 0 10px ${colors[status] || colors.offline}`;
+        }
+
+        if (statusText) {
+            statusText.textContent = t(`discord.status.${status}`);
         }
 
         // 2. Update Activity
@@ -327,19 +340,26 @@ document.addEventListener('DOMContentLoaded', () => {
         const heroTag = document.getElementById('hero-availability');
         if (!heroTag) return;
 
+        let icon = '';
+        let text = '';
+
         if (data.is_available === false) {
+            icon = '<i class="bi bi-dash-circle-fill" style="color: #ff4b4b;"></i>';
             if (data.active_projects > 0) {
-                heroTag.textContent = t('hero.status.busy').replace('{count}', data.active_projects);
+                text = t('hero.status.busy').replace('{count}', data.active_projects);
             } else {
-                heroTag.textContent = t('hero.status.busy_general');
+                text = t('hero.status.busy_general');
             }
         } else {
+            icon = '<i class="bi bi-check-circle-fill" style="color: #00ff88;"></i>';
             if (data.active_projects > 0) {
-                heroTag.textContent = t('hero.status.available_busy').replace('{count}', data.active_projects);
+                text = t('hero.status.available_busy').replace('{count}', data.active_projects);
             } else {
-                heroTag.textContent = t('hero.status.available');
+                text = t('hero.status.available');
             }
         }
+        
+        heroTag.innerHTML = `${icon} ${text}`;
     }
 
     // Availability sync logic (Old logic replaced by Supabase)
@@ -497,6 +517,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Data extraction
         const detailsClone = item.querySelector('.hidden-details').cloneNode(true);
         detailsClone.style.display = 'block';
+
+        // Get project icon
+        const projectIcon = item.querySelector('i.bi')?.cloneNode(true) || document.createElement('i');
+        if (!projectIcon.classList.contains('bi')) { // Default if not found
+            projectIcon.className = 'bi bi-folder-fill';
+        }
 
         // Populate Modal
         document.getElementById('modal-title').textContent = title;

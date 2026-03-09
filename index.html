@@ -9,11 +9,15 @@
     <meta name="description" content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop." data-i18n-content="meta.description">
 
     <!-- Fonts -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Syne:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css?v=2.0">
@@ -52,10 +56,10 @@
                 </a>
                 <div class="nav-right">
                     <ul class="nav-links">
-                        <li><a href="#about" data-i18n="nav.about">À propos</a></li>
-                        <li><a href="#experience" data-i18n="nav.experience">Expérience</a></li>
-                        <li><a href="#projects" data-i18n="nav.projects">Projets</a></li>
-                        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+                        <li><a href="#about"><i class="bi bi-person-fill"></i> <span data-i18n="nav.about">À propos</span></a></li>
+                        <li><a href="#experience"><i class="bi bi-briefcase-fill"></i> <span data-i18n="nav.experience">Expérience</span></a></li>
+                        <li><a href="#projects"><i class="bi bi-code-slash"></i> <span data-i18n="nav.projects">Projets</span></a></li>
+                        <li><a href="#contact"><i class="bi bi-envelope-at-fill"></i> <span data-i18n="nav.contact">Contact</span></a></li>
                     </ul>
                     <div class="nav-actions">
                         <button type="button" class="perf-btn" id="perfToggle" title="Toggle High Performance Mode">
@@ -95,7 +99,7 @@
         
             <section class="hero">
                 <div class="hero-content">
-                    <div class="hero-tag reveal" id="hero-availability" data-i18n="hero.status.loading">Synchronisation du statut...</div>
+                    <div class="hero-tag reveal" id="hero-availability" data-i18n="hero.status.loading"><i class="bi bi-arrow-repeat spin"></i> Synchronisation du statut...</div>
                     <h1 class="reveal">
                         <span class="line dim" data-i18n="hero.title.prefix">Développeur</span>
                         <span class="line glow-word" data-i18n="hero.title.highlight">Full-Stack</span>
@@ -103,27 +107,38 @@
                     </h1>
                     <p class="hero-sub reveal" data-i18n="hero.desc">Je conçois des architectures complètes et des interfaces immersives. Ma priorité reste l’ingénierie logicielle robuste, avec l’IA comme accélérateur ponctuel.</p>
                     <div class="hero-actions reveal">
-                        <a href="#projects" class="btn btn-primary" data-i18n="hero.cta.projects">Voir les projets</a>
-                        <a href="#contact" class="btn btn-secondary" data-i18n="hero.cta.contact">Me contacter</a>
+                        <a href="#projects" class="btn btn-primary"><i class="bi bi-grid-fill"></i> <span data-i18n="hero.cta.projects">Voir les projets</span></a>
+                        <a href="#contact" class="btn btn-secondary"><i class="bi bi-chat-dots-fill"></i> <span data-i18n="hero.cta.contact">Me contacter</span></a>
                     </div>
                 </div>
             </section>
 
             <!-- Marquee Skills -->
             <div class="marquee">
-                <div class="track">
-                    <span class="skill-word" data-i18n="skills.1">JavaScript</span>
-                    <span class="skill-word" data-i18n="skills.2">Electron</span>
-                    <span class="skill-word" data-i18n="skills.3">PHP</span>
-                    <span class="skill-word" data-i18n="skills.4">MySQL</span>
-                    <span class="skill-word" data-i18n="skills.5">Azuriom</span>
-                    <span class="skill-word" data-i18n="skills.6">Paper API</span>
-                    <span class="skill-word" data-i18n="skills.7">Docker</span>
-                    <span class="skill-word" data-i18n="skills.8">GitHub Actions</span>
-                    <span class="skill-word" data-i18n="skills.9">CI/CD</span>
-                    <span class="skill-word" data-i18n="skills.10">Ingénierie UI</span>
-                    <span class="skill-word" data-i18n="skills.11">Godot Engine</span>
-                    <span class="skill-word" data-i18n="skills.12">Python</span>
+                <div class="marquee-content marquee-anim">
+                    <div class="skill-item"><i class="devicon-javascript-plain colored"></i><span class="skill-name">JavaScript</span></div>
+                    <div class="skill-item"><i class="devicon-electron-original colored"></i><span class="skill-name">Electron</span></div>
+                    <div class="skill-item"><i class="devicon-php-plain colored"></i><span class="skill-name">PHP</span></div>
+                    <div class="skill-item"><i class="devicon-tailwindcss-plain colored"></i><span class="skill-name">Tailwind</span></div>
+                    <div class="skill-item"><i class="devicon-mysql-plain colored"></i><span class="skill-name">MySQL</span></div>
+                    <div class="skill-item"><i class="devicon-docker-plain colored"></i><span class="skill-name">Docker</span></div>
+                    <div class="skill-item"><i class="devicon-github-original"></i><span class="skill-name">GitHub</span></div>
+                    <div class="skill-item"><i class="devicon-supabase-plain colored"></i><span class="skill-name">Supabase</span></div>
+                    <div class="skill-item"><i class="bi bi-layout-wtf colored"></i><span class="skill-name">UI Engineering</span></div>
+                    <div class="skill-item"><i class="devicon-fastapi-plain colored"></i><span class="skill-name">FastAPI</span></div>
+                    <div class="skill-item"><i class="devicon-python-plain colored"></i><span class="skill-name">Python</span></div>
+                    <!-- Clone for seamless loop -->
+                    <div class="skill-item"><i class="devicon-javascript-plain colored"></i><span class="skill-name">JavaScript</span></div>
+                    <div class="skill-item"><i class="devicon-electron-original colored"></i><span class="skill-name">Electron</span></div>
+                    <div class="skill-item"><i class="devicon-php-plain colored"></i><span class="skill-name">PHP</span></div>
+                    <div class="skill-item"><i class="devicon-tailwindcss-plain colored"></i><span class="skill-name">Tailwind</span></div>
+                    <div class="skill-item"><i class="devicon-mysql-plain colored"></i><span class="skill-name">MySQL</span></div>
+                    <div class="skill-item"><i class="devicon-docker-plain colored"></i><span class="skill-name">Docker</span></div>
+                    <div class="skill-item"><i class="devicon-github-original"></i><span class="skill-name">GitHub</span></div>
+                    <div class="skill-item"><i class="devicon-supabase-plain colored"></i><span class="skill-name">Supabase</span></div>
+                    <div class="skill-item"><i class="bi bi-layout-wtf colored"></i><span class="skill-name">UI Engineering</span></div>
+                    <div class="skill-item"><i class="devicon-fastapi-plain colored"></i><span class="skill-name">FastAPI</span></div>
+                    <div class="skill-item"><i class="devicon-python-plain colored"></i><span class="skill-name">Python</span></div>
                 </div>
             </div>
 
@@ -144,15 +159,15 @@
                         <h4 style="margin-bottom: 1.5rem; color: #fff; font-size: 1.2rem;" data-i18n="about.expertise.title">Expertise Technique</h4>
                         <div style="display: flex; flex-direction: column; gap: 1rem;">
                             <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 0.5rem;" data-i18n="about.expertise.1.title">Applications Desktop & Web</strong>
+                                <strong style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i class="bi bi-window-fullscreen" style="color: var(--primary);"></i> <span data-i18n="about.expertise.1.title">Applications Desktop & Web</span></strong>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.1.desc">JavaScript, Electron, HTML/CSS et architecture front-end pour des apps desktop et des interfaces web interactives.</p>
                             </div>
                             <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 0.5rem;" data-i18n="about.expertise.2.title">Back-End PHP & Écosystème Minecraft</strong>
+                                <strong style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i class="bi bi-database-fill-gear" style="color: var(--primary);"></i> <span data-i18n="about.expertise.2.title">Back-End PHP & Écosystème Minecraft</span></strong>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.2.desc">PHP, MySQL et intégrations Azuriom/Paper API pour des outils communautaires (launcher, plugin WebMap, services web).</p>
                             </div>
                             <div>
-                                <strong style="color: #fff; display: block; margin-bottom: 0.5rem;" data-i18n="about.expertise.3.title">Qualité & Livraison</strong>
+                                <strong style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i class="bi bi-shield-check" style="color: var(--primary);"></i> <span data-i18n="about.expertise.3.title">Qualité & Livraison</span></strong>
                                 <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.3.desc">Utilisation avancée des LLMs pour accélérer certaines tâches, avec validation manuelle. Utilisation de Git, releases GitHub et automatisations CI pour livrer des versions stables.</p>
                             </div>
                         </div>
@@ -244,6 +259,7 @@
                         <!-- Project 1 -->
                         <article class="carousel-item reveal" data-index="0">
                             <div class="card-content">
+                                <i class="bi bi-calendar-check-fill"></i>
                                 <div class="project-meta" data-i18n="projects.1.meta">APPLICATION WEB</div>
                                 <h3 class="project-title" data-i18n="projects.1.title">Conférences Orientation</h3>
                                 <p class="project-desc" data-i18n="projects.1.desc">Plateforme d’inscription et de suivi pour conférences scolaires.</p>
@@ -256,13 +272,14 @@
                                     <p data-i18n-html="projects.1.details.2"><strong>Défi technique :</strong> garantir la fiabilité des créneaux en forte affluence et générer des exports PDF dynamiques en temps réel.</p>
                                     <a href="https://conferencesorientationpdz.eclozionmc.ovh/" target="_blank" class="btn btn-primary" data-i18n="projects.1.action">Accès Interne</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 2 -->
                         <article class="carousel-item reveal" data-index="1">
                             <div class="card-content">
+                                <i class="bi bi-box-seam-fill"></i>
                                 <div class="project-meta" data-i18n="projects.2.meta">ÉCOSYSTÈME MINECRAFT</div>
                                 <h3 class="project-title" data-i18n="projects.2.title">Nexaria</h3>
                                 <p class="project-desc" data-i18n="projects.2.desc">Écosystème complet autour d’un serveur survie communautaire.</p>
@@ -275,13 +292,14 @@
                                     <p data-i18n-html="projects.2.details.2"><strong>Stack :</strong> Paper API pour la partie serveur Minecraft, Azuriom pour le site (boutique, classement, espace communauté).</p>
                                     <a href="https://nexaria.netlib.re" target="_blank" class="btn btn-primary" data-i18n="projects.2.action">Voir le site</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 3 -->
                         <article class="carousel-item reveal" data-index="2">
                             <div class="card-content">
+                                <i class="bi bi-controller"></i>
                                 <div class="project-meta" data-i18n="projects.3.meta">DÉVELOPPEMENT JEU</div>
                                 <h3 class="project-title" data-i18n="projects.3.title">Guerre Des Capsules</h3>
                                 <p class="project-desc" data-i18n="projects.3.desc">Fast-FPS multijoueur avec gameplay nerveux et compétitif.</p>
@@ -295,13 +313,14 @@
                                     <a href="https://github.com/nexos20lv/La-Guerre-Des-Capsules" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 4 -->
                         <article class="carousel-item reveal" data-index="3">
                             <div class="card-content">
+                                <i class="bi bi-window-sidebar"></i>
                                 <div class="project-meta" data-i18n="projects.4.meta">FRONT-END</div>
                                 <h3 class="project-title" data-i18n="projects.4.title">Portfolio</h3>
                                 <p class="project-desc" data-i18n="projects.4.desc">Version actuelle de mon portfolio, pensée pour une expérience moderne et immersive.</p>
@@ -315,13 +334,14 @@
                                     <a href="https://github.com/nexos20lv/nexos20lv.github.io" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.source">Code source</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 5 -->
                         <article class="carousel-item reveal" data-index="4">
                             <div class="card-content">
+                                <i class="bi bi-rocket-takeoff-fill"></i>
                                 <div class="project-meta" data-i18n="projects.5.meta">APPLICATION DESKTOP</div>
                                 <h3 class="project-title" data-i18n="projects.5.title">Nexaria Launcher</h3>
                                 <p class="project-desc" data-i18n="projects.5.desc">Launcher Minecraft moderne avec mises à jour automatiques et gestion des mods.</p>
@@ -335,13 +355,14 @@
                                     <a href="https://github.com/nexos20lv/Nexaria-Launcher" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 6 -->
                         <article class="carousel-item reveal" data-index="5">
                             <div class="card-content">
+                                <i class="bi bi-map-fill"></i>
                                 <div class="project-meta" data-i18n="projects.6.meta">PLUGIN CMS</div>
                                 <h3 class="project-title" data-i18n="projects.6.title">WebMap</h3>
                                 <p class="project-desc" data-i18n="projects.6.desc">Plugin Azuriom pour intégrer Dynmap, BlueMap ou Pl3xMap en quelques clics.</p>
@@ -355,13 +376,14 @@
                                     <a href="https://github.com/nexos20lv/WebMap" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 7 -->
                         <article class="carousel-item reveal" data-index="6">
                             <div class="card-content">
+                                <i class="bi bi-house-gear-fill"></i>
                                 <div class="project-meta" data-i18n="projects.7.meta">APPLICATION DESKTOP</div>
                                 <h3 class="project-title" data-i18n="projects.7.title">Home Assistant Desktop</h3>
                                 <p class="project-desc" data-i18n="projects.7.desc">Client desktop dédié à Home Assistant avec capteurs PC et accès rapide.</p>
@@ -371,17 +393,18 @@
                                 </div>
                                 <div class="hidden-details">
                                     <p data-i18n="projects.7.details.1">Application desktop indépendante du navigateur pour piloter Home Assistant avec une interface fluide et une présence native (tray, raccourcis globaux).</p>
-                                    <p data-i18n-html="projects.7.details.2"><strong>Fonctions :</strong> auto-updates, intégration des métriques machine (CPU, RAM, batterie, uptime) et workflow pensé pour un usage quotidien.</p>
+                                    <p data-i18n-html="projects.7.details.2"><strong>Fonctions :</strong> auto-updates, intégration des métriques machine (CPU, RAM, batterie, uptime) et workflow pensé for un usage quotidien.</p>
                                     <a href="https://github.com/nexos20lv/Home-Assistant-Desktop" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
 
                         <!-- Project 8 -->
                         <article class="carousel-item reveal" data-index="7">
                             <div class="card-content">
+                                <i class="bi bi-speedometer"></i>
                                 <div class="project-meta" data-i18n="projects.8.meta">SUPERVISION</div>
                                 <h3 class="project-title" data-i18n="projects.8.title">AzureLab Dashboard</h3>
                                 <p class="project-desc" data-i18n="projects.8.desc">Dashboard VPS en temps réel pour suivre santé serveur et réseau.</p>
@@ -395,7 +418,7 @@
                                     <a href="https://github.com/nexos20lv/AzureLab-Dashboard" target="_blank"
                                         class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                                 </div>
-                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1rem;" data-i18n="projects.learnMore">En savoir plus</button>
+                                <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span data-i18n="projects.learnMore">En savoir plus</span></button>
                             </div>
                         </article>
                     </div>
@@ -409,6 +432,7 @@
                     <button class="close-modal">×</button>
                     <div class="modal-body-content">
                         <div class="modal-header">
+                            <i id="modal-icon" class="bi bi-code-square"></i>
                             <span id="modal-meta" class="mono" style="color:var(--primary)"></span>
                             <h2 id="modal-title"></h2>
                         </div>
@@ -447,14 +471,14 @@
 
                     <div class="contact-social-links reveal" style="margin-top: 2rem;">
                         <a href="mailto:pierre.bouteman@icloud.com" class="contact-link">
-                            <span class="icon">📧</span> pierre.bouteman@icloud.com
+                            <i class="bi bi-envelope-fill icon"></i> pierre.bouteman@icloud.com
                         </a>
                         <div class="contact-discord-group" style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem;">
                             <a href="https://discord.com/users/1288079115248992297" target="_blank" class="contact-link">
-                                <span class="icon">👤</span> @nexos20lv
+                                <i class="bi bi-discord icon"></i> @nexos20lv
                             </a>
                             <a href="https://discord.gg/aQREDsZqv4" target="_blank" class="contact-link">
-                                <span class="icon">🛡️</span> Mon serveur Discord
+                                <i class="bi bi-shield-shaded icon"></i> Mon serveur Discord
                             </a>
                         </div>
                     </div>
