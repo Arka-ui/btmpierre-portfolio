@@ -551,7 +551,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Python': '#3776ab', 'HTML': '#e34c26', 'CSS': '#563d7c',
                         'SCSS': '#c6538c', 'C++': '#f34b7d', 'Java': '#b07219',
                         'Godot': '#478cbf', 'GDScript': '#478cbf', 'Shell': '#89e051',
-                        'Vue': '#41b883', 'Batchfile': '#C1F12E'
+                        'Vue': '#41b883', 'Batchfile': '#C1F12E', 'C#': '#178600',
+                        'Ruby': '#701516', 'Go': '#00ADD8', 'Rust': '#dea584',
+                        'Swift': '#F05138', 'Kotlin': '#A97BFF', 'Dart': '#00B4AB',
+                        'Objective-C': '#438eff', 'C': '#555555', 'R': '#198CE7',
+                        'Matlab': '#e16737', 'Perl': '#0298c3', 'Haskell': '#5e5086',
+                        'Scala': '#c22d40', 'Elixir': '#6e4a7e', 'Clojure': '#db5855',
+                        'Lua': '#000080', 'SQL': '#e38c00', 'PowerShell': '#012456',
+                        'Markdown': '#083fa1', 'JSON': '#292929', 'YAML': '#cb171e',
+                        'Arduino': '#bd79d1', 'Assembly': '#6E4C13', 'Processing': '#0096D8',
+                        'Unity': '#222c37', 'PostScript': '#da291c', 'ActionScript': '#882B0F'
                     };
 
                     let statsHTML = `
@@ -864,20 +873,20 @@ document.addEventListener('DOMContentLoaded', () => {
             await Promise.all(langPromises);
 
             const colors = {
-                'JavaScript': '#f7df1e',
-                'TypeScript': '#3178c6',
-                'PHP': '#777bb3',
-                'Python': '#3776ab',
-                'HTML': '#e34c26',
-                'CSS': '#563d7c',
-                'SCSS': '#c6538c',
-                'C++': '#f34b7d',
-                'Java': '#b07219',
-                'Godot': '#478cbf',
-                'GDScript': '#478cbf',
-                'Shell': '#89e051',
-                'Vue': '#41b883',
-                'Batchfile': '#C1F12E'
+                'JavaScript': '#f7df1e', 'TypeScript': '#3178c6', 'PHP': '#777bb3',
+                'Python': '#3776ab', 'HTML': '#e34c26', 'CSS': '#563d7c',
+                'SCSS': '#c6538c', 'C++': '#f34b7d', 'Java': '#b07219',
+                'Godot': '#478cbf', 'GDScript': '#478cbf', 'Shell': '#89e051',
+                'Vue': '#41b883', 'Batchfile': '#C1F12E', 'C#': '#178600',
+                'Ruby': '#701516', 'Go': '#00ADD8', 'Rust': '#dea584',
+                'Swift': '#F05138', 'Kotlin': '#A97BFF', 'Dart': '#00B4AB',
+                'Objective-C': '#438eff', 'C': '#555555', 'R': '#198CE7',
+                'Matlab': '#e16737', 'Perl': '#0298c3', 'Haskell': '#5e5086',
+                'Scala': '#c22d40', 'Elixir': '#6e4a7e', 'Clojure': '#db5855',
+                'Lua': '#000080', 'SQL': '#e38c00', 'PowerShell': '#012456',
+                'Markdown': '#083fa1', 'JSON': '#292929', 'YAML': '#cb171e',
+                'Arduino': '#bd79d1', 'Assembly': '#6E4C13', 'Processing': '#0096D8',
+                'Unity': '#222c37', 'PostScript': '#da291c', 'ActionScript': '#882B0F'
             };
 
             const sortedLangs = Object.entries(langMap)
