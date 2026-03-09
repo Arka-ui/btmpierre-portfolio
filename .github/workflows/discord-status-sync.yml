@@ -2,11 +2,13 @@ name: Discord Status Sync
 
 on:
   schedule:
-    - cron: '*/10 * * * *' # Every 10 minutes
+    - cron: '*/5 * * * *' # Every 5 minutes
   workflow_dispatch: # Manual trigger
 
 jobs:
   sync_status:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,10 +39,14 @@ jobs:
              exit 0
           fi
 
-          # Parsing logic
-          PROJECTS=$(echo "$CONTENT" | grep -oEi '[0-9]+' | head -1 || echo "0")
+          # Parsing logic - Improved to handle messages without numbers
+          PROJECTS=$(echo "$CONTENT" | grep -oEi '[0-9]+' | head -n 1)
+          if [ -z "$PROJECTS" ]; then
+            PROJECTS=0
+          fi
+          
           AVAILABLE="true"
-          if [[ "$CONTENT" =~ "indisponible"|"busy"|"occupé" ]]; then
+          if [[ "$CONTENT" =~ "indisponible"|"busy"|"occupé"|"full" ]]; then
             AVAILABLE="false"
           fi
 
