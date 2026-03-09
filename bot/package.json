@@ -7,8 +7,9 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "discord.js": "^14.14.1",
-    "@supabase/supabase-js": "^2.39.7",
-    "dotenv": "^16.4.5"
+    "discord.js": "^14.25.1",
+    "@supabase/supabase-js": "^2.99.0",
+    "dotenv": "^17.3.1",
+    "undici": "^7.22.0"
   }
 }
