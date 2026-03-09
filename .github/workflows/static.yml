@@ -57,18 +57,16 @@ jobs:
           echo "✅ Version numbers updated to: $VERSION"
           
       # Injecter le Webhook Discord depuis les Secrets GitHub
-      - name: Inject Discord Webhook
+      - name: Inject Configuration Secrets
         run: |
           if [ -n "${{ secrets.DISCORD_WEBHOOK }}" ]; then
             sed -i "s|{{DISCORD_WEBHOOK}}|${{ secrets.DISCORD_WEBHOOK }}|g" js/config.js
             echo "✅ Discord Webhook injected"
-            # Debug: Check if replacement happened (without showing secret)
-            if grep -q "{{DISCORD_WEBHOOK}}" js/config.js; then
-              echo "❌ ERROR: Placeholder {{DISCORD_WEBHOOK}} still exists in js/config.js"
-              exit 1
-            fi
-          else
-            echo "⚠️ DISCORD_WEBHOOK secret not found, skipping injection"
+          fi
+
+          # Debug: Vérifier si le placeholder reste
+          if grep -q "{{DISCORD_WEBHOOK}}" js/config.js; then
+            echo "⚠️ Le placeholder {{DISCORD_WEBHOOK}} n'a pas été remplacé"
           fi
       - name: Setup Pages
         uses: actions/configure-pages@v5

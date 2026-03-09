@@ -277,12 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarImg.src = `https://cdn.discordapp.com/avatars/${discordID}/${avatarId}.png`;
         }
 
-        const status = presence.discord_status;
-        lastDiscordStatus = status;
-        statusIndicator.style.background = colors[status] || colors.offline;
-        statusIndicator.style.boxShadow = `0 0 10px ${colors[status] || colors.offline}`;
-        statusText.textContent = t(`discord.status.${status}`);
-
         // 2. Update Activity
         const spotify = presence.spotify;
         const activities = presence.activities || [];
@@ -298,48 +292,99 @@ document.addEventListener('DOMContentLoaded', () => {
             renderIdle();
         }
 
-        // 3. Parse Availability Sync (Manual or External JSON)
+        // 3. Update Status from Supabase (Real-time fallback handles it)
         updateHeroFromJSON();
     }
 
-    // Availability sync logic (Exported to run on init and on presence update)
-    async function updateHeroFromJSON() {
+    // --- Supabase Real-time Sync ---
+    const supabaseClient = (typeof supabase !== 'undefined') ? supabase.createClient(config.supabaseUrl, config.supabaseAnonKey) : null;
+
+    async function updateHeroFromSupabase() {
+        const heroTag = document.getElementById('hero-availability');
+        if (!heroTag || !supabaseClient) return;
+
+        // 1. Initial Fetch
+        const { data, error } = await supabaseClient
+            .from('portfolio_status')
+            .select('*')
+            .eq('id', 1)
+            .single();
+
+        if (data) {
+            applyStatusToUI(data);
+        }
+
+        // 2. Real-time Subscription
+        supabaseClient
+            .channel('status_updates')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'portfolio_status', filter: 'id=eq.1' }, payload => {
+                applyStatusToUI(payload.new);
+            })
+            .subscribe();
+    }
+
+    function applyStatusToUI(data) {
         const heroTag = document.getElementById('hero-availability');
         if (!heroTag) return;
 
-        try {
-            const res = await fetch(`js/status.json?t=${Date.now()}`);
-            const data = await res.json();
-            
-            if (data.isAvailable === false) {
-                if (data.activeProjects > 0) {
-                    heroTag.textContent = t('hero.status.busy').replace('{count}', data.activeProjects);
-                } else {
-                    heroTag.textContent = t('hero.status.busy_general');
-                }
+        if (data.is_available === false) {
+            if (data.active_projects > 0) {
+                heroTag.textContent = t('hero.status.busy').replace('{count}', data.active_projects);
             } else {
-                if (data.activeProjects > 0) {
-                    heroTag.textContent = t('hero.status.available_busy').replace('{count}', data.activeProjects);
-                } else {
-                    heroTag.textContent = t('hero.status.available');
-                }
+                heroTag.textContent = t('hero.status.busy_general');
             }
-        } catch (e) {
-            // Fallback to i18n manual config
-            const config = i18n.config;
-            if (config.isAvailable === false) {
-                if (config.activeProjects > 0) {
-                    heroTag.textContent = t('hero.status.busy').replace('{count}', config.activeProjects);
-                } else {
-                    heroTag.textContent = t('hero.status.busy_general');
-                }
+        } else {
+            if (data.active_projects > 0) {
+                heroTag.textContent = t('hero.status.available_busy').replace('{count}', data.active_projects);
             } else {
-                if (config.activeProjects > 0) {
-                    heroTag.textContent = t('hero.status.available_busy').replace('{count}', config.activeProjects);
-                } else {
-                    heroTag.textContent = t('hero.status.available');
-                }
+                heroTag.textContent = t('hero.status.available');
             }
+        }
+    }
+
+    // Availability sync logic (Old logic replaced by Supabase)
+    async function updateHeroFromJSON() {
+        // We now keep this as a fallback if Supabase is not configured
+        if (config.supabaseUrl.includes('{{')) {
+             const heroTag = document.getElementById('hero-availability');
+             if (!heroTag) return;
+
+             try {
+                 const res = await fetch(`js/status.json?t=${Date.now()}`);
+                 const data = await res.json();
+                 
+                 if (data.isAvailable === false) {
+                     if (data.activeProjects > 0) {
+                         heroTag.textContent = t('hero.status.busy').replace('{count}', data.activeProjects);
+                     } else {
+                         heroTag.textContent = t('hero.status.busy_general');
+                     }
+                 } else {
+                     if (data.activeProjects > 0) {
+                         heroTag.textContent = t('hero.status.available_busy').replace('{count}', data.activeProjects);
+                     } else {
+                         heroTag.textContent = t('hero.status.available');
+                     }
+                 }
+             } catch (e) {
+                 // Fallback to i18n manual config
+                 const conf = i18n.config;
+                 if (conf.isAvailable === false) {
+                     if (conf.activeProjects > 0) {
+                         heroTag.textContent = t('hero.status.busy').replace('{count}', conf.activeProjects);
+                     } else {
+                         heroTag.textContent = t('hero.status.busy_general');
+                     }
+                 } else {
+                     if (conf.activeProjects > 0) {
+                         heroTag.textContent = t('hero.status.available_busy').replace('{count}', conf.activeProjects);
+                     } else {
+                         heroTag.textContent = t('hero.status.available');
+                     }
+                 }
+             }
+        } else {
+            updateHeroFromSupabase();
         }
     }
 
