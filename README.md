@@ -10,19 +10,21 @@ Portfolio personnel ultra-moderne avec identité visuelle futuriste, intégratio
 ## 🚀 Features
 
 - **Real-time Availability** : Synchronisation instantanée du statut via Discord -> Supabase -> Portfolio.
+- **ScrollSpy Navigation** : Indicateur visuel de la section active sur la barre de navigation lors du scroll.
+- **Interactive Tech Marquee** : Slider de technologies avec logos officiels (Devicon), tooltips et effets de glow au survol.
 - **Terminal Loader** : Animation de chargement immersive simulant un scan système.
 - **High Performance Mode** : Optimisation pour les anciens PCs (désactive le mesh background et les animations lourdes).
 - **Ctrl+K Search** : Recherche rapide de projets par titre ou technologie.
 - **GitHub Stats Live** : Affichage en temps réel des statistiques globales et par projet (stars, forks).
-- **Contact Form Securisé** : Envoi de messages via Webhook Discord avec injection de secrets via GitHub Actions.
+- **Contact Form Moderne** : Formulaire avec glassmorphism et envoi de messages via Webhook Discord.
 
 ## 🧱 Stack technique
 
-- **HTML5 & CSS3** (Vanilla, Glassmorphism, CSS Variables)
+- **HTML5 & CSS3** (Vanilla, Glassmorphism, CSS Variables, Bootstrap Icons, Devicon)
 - **JavaScript ES Modules** (Pas de framework frontend)
 - **Supabase** (Base de données temps réel & Realtime engine)
 - **Node.js** (Bot de synchronisation Discord)
-- **Lanyard API** (Statut Discord général)
+- **Lanyard API** (Statut Discord général via WebSocket)
 - **GitHub API** (Statistiques des repositories)
 
 ## 📂 Architecture
