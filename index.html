@@ -16,7 +16,7 @@
                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
                    font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; 
                    img-src 'self' data: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com; 
-                   connect-src 'self' wss://api.lanyard.rest https://api.github.com https://*.supabase.co; 
+                   connect-src 'self' wss://api.lanyard.rest wss://*.supabase.co https://api.github.com https://*.supabase.co; 
                    frame-ancestors 'none';">
     <meta http-equiv="X-Frame-Options" content="DENY">
 
@@ -123,6 +123,10 @@
             <div class="hero-content">
                 <div class="hero-tag reveal" id="hero-availability" data-i18n="hero.status.loading"><i
                         class="bi bi-arrow-repeat spin"></i> Synchronisation du statut...</div>
+                <div class="live-visitors reveal" id="live-visitors" aria-live="polite">
+                    <i class="bi bi-people-fill"></i>
+                    <span id="live-visitors-text" data-i18n="visitors.loading">Visiteurs en ligne: ...</span>
+                </div>
                 <h1 class="reveal">
                     <span class="line dim" data-i18n="hero.title.prefix">Développeur</span>
                     <span class="line glow-word" data-i18n="hero.title.highlight">Full-Stack</span>

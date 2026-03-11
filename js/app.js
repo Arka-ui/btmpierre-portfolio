@@ -15,6 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLang = localStorage.getItem('portfolio-lang');
     if (!currentLang || !i18n[currentLang]) currentLang = fallbackLang;
     let lastDiscordStatus = null;
+    let liveVisitorsCount = null;
+
+    function renderLiveVisitorsCount(count) {
+        const visitorsText = document.getElementById('live-visitors-text');
+        if (!visitorsText) return;
+
+        if (!Number.isInteger(count) || count < 0) {
+            visitorsText.textContent = t('visitors.loading');
+            return;
+        }
+
+        const key = count > 1 ? 'visitors.plural' : 'visitors.singular';
+        visitorsText.textContent = t(key).replace('{count}', count);
+    }
 
     function t(key) {
         return getNested(i18n[currentLang], key) ?? getNested(i18n[fallbackLang], key) ?? key;
@@ -55,6 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusNode.textContent = t(`discord.status.${lastDiscordStatus}`);
             }
         }
+
+        renderLiveVisitorsCount(liveVisitorsCount);
 
         const modalElement = document.getElementById('project-modal');
         if (modalElement?.classList.contains('open')) {
@@ -318,6 +334,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Supabase Real-time Sync ---
     const supabaseClient = (typeof supabase !== 'undefined') ? supabase.createClient(config.supabaseUrl, config.supabaseAnonKey) : null;
 
+    function initLiveVisitorsCounter() {
+        if (!supabaseClient) {
+            renderLiveVisitorsCount(null);
+            return;
+        }
+
+        const presenceKey = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+        const visitorsChannel = supabaseClient.channel('portfolio-live-visitors', {
+            config: {
+                presence: { key: presenceKey }
+            }
+        });
+
+        const syncVisitorsCount = () => {
+            const state = visitorsChannel.presenceState();
+            const count = Object.values(state).reduce((acc, entries) => {
+                if (Array.isArray(entries)) return acc + entries.length;
+                return acc + 1;
+            }, 0);
+
+            liveVisitorsCount = count;
+            renderLiveVisitorsCount(liveVisitorsCount);
+        };
+
+        visitorsChannel
+            .on('presence', { event: 'sync' }, syncVisitorsCount)
+            .on('presence', { event: 'join' }, syncVisitorsCount)
+            .on('presence', { event: 'leave' }, syncVisitorsCount)
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await visitorsChannel.track({
+                        online_at: new Date().toISOString(),
+                        lang: currentLang
+                    });
+                    syncVisitorsCount();
+                }
+            });
+
+        window.addEventListener('beforeunload', () => {
+            visitorsChannel.untrack();
+            supabaseClient.removeChannel(visitorsChannel);
+        });
+    }
+
     async function updateHeroFromSupabase() {
         const heroTag = document.getElementById('hero-availability');
         if (!heroTag || !supabaseClient) return;
@@ -525,6 +585,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('discord-activity')) {
         connectLanyard();
     }
+
+    initLiveVisitorsCounter();
 
     // Toggle Card logic
     const card = document.getElementById('lanyard-card');

@@ -36,6 +36,11 @@ export const i18n = {
                 loading: ' Synchronisation du statut...'
             }
         },
+        visitors: {
+            loading: 'Visiteurs en ligne: ...',
+            singular: '{count} visiteur en ligne',
+            plural: '{count} visiteurs en ligne'
+        },
         skills: {
             1: 'JavaScript',
             2: 'Electron',
@@ -257,6 +262,11 @@ export const i18n = {
                 busy_general: ' Currently busy on projects',
                 loading: ' Syncing status...'
             }
+        },
+        visitors: {
+            loading: 'Visitors online: ...',
+            singular: '{count} visitor online',
+            plural: '{count} visitors online'
         },
         skills: {
             1: 'JavaScript',
