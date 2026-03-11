@@ -10,15 +10,13 @@
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop."
         data-i18n-content="meta.description">
 
-    <!-- Security Headers -->
+    <!-- Security Policy (meta fallback). Real security headers must be set by the HTTP server. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
-                   script-src 'self' https://cdn.jsdelivr.net https://api.lanyard.rest; 
+                   script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=' https://cdn.jsdelivr.net https://api.lanyard.rest; 
                    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
                    font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; 
                    img-src 'self' data: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com; 
-                   connect-src 'self' wss://api.lanyard.rest wss://*.supabase.co https://api.github.com https://*.supabase.co; 
-                   frame-ancestors 'none';">
-    <meta http-equiv="X-Frame-Options" content="DENY">
+                   connect-src 'self' https://cdn.jsdelivr.net wss://api.lanyard.rest wss://*.supabase.co https://api.github.com https://*.supabase.co;">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -405,7 +403,7 @@
             <div class="carousel-container">
                 <div class="carousel-track">
                     <!-- Project 1 -->
-                    <article class="carousel-item reveal" data-index="0">
+                    <article class="carousel-item reveal" data-index="0" data-category="web">
                         <div class="card-content">
                             <i class="bi bi-calendar-check-fill"></i>
                             <div class="project-meta" data-i18n="projects.1.meta">APPLICATION WEB</div>
@@ -433,7 +431,7 @@
                     </article>
 
                     <!-- Project 2 -->
-                    <article class="carousel-item reveal" data-index="1">
+                    <article class="carousel-item reveal" data-index="1" data-category="minecraft">
                         <div class="card-content">
                             <i class="bi bi-box-seam-fill"></i>
                             <div class="project-meta" data-i18n="projects.2.meta">ÉCOSYSTÈME MINECRAFT</div>
@@ -460,7 +458,7 @@
                     </article>
 
                     <!-- Project 3 -->
-                    <article class="carousel-item reveal" data-index="2">
+                    <article class="carousel-item reveal" data-index="2" data-category="game">
                         <div class="card-content">
                             <i class="bi bi-controller"></i>
                             <div class="project-meta" data-i18n="projects.3.meta">DÉVELOPPEMENT JEU</div>
@@ -488,7 +486,7 @@
                     </article>
 
                     <!-- Project 4 -->
-                    <article class="carousel-item reveal" data-index="3">
+                    <article class="carousel-item reveal" data-index="3" data-category="web">
                         <div class="card-content">
                             <i class="bi bi-window-sidebar"></i>
                             <div class="project-meta" data-i18n="projects.4.meta">FRONT-END</div>
@@ -516,7 +514,7 @@
                     </article>
 
                     <!-- Project 5 -->
-                    <article class="carousel-item reveal" data-index="4">
+                    <article class="carousel-item reveal" data-index="4" data-category="desktop">
                         <div class="card-content">
                             <i class="bi bi-rocket-takeoff-fill"></i>
                             <div class="project-meta" data-i18n="projects.5.meta">APPLICATION DESKTOP</div>
@@ -544,7 +542,7 @@
                     </article>
 
                     <!-- Project 6 -->
-                    <article class="carousel-item reveal" data-index="5">
+                    <article class="carousel-item reveal" data-index="5" data-category="plugin">
                         <div class="card-content">
                             <i class="bi bi-map-fill"></i>
                             <div class="project-meta" data-i18n="projects.6.meta">PLUGIN CMS</div>
@@ -570,7 +568,7 @@
                     </article>
 
                     <!-- Project 7 -->
-                    <article class="carousel-item reveal" data-index="6">
+                    <article class="carousel-item reveal" data-index="6" data-category="desktop">
                         <div class="card-content">
                             <i class="bi bi-house-gear-fill"></i>
                             <div class="project-meta" data-i18n="projects.7.meta">APPLICATION DESKTOP</div>
@@ -598,7 +596,7 @@
                     </article>
 
                     <!-- Project 8 -->
-                    <article class="carousel-item reveal" data-index="7">
+                    <article class="carousel-item reveal" data-index="7" data-category="web">
                         <div class="card-content">
                             <i class="bi bi-speedometer"></i>
                             <div class="project-meta" data-i18n="projects.8.meta">SUPERVISION</div>
@@ -645,49 +643,65 @@
             </div>
         </div>
 
+        <!-- Skill Details Modal -->
+        <div id="skill-modal" class="modal-overlay">
+            <div class="modal-content skill-modal-content">
+                <button class="close-modal" id="close-skill-modal">×</button>
+                <div class="modal-body-content">
+                    <div class="modal-header">
+                        <i id="skill-modal-icon" class="bi bi-code-square"></i>
+                        <span id="skill-modal-meta" class="mono" style="color:var(--primary)">TECH STACK</span>
+                        <h2 id="skill-modal-title">Compétence</h2>
+                    </div>
+                    <div id="skill-modal-desc" class="modal-description"></div>
+                </div>
+            </div>
+        </div>
+
 
         <section id="contact" class="footer-cta container">
             <div class="contact-inner reveal">
                 <span class="section-tag" data-i18n="sections.contact.tag">04 / CONTACT</span>
                 <h2 class="section-title" data-i18n="contact.title">Un projet en tête ?</h2>
-                <div class="contact-form-container">
-                    <form id="contact-form" class="reveal">
-                        <div class="form-group">
-                            <input type="text" id="contact-name" name="name" required placeholder=" "
-                                data-i18n-placeholder="contact.name">
-                            <label for="contact-name" data-i18n="contact.name">Votre nom</label>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="contact-email" name="email" required placeholder=" "
-                                data-i18n-placeholder="contact.email">
-                            <label for="contact-email" data-i18n="contact.email">Votre email</label>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="contact-message" name="message" required placeholder=" "
-                                data-i18n-placeholder="contact.message"></textarea>
-                            <label for="contact-message" data-i18n="contact.message">Votre message...</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="contact-submit">
-                            <span data-i18n="contact.send">Envoyer le message</span>
-                        </button>
-                        <div id="form-feedback" class="form-feedback"></div>
-                    </form>
-                </div>
+                <div class="contact-layout reveal">
+                    <div class="contact-form-container">
+                        <form id="contact-form" class="reveal">
+                            <div class="form-group">
+                                <input type="text" id="contact-name" name="name" required placeholder=" "
+                                    data-i18n-placeholder="contact.name">
+                                <label for="contact-name" data-i18n="contact.name">Votre nom</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="contact-email" name="email" required placeholder=" "
+                                    data-i18n-placeholder="contact.email">
+                                <label for="contact-email" data-i18n="contact.email">Votre email</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="contact-message" name="message" required placeholder=" "
+                                    data-i18n-placeholder="contact.message"></textarea>
+                                <label for="contact-message" data-i18n="contact.message">Votre message...</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="contact-submit">
+                                <span data-i18n="contact.send">Envoyer le message</span>
+                            </button>
+                            <div id="form-feedback" class="form-feedback"></div>
+                        </form>
+                    </div>
 
-                <div class="contact-social-links reveal" style="margin-top: 2rem;">
-                    <a href="mailto:pierre.bouteman@icloud.com" class="contact-link">
-                        <i class="bi bi-envelope-fill icon"></i> pierre.bouteman@icloud.com
-                    </a>
-                    <div class="contact-discord-group"
-                        style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem;">
-                        <a href="https://discord.com/users/1288079115248992297" target="_blank"
-                            rel="noopener noreferrer" class="contact-link">
-                            <i class="bi bi-discord icon"></i> @nexos20lv
+                    <div class="contact-social-links reveal">
+                        <a href="mailto:pierre.bouteman@icloud.com" class="contact-link contact-link-main">
+                            <i class="bi bi-envelope-fill icon"></i> pierre.bouteman@icloud.com
                         </a>
-                        <a href="https://discord.gg/aQREDsZqv4" target="_blank" rel="noopener noreferrer"
-                            class="contact-link">
-                            <i class="bi bi-shield-shaded icon"></i> Mon serveur Discord
-                        </a>
+                        <div class="contact-discord-group">
+                            <a href="https://discord.com/users/1288079115248992297" target="_blank"
+                                rel="noopener noreferrer" class="contact-link">
+                                <i class="bi bi-discord icon"></i> @nexos20lv
+                            </a>
+                            <a href="https://discord.gg/aQREDsZqv4" target="_blank" rel="noopener noreferrer"
+                                class="contact-link">
+                                <i class="bi bi-shield-shaded icon"></i> Mon serveur Discord
+                            </a>
+                        </div>
                     </div>
                 </div>
 

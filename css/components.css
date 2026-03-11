@@ -101,10 +101,42 @@
 /* ── PROJECTS GRID ── */
 .carousel-track {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 1.6rem;
     width: 100%;
     margin-top: 3.5rem;
+}
+
+.carousel-item[data-index="0"] {
+    order: 1;
+}
+
+.carousel-item[data-index="7"] {
+    order: 2;
+}
+
+.carousel-item[data-index="3"] {
+    order: 3;
+}
+
+.carousel-item[data-index="4"] {
+    order: 4;
+}
+
+.carousel-item[data-index="6"] {
+    order: 5;
+}
+
+.carousel-item[data-index="1"] {
+    order: 6;
+}
+
+.carousel-item[data-index="5"] {
+    order: 7;
+}
+
+.carousel-item[data-index="2"] {
+    order: 8;
 }
 
 @media (max-width: 768px) {
@@ -893,7 +925,7 @@ body.perf-mode .card-3d {
 }
 
 h1 {
-    font-size: clamp(2.8rem, 10vw, 8rem);
+    font-size: clamp(2.1rem, 7vw, 5.2rem);
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.04em;
@@ -911,7 +943,7 @@ h1 .highlight-text {
 }
 
 .hero p {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     color: var(--text-muted);
     max-width: 700px;
     margin: 0 auto 3.5rem;
@@ -1173,27 +1205,27 @@ h1 .highlight-text {
  * Projects Section
  * ---------------- */
 .section {
-    padding: 5rem 0;
+    padding: 3.2rem 0;
     position: relative;
     z-index: 2;
 }
 
 .section-header {
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
 }
 
 .section-tag {
     font-family: var(--font-mono);
     color: var(--primary);
     font-size: 0.9rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.65rem;
     display: block;
 }
 
 .section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(1.9rem, 4.2vw, 3rem);
     font-weight: 700;
-    margin-bottom: 3rem;
+    margin-bottom: 1.2rem;
     color: #fff;
     line-height: 1.3;
     padding-bottom: 0.2em;
@@ -1268,9 +1300,33 @@ h1 .highlight-text {
  * Contact Form
  * ---------------- */
 .contact-form-container {
-    max-width: 600px;
-    margin: 3rem auto 0;
+    max-width: none;
+    margin: 0;
     text-align: left;
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 2rem;
+    align-items: start;
+    margin-top: 2rem;
+}
+
+.contact-social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: stretch;
+}
+
+.contact-link-main {
+    white-space: nowrap;
+}
+
+.contact-discord-group {
+    display: flex;
+    gap: 0.9rem;
 }
 
 .form-group {
@@ -1369,9 +1425,9 @@ h1 .highlight-text {
 
 /* ── TIMELINE ── */
 .timeline {
-    margin-top: 3.5rem;
+    margin-top: 2.4rem;
     position: relative;
-    padding-left: 2rem;
+    padding-left: 1.6rem;
 }
 
 .timeline::before {
@@ -1381,12 +1437,12 @@ h1 .highlight-text {
     top: 0;
     bottom: 0;
     width: 1px;
-    background: linear-gradient(to bottom, var(--violet), transparent);
+    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.95), rgba(124, 58, 237, 0.45));
 }
 
 .tl-item {
     position: relative;
-    margin-bottom: 4.5rem;
+    margin-bottom: 2.8rem;
     text-align: left;
 }
 
@@ -1399,10 +1455,10 @@ h1 .highlight-text {
 .tl-item::before {
     content: '';
     position: absolute;
-    left: -2.4rem;
-    top: .35rem;
-    width: 9px;
-    height: 9px;
+    left: -1.95rem;
+    top: .45rem;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--violet);
     box-shadow: 0 0 12px var(--glow);
@@ -1469,7 +1525,7 @@ h1 .highlight-text {
 
 
 .project-title {
-    font-size: 2rem;
+    font-size: 1.55rem;
     font-weight: 600;
     margin-bottom: 1rem;
     color: #fff;
@@ -1530,8 +1586,8 @@ h1 .highlight-text {
 }
 
 .big-text {
-    font-size: 2rem;
-    line-height: 1.5;
+    font-size: 1.3rem;
+    line-height: 1.7;
     color: #ccc;
 }
 
@@ -1555,13 +1611,13 @@ h1 .highlight-text {
  * Footer
  * ---------------- */
 .footer-cta {
-    padding: 8rem 0;
+    padding: 5rem 0;
     position: relative;
     z-index: 2;
 }
 
 .contact-inner {
-    padding: 8rem 2rem;
+    padding: 3rem 1.5rem;
     text-align: center;
     position: relative;
 }
@@ -1652,8 +1708,7 @@ footer {
 
     .hero {
         min-height: 100vh;
-        padding: 15rem 0 10rem;
-        /* Even more room at the top */
+        padding: 8.5rem 0 4rem;
         display: flex;
         align-items: center;
     }
@@ -1663,15 +1718,14 @@ footer {
     }
 
     h1 {
-        font-size: clamp(2.5rem, 12vw, 4rem);
+        font-size: clamp(1.9rem, 10vw, 3.3rem);
         margin-bottom: 1.5rem;
     }
 
     .hero p {
-        font-size: 1.1rem;
-        margin-bottom: 6rem;
-        /* Massive space for hero desc */
-        line-height: 1.8;
+        font-size: 0.98rem;
+        margin-bottom: 2.2rem;
+        line-height: 1.7;
         color: var(--text-muted);
     }
 
@@ -1689,22 +1743,20 @@ footer {
     }
 
     .section {
-        padding: 18rem 0;
-        /* Massive increase from 12rem */
+        padding: 2.8rem 0;
     }
 
     .section-header {
-        margin-bottom: 8rem;
-        /* More room after headers */
+        margin-bottom: 1.4rem;
     }
 
     .section-tag {
-        margin-bottom: 4rem;
+        margin-bottom: 0.55rem;
     }
 
     .section-title {
-        font-size: 2.8rem;
-        margin-bottom: 6rem;
+        font-size: 2rem;
+        margin-bottom: 1rem;
     }
 
     .project-title {
@@ -1722,11 +1774,9 @@ footer {
     }
 
     .big-text {
-        font-size: 1.25rem;
-        line-height: 2;
-        /* Extremely airy text */
-        margin-bottom: 4rem;
-        /* Huge paragraph gaps */
+        font-size: 1.02rem;
+        line-height: 1.65;
+        margin-bottom: 1.2rem;
     }
 
     .glass-panel {
@@ -1734,7 +1784,20 @@ footer {
     }
 
     .footer-cta {
-        padding: 10rem 0 8rem;
+        padding: 4rem 0 3rem;
+    }
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .contact-link-main {
+        white-space: normal;
+    }
+
+    .contact-discord-group {
+        flex-wrap: wrap;
     }
 
     .email-display {
@@ -1774,13 +1837,78 @@ footer {
         font-size: 0.95rem;
     }
 
+    .section {
+        padding: 2.3rem 0;
+    }
+
+    .section-header {
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.7rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .big-text {
+        font-size: 0.98rem;
+        line-height: 1.6;
+    }
+
     .timeline {
-        padding-left: 1.5rem;
+        padding-left: 1.3rem;
     }
 
     .tl-item::before {
-        left: -1.9rem;
+        left: -1.6rem;
     }
+
+    .carousel-track {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Keep fixed status card compact on phones to avoid covering content. */
+    .discord-card {
+        left: 0.6rem;
+        right: 0.6rem;
+        bottom: 0.6rem;
+        width: auto;
+        max-width: none;
+        padding: 0.65rem 0.75rem;
+        border-radius: 14px;
+    }
+
+    .discord-card .card-header {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .discord-card .activity-content {
+        display: none;
+    }
+
+    #status-indicator {
+        width: 12px;
+        height: 12px;
+    }
+
+    main {
+        padding-bottom: 7.5rem;
+    }
+}
+
+.cursor-outline {
+    display: none !important;
+}
+
+.skill-modal-content {
+    max-width: 640px;
 }
 
 /* ----------------
