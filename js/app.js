@@ -456,6 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusIndicator = document.getElementById('status-indicator');
     const statusText = document.getElementById('discord-status-text');
     const activityContainer = document.getElementById('discord-activity');
+    const discordApplicationIconCache = new Map();
 
     const colors = {
         online: '#00ff88',
@@ -488,6 +489,44 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reconnect after 5s
             setTimeout(connectLanyard, 5000);
         };
+    }
+
+    function getDiscordCdnAssetUrl(applicationId, assetId) {
+        if (!applicationId || !assetId) return '';
+
+        if (assetId.startsWith('mp:')) {
+            return `https://media.discordapp.net/${assetId.replace('mp:', '')}`;
+        }
+
+        return `https://cdn.discordapp.com/app-assets/${applicationId}/${assetId}.png?size=256`;
+    }
+
+    async function getDiscordApplicationIconUrl(applicationId) {
+        if (!applicationId) return '';
+
+        if (discordApplicationIconCache.has(applicationId)) {
+            return discordApplicationIconCache.get(applicationId);
+        }
+
+        try {
+            const response = await fetch(`https://discord.com/api/v9/oauth2/applications/${applicationId}/rpc`);
+            if (!response.ok) {
+                discordApplicationIconCache.set(applicationId, '');
+                return '';
+            }
+
+            const payload = await response.json();
+            const iconHash = typeof payload?.icon === 'string' ? payload.icon : '';
+            const iconUrl = iconHash
+                ? `https://cdn.discordapp.com/app-icons/${applicationId}/${iconHash}.png?size=256`
+                : '';
+
+            discordApplicationIconCache.set(applicationId, iconUrl);
+            return iconUrl;
+        } catch {
+            discordApplicationIconCache.set(applicationId, '');
+            return '';
+        }
     }
 
     function updatePresence(data) {
@@ -724,16 +763,11 @@ document.addEventListener('DOMContentLoaded', () => {
         activityContainer.appendChild(activityRow);
     }
 
-    function renderGame(game) {
-        let iconUrl = 'https://cdn.discordapp.com/embed/avatars/0.png'; // Fallback
-
-        if (game.assets && game.assets.large_image) {
-            if (game.assets.large_image.startsWith('mp:')) {
-                iconUrl = `https://media.discordapp.net/${game.assets.large_image.replace('mp:', '')}`;
-            } else {
-                iconUrl = `https://cdn.discordapp.com/app-assets/${game.application_id}/${game.assets.large_image}.png`;
-            }
-        }
+    async function renderGame(game) {
+        let iconUrl = getDiscordCdnAssetUrl(game.application_id, game.assets?.large_image)
+            || getDiscordCdnAssetUrl(game.application_id, game.assets?.small_image)
+            || await getDiscordApplicationIconUrl(game.application_id)
+            || 'https://cdn.discordapp.com/embed/avatars/0.png';
 
         const activityRow = document.createElement('div');
         activityRow.className = 'activity-row';
@@ -742,6 +776,20 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = iconUrl;
         img.className = 'activity-icon';
         img.alt = 'Game Icon';
+        img.loading = 'lazy';
+
+        const assetFallbackUrl = getDiscordCdnAssetUrl(game.application_id, game.assets?.small_image)
+            || getDiscordCdnAssetUrl(game.application_id, game.assets?.large_image)
+            || 'https://cdn.discordapp.com/embed/avatars/0.png';
+        img.onerror = () => {
+            if (img.src !== assetFallbackUrl) {
+                img.src = assetFallbackUrl;
+                return;
+            }
+
+            img.onerror = null;
+            img.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+        };
 
         const info = document.createElement('div');
         info.className = 'activity-info';
