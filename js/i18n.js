@@ -61,6 +61,12 @@ export const i18n = {
             projects: { tag: '03 / PROJETS', title: 'Ce que j\'ai construit' },
             contact: { tag: '04 / CONTACT' }
         },
+        seo: {
+            about: 'Développeur full-stack en France, je conçois des applications web et desktop robustes, maintenables et orientées performance.',
+            experience: 'Parcours orienté ingénierie logicielle, architecture d\'applications, livraison continue et projets concrets en environnement réel.',
+            projects: 'Sélection de projets web, desktop et outils dev avec focus UX, performance, observabilité et qualité de code.',
+            contact: 'Disponible pour collaborations web/desktop, optimisation produit, automatisation et maintenance d\'applications existantes.'
+        },
         experience: {
             1: {
                 title: 'Développeur Full-Stack',
@@ -97,6 +103,21 @@ export const i18n = {
             learnMore: 'En savoir plus',
             github: 'Voir sur GitHub',
             source: 'Code source',
+            buildBadge: 'En build',
+            buildNow: {
+                title: 'Actuellement en build',
+                subtitle: 'Projets actifs en création et en test',
+                empty: 'Aucun projet actif pour le moment.'
+            },
+            quality: {
+                ci: 'CI',
+                updated: 'Maj',
+                version: 'Version',
+                release: 'Release',
+                stable: 'stable',
+                prerelease: 'pre-release',
+                none: 'aucune'
+            },
             status: {
                 production: 'En prod',
                 testing: 'En test',
@@ -294,6 +315,12 @@ export const i18n = {
             projects: { tag: '03 / PROJECTS', title: 'What I\'ve Built' },
             contact: { tag: '04 / CONTACT' }
         },
+        seo: {
+            about: 'Full-stack developer based in France, building robust web and desktop applications focused on performance and maintainability.',
+            experience: 'Journey focused on software engineering, architecture, reliable delivery, and real-world project execution.',
+            projects: 'Selection of web, desktop, and dev tooling projects with emphasis on UX, performance, observability, and code quality.',
+            contact: 'Available for web/desktop collaborations, product optimization, automation, and long-term maintenance.'
+        },
         experience: {
             1: {
                 title: 'Full-Stack Developer',
@@ -330,6 +357,21 @@ export const i18n = {
             learnMore: 'Learn more',
             github: 'View on GitHub',
             source: 'Source code',
+            buildBadge: 'In build',
+            buildNow: {
+                title: 'Currently in build',
+                subtitle: 'Active projects in creation and testing',
+                empty: 'No active project right now.'
+            },
+            quality: {
+                ci: 'CI',
+                updated: 'Updated',
+                version: 'Version',
+                release: 'Release',
+                stable: 'stable',
+                prerelease: 'pre-release',
+                none: 'none'
+            },
             status: {
                 production: 'Live',
                 testing: 'Testing',

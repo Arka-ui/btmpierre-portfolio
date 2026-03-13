@@ -69,8 +69,44 @@ document.addEventListener('DOMContentLoaded', () => {
         7: 'production'
     };
 
+    const projectBuildByIndex = {
+        5: true
+    };
+
+
     function getProjectStatusLabel(statusKey) {
         return t(`projects.status.${statusKey}`);
+    }
+
+    function getProjectBuildLabel() {
+        return t('projects.buildBadge');
+    }
+
+    function formatProjectDate(dateInput) {
+        if (!dateInput) return '--';
+        const date = new Date(dateInput);
+        if (Number.isNaN(date.getTime())) return '--';
+        return new Intl.DateTimeFormat(currentLang, {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit'
+        }).format(date);
+    }
+
+    function createProjectQualityBadge(label, value, tone = 'neutral') {
+        const badge = document.createElement('div');
+        badge.className = `project-quality-badge ${tone}`;
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'quality-label';
+        labelSpan.textContent = label;
+
+        const valueSpan = document.createElement('span');
+        valueSpan.className = 'quality-value';
+        valueSpan.textContent = value;
+
+        badge.append(labelSpan, valueSpan);
+        return badge;
     }
 
     function applyProjectStatusBadges() {
@@ -92,6 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
             badge.dataset.status = statusKey;
             badge.textContent = getProjectStatusLabel(statusKey);
             badge.setAttribute('aria-label', `Status: ${badge.textContent}`);
+
+            let buildBadge = card.querySelector('.project-build-badge');
+            if (!buildBadge) {
+                buildBadge = document.createElement('span');
+                buildBadge.className = 'project-build-badge';
+                badge.insertAdjacentElement('afterend', buildBadge);
+            }
+
+            const isBuild = Boolean(projectBuildByIndex[index]);
+            buildBadge.textContent = getProjectBuildLabel();
+            buildBadge.style.display = isBuild ? 'inline-flex' : 'none';
         });
     }
 
@@ -785,8 +832,19 @@ document.addEventListener('DOMContentLoaded', () => {
         activeIndex = index;
         markActiveItem(index);
 
+        if (!modal) return;
+
+        // Show overlay immediately so the button always feels responsive.
+        modal.classList.add('open');
+        document.body.classList.add('modal-open');
+        if (dot && ring) {
+            dot.style.display = 'none';
+            ring.style.display = 'none';
+        }
+
         const projectData = i18n[currentLang].projects[index + 1];
         const item = items[index];
+        if (!item) return;
         const title = projectData?.title || item.querySelector('.project-title').textContent;
         const meta = projectData?.meta || item.querySelector('.project-meta').textContent;
         const statusKey = projectStatusByIndex[index] || 'creation';
@@ -811,13 +869,30 @@ document.addEventListener('DOMContentLoaded', () => {
             modalStatus.textContent = getProjectStatusLabel(statusKey);
         }
 
+        const modalBuild = document.getElementById('modal-build');
+        if (modalBuild) {
+            modalBuild.textContent = getProjectBuildLabel();
+            modalBuild.style.display = projectBuildByIndex[index] ? 'inline-flex' : 'none';
+        }
+
         const descContainer = document.getElementById('modal-desc');
-        descContainer.innerHTML = '';
-        descContainer.appendChild(detailsClone);
+        if (descContainer) {
+            descContainer.innerHTML = '';
+            descContainer.appendChild(detailsClone);
+        }
+
+        const modalQuality = document.getElementById('modal-quality');
+        if (modalQuality) {
+            modalQuality.innerHTML = '';
+            modalQuality.style.display = repo ? '' : 'none';
+        }
 
         // GitHub Stats for Modal
         const modalStats = document.getElementById('gh-modal-stats');
-        modalStats.innerHTML = '';
+        if (modalStats) {
+            modalStats.innerHTML = '';
+            modalStats.style.display = repo ? '' : 'none';
+        }
         if (repo) {
             try {
                 // Fetch basic stats
@@ -825,18 +900,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 const repoData = await repoRes.json();
                 if (!repoRes.ok) {
                     if (isGitHubRateLimited(repoRes, repoData)) {
-                        modalStats.appendChild(createGitHubRateLimitBadge());
+                        if (modalStats) {
+                            modalStats.appendChild(createGitHubRateLimitBadge());
+                        }
                         return;
                     }
                     throw new Error(repoData?.message || `GitHub repo error ${repoRes.status}`);
                 }
 
-                // Fetch languages
-                const langRes = await fetch(`https://api.github.com/repos/${repo}/languages`);
+                // Fetch languages + quality signals
+                const [langRes, releaseRes, runsRes] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${repo}/languages`),
+                    fetch(`https://api.github.com/repos/${repo}/releases/latest`),
+                    fetch(`https://api.github.com/repos/${repo}/actions/runs?per_page=1`)
+                ]);
+
                 const languagesPayload = await langRes.json().catch(() => ({}));
                 const hasLangRateLimit = !langRes.ok && isGitHubRateLimited(langRes, languagesPayload);
                 const languages = langRes.ok ? languagesPayload : {};
                 const languageEntries = getSafeLanguageEntries(languages).sort((a, b) => b[1] - a[1]);
+
+                const releasePayload = await releaseRes.json().catch(() => ({}));
+                const runsPayload = await runsRes.json().catch(() => ({}));
+
+                if (modalQuality) {
+                    const latestRun = Array.isArray(runsPayload?.workflow_runs) ? runsPayload.workflow_runs[0] : null;
+                    const ciValue = latestRun
+                        ? (latestRun.conclusion === 'success' ? 'passing' : (latestRun.conclusion || latestRun.status || '--'))
+                        : '--';
+                    const ciTone = latestRun?.conclusion === 'success' ? 'ok' : (latestRun ? 'warn' : 'neutral');
+
+                    const latestReleaseTag = releaseRes.ok && releasePayload?.tag_name
+                        ? releasePayload.tag_name
+                        : repoData.default_branch || '--';
+                    const releaseState = releaseRes.ok && releasePayload?.tag_name
+                        ? (releasePayload.prerelease ? t('projects.quality.prerelease') : t('projects.quality.stable'))
+                        : t('projects.quality.none');
+
+                    modalQuality.append(
+                        createProjectQualityBadge(t('projects.quality.ci'), ciValue, ciTone),
+                        createProjectQualityBadge(t('projects.quality.updated'), formatProjectDate(repoData.pushed_at), 'neutral'),
+                        createProjectQualityBadge(t('projects.quality.version'), latestReleaseTag, 'neutral'),
+                        createProjectQualityBadge(t('projects.quality.release'), releaseState, 'neutral')
+                    );
+                }
 
                 if (repoData.stargazers_count !== undefined) {
                     const colors = {
@@ -856,6 +963,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Unity': '#222c37', 'PostScript': '#da291c', 'ActionScript': '#882B0F'
                     };
 
+                    if (!modalStats) {
+                        return;
+                    }
                     modalStats.innerHTML = '';
 
                     const metaStats = document.createElement('div');
@@ -932,14 +1042,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             } catch (e) { console.error('Error fetching modal repo stats:', e); }
-        }
-
-        // Show Overlay (Fix: use class instead of showModal)
-        modal.classList.add('open');
-        document.body.classList.add('modal-open');
-        if (dot && ring) {
-            dot.style.display = 'none';
-            ring.style.display = 'none';
         }
     }
 
