@@ -34,6 +34,67 @@ document.addEventListener('DOMContentLoaded', () => {
         return getNested(i18n[currentLang], key) ?? getNested(i18n[fallbackLang], key) ?? key;
     }
 
+    function getSafeLanguageEntries(payload) {
+        if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+            return [];
+        }
+
+        return Object.entries(payload).filter(([, bytes]) => (
+            typeof bytes === 'number' && Number.isFinite(bytes) && bytes > 0
+        ));
+    }
+
+    function isGitHubRateLimited(response, payload) {
+        const message = payload && typeof payload.message === 'string'
+            ? payload.message.toLowerCase()
+            : '';
+        return response?.status === 403 || message.includes('api rate limit exceeded');
+    }
+
+    function createGitHubRateLimitBadge(text = 'API rate limited') {
+        const badge = document.createElement('div');
+        badge.className = 'gh-api-badge';
+        badge.textContent = text;
+        return badge;
+    }
+
+    const projectStatusByIndex = {
+        0: 'production',
+        1: 'production',
+        2: 'archived',
+        3: 'production',
+        4: 'production',
+        5: 'testing',
+        6: 'production',
+        7: 'production'
+    };
+
+    function getProjectStatusLabel(statusKey) {
+        return t(`projects.status.${statusKey}`);
+    }
+
+    function applyProjectStatusBadges() {
+        const projectCards = document.querySelectorAll('.carousel-item');
+        if (!projectCards.length) return;
+
+        projectCards.forEach((card, index) => {
+            const statusKey = projectStatusByIndex[index] || 'creation';
+            const metaNode = card.querySelector('.project-meta');
+            if (!metaNode) return;
+
+            let badge = card.querySelector('.project-status-badge');
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'project-status-badge';
+                metaNode.insertAdjacentElement('afterend', badge);
+            }
+
+            badge.dataset.status = statusKey;
+            badge.textContent = getProjectStatusLabel(statusKey);
+            badge.setAttribute('aria-label', `Status: ${badge.textContent}`);
+        });
+    }
+
     function applyLanguage(lang) {
         if (!i18n[lang]) return;
 
@@ -71,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         renderLiveVisitorsCount(liveVisitorsCount);
+        applyProjectStatusBadges();
 
         const modalElement = document.getElementById('project-modal');
         if (modalElement?.classList.contains('open')) {
@@ -143,6 +205,23 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     initPerformanceMode();
+
+    // 1.6 Optional Ultra Compact Mode (?compact=1 / ?compact=0)
+    const initUltraCompactMode = () => {
+        const params = new URLSearchParams(window.location.search);
+        const compactParam = params.get('compact');
+
+        if (compactParam === '1') {
+            localStorage.setItem('ultra-compact', 'true');
+        } else if (compactParam === '0') {
+            localStorage.setItem('ultra-compact', 'false');
+        }
+
+        const isUltraCompact = localStorage.getItem('ultra-compact') === 'true';
+        document.body.classList.toggle('ultra-compact', isUltraCompact);
+    };
+
+    initUltraCompactMode();
 
     // 2. Initialize Particles (Disabled for new design)
     // const canvas = document.getElementById('bg-canvas');
@@ -710,6 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const item = items[index];
         const title = projectData?.title || item.querySelector('.project-title').textContent;
         const meta = projectData?.meta || item.querySelector('.project-meta').textContent;
+        const statusKey = projectStatusByIndex[index] || 'creation';
         const repo = projectData?.repo;
 
         // Data extraction
@@ -725,6 +805,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Populate Modal
         document.getElementById('modal-title').textContent = title;
         document.getElementById('modal-meta').textContent = meta;
+        const modalStatus = document.getElementById('modal-status');
+        if (modalStatus) {
+            modalStatus.dataset.status = statusKey;
+            modalStatus.textContent = getProjectStatusLabel(statusKey);
+        }
 
         const descContainer = document.getElementById('modal-desc');
         descContainer.innerHTML = '';
@@ -738,10 +823,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Fetch basic stats
                 const repoRes = await fetch(`https://api.github.com/repos/${repo}`);
                 const repoData = await repoRes.json();
+                if (!repoRes.ok) {
+                    if (isGitHubRateLimited(repoRes, repoData)) {
+                        modalStats.appendChild(createGitHubRateLimitBadge());
+                        return;
+                    }
+                    throw new Error(repoData?.message || `GitHub repo error ${repoRes.status}`);
+                }
 
                 // Fetch languages
                 const langRes = await fetch(`https://api.github.com/repos/${repo}/languages`);
-                const languages = await langRes.json();
+                const languagesPayload = await langRes.json().catch(() => ({}));
+                const hasLangRateLimit = !langRes.ok && isGitHubRateLimited(langRes, languagesPayload);
+                const languages = langRes.ok ? languagesPayload : {};
+                const languageEntries = getSafeLanguageEntries(languages).sort((a, b) => b[1] - a[1]);
 
                 if (repoData.stargazers_count !== undefined) {
                     const colors = {
@@ -783,7 +878,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     metaStats.append(starsDiv, forksDiv);
                     modalStats.appendChild(metaStats);
 
-                    const totalBytes = Object.values(languages).reduce((a, b) => a + b, 0);
+                    const totalBytes = languageEntries.reduce((acc, [, bytes]) => acc + bytes, 0);
                     if (totalBytes > 0) {
                         const langContainer = document.createElement('div');
                         langContainer.className = 'gh-modal-languages';
@@ -796,7 +891,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         labelsDiv.className = 'gh-lang-labels';
                         labelsDiv.style.cssText = 'justify-content: flex-start; gap: 1rem;';
 
-                        Object.entries(languages).forEach(([lang, bytes]) => {
+                        languageEntries.forEach(([lang, bytes]) => {
                             const percent = (bytes / totalBytes) * 100;
                             const color = colors[lang] || '#8b5cf6';
                             const segment = document.createElement('div');
@@ -806,7 +901,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             langBar.appendChild(segment);
                         });
 
-                        Object.entries(languages).slice(0, 4).forEach(([lang, bytes]) => {
+                        languageEntries.slice(0, 4).forEach(([lang, bytes]) => {
                             const percent = (bytes / totalBytes) * 100;
                             const color = colors[lang] || '#8b5cf6';
 
@@ -830,6 +925,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         langContainer.append(langBar, labelsDiv);
                         modalStats.appendChild(langContainer);
+                    }
+
+                    if (hasLangRateLimit) {
+                        modalStats.appendChild(createGitHubRateLimitBadge());
                     }
                 }
             } catch (e) { console.error('Error fetching modal repo stats:', e); }
@@ -869,6 +968,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     updateHeroAvailability();
+    applyProjectStatusBadges();
 
     // Interactions
     items.forEach((item, index) => {
@@ -1098,7 +1198,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`);
-            const repos = await response.json();
+            const reposPayload = await response.json();
+            if (!response.ok) {
+                if (isGitHubRateLimited(response, reposPayload)) {
+                    reposEl.textContent = '--';
+                    starsEl.textContent = '--';
+                    langBar.innerHTML = '';
+                    langLabels.innerHTML = '';
+                    langLabels.appendChild(createGitHubRateLimitBadge());
+                    return;
+                }
+                throw new Error(reposPayload?.message || `GitHub user repos error ${response.status}`);
+            }
+
+            const repos = reposPayload;
 
             if (!Array.isArray(repos)) throw new Error('Invalid response');
 
@@ -1110,12 +1223,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Fetch language bytes for all repos
             const langMap = {};
+            let hasRateLimitedLanguageRequest = false;
             const langPromises = repos.map(async (repo) => {
                 try {
                     const res = await fetch(repo.languages_url);
+                    if (!res.ok) {
+                        const payload = await res.json().catch(() => ({}));
+                        if (isGitHubRateLimited(res, payload)) {
+                            hasRateLimitedLanguageRequest = true;
+                        }
+                        return;
+                    }
+
                     const languages = await res.json();
-                    Object.keys(languages).forEach(lang => {
-                        langMap[lang] = (langMap[lang] || 0) + languages[lang];
+                    getSafeLanguageEntries(languages).forEach(([lang, bytes]) => {
+                        langMap[lang] = (langMap[lang] || 0) + bytes;
                     });
                 } catch (e) {
                     console.error(`Error fetching languages for ${repo.name}:`, e);
@@ -1145,10 +1267,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 .sort((a, b) => b[1] - a[1]);
 
             const topLangs = sortedLangs.slice(0, 6);
-            const totalBytes = sortedLangs.reduce((acc, l) => acc + l[1], 0);
+            const totalBytes = sortedLangs.reduce((acc, [, bytes]) => acc + bytes, 0);
 
             langBar.innerHTML = '';
             langLabels.innerHTML = '';
+
+            if (!totalBytes || topLangs.length === 0) {
+                const label = document.createElement('div');
+                label.className = 'gh-lang-label';
+                label.textContent = 'Aucune donnee de langage disponible';
+                langLabels.appendChild(label);
+                return;
+            }
 
             topLangs.forEach(([lang, bytes]) => {
                 const percent = (bytes / totalBytes) * 100;
@@ -1179,6 +1309,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 setTimeout(() => segment.style.width = `${percent}%`, 100);
             });
+
+            if (hasRateLimitedLanguageRequest) {
+                langLabels.appendChild(createGitHubRateLimitBadge());
+            }
 
         } catch (err) {
             console.error('GitHub Fetch Error:', err);

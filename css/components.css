@@ -11,12 +11,12 @@
     background: rgba(10, 5, 20, 0.85);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(189, 0, 255, 0.2);
-    border-radius: 16px;
-    padding: 1.2rem;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
     width: 320px;
     text-align: left;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.4s var(--ease-smooth);
 }
 
 @media (max-width: 768px) {
@@ -26,7 +26,7 @@
         width: calc(100% - 2rem);
         /* Full width but with margins to look like a floating bar */
         max-width: 350px;
-        padding: 0.8rem;
+        padding: var(--space-3);
     }
 }
 
@@ -95,16 +95,16 @@
     max-width: 1200px;
     margin: 0 auto;
     position: relative;
-    padding: 1rem 0;
+    padding: var(--space-4) 0;
 }
 
 /* ── PROJECTS GRID ── */
 .carousel-track {
     display: grid;
-    grid-template-columns: repeat(2, minmax(280px, 1fr));
-    gap: 1.6rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-4);
     width: 100%;
-    margin-top: 3.5rem;
+    margin-top: 2.2rem;
 }
 
 .carousel-item[data-index="0"] {
@@ -142,7 +142,7 @@
 @media (max-width: 768px) {
     .carousel-track {
         grid-template-columns: 1fr;
-        gap: 1.2rem;
+        gap: var(--space-5);
         margin-top: 2rem;
     }
 }
@@ -150,25 +150,25 @@
 .carousel-item {
     border: 1px solid rgba(255, 255, 255, 0.08);
     /* Finer border */
-    border-radius: 24px;
-    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
     /* Larger padding and radius */
     background: rgba(20, 15, 35, 0.4);
     /* Darker semi-transparent bg */
-    backdrop-filter: blur(25px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(160%);
     /* Stronger blur and saturation */
-    -webkit-backdrop-filter: blur(25px) saturate(180%);
-    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    transition: all 0.5s var(--ease-smooth);
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
     .carousel-item {
-        padding: 2rem 1.5rem;
-        border-radius: 20px;
+        padding: var(--space-4);
+        border-radius: var(--radius-md);
     }
 }
 
@@ -178,7 +178,7 @@
     inset: 0;
     padding: 1px;
     /* Border thickness */
-    border-radius: 24px;
+    border-radius: var(--radius-lg);
     background: linear-gradient(135deg, rgba(189, 0, 255, 0.3), transparent 40%, rgba(189, 0, 255, 0.1) 60%, rgba(189, 0, 255, 0.3));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -190,8 +190,8 @@
 
 .carousel-item:hover {
     border-color: rgba(189, 0, 255, 0.4);
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 20px rgba(189, 0, 255, 0.15);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 0, 255, 0.12);
 }
 
 .carousel-item:hover::before {
@@ -199,16 +199,16 @@
 }
 
 .carousel-item i.bi {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: var(--primary);
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: 42px;
+    height: 42px;
     background: rgba(189, 0, 255, 0.1);
-    border-radius: 16px;
+    border-radius: 10px;
     filter: drop-shadow(0 0 15px rgba(189, 0, 255, 0.4));
     transition: transform 0.4s;
 }
@@ -219,40 +219,91 @@
 
 .carousel-item .project-meta {
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     display: block;
     /* Ensure it takes full width to allow centering */
+    font-size: 0.78rem;
+}
+
+.project-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto 0.65rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.08);
+    color: #d9d4e7;
+}
+
+.project-status-badge[data-status="production"] {
+    background: rgba(34, 197, 94, 0.18);
+    color: #86efac;
+    border-color: rgba(34, 197, 94, 0.42);
+}
+
+.project-status-badge[data-status="testing"] {
+    background: rgba(245, 158, 11, 0.16);
+    color: #fcd34d;
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+.project-status-badge[data-status="creation"] {
+    background: rgba(59, 130, 246, 0.16);
+    color: #93c5fd;
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+.project-status-badge[data-status="archived"] {
+    background: rgba(107, 114, 128, 0.24);
+    color: #d1d5db;
+    border-color: rgba(156, 163, 175, 0.36);
+}
+
+.modal-status-badge {
+    margin: 0.35rem 0 0.55rem;
+    font-size: 0.7rem;
 }
 
 .carousel-item .project-title {
     text-align: center;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+    font-size: 1.12rem;
+    margin-bottom: 0.55rem;
+    line-height: 1.3;
 }
 
 .carousel-item .project-desc {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(233, 228, 245, 0.9);
 }
 
 .carousel-item .tech-stack {
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0.85rem;
 }
 
 .learn-more-btn {
     width: 100%;
     margin-top: auto;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: center;
     /* Centered */
     align-items: center;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.9rem;
-    transition: all 0.3s;
+    padding: var(--space-3) calc(var(--space-4) - 0.1rem);
+    font-size: var(--text-sm);
+    transition: all var(--transition-base);
 }
 
 .learn-more-btn:hover {
@@ -354,10 +405,10 @@
 .modal-content {
     background: rgba(20, 10, 30, 0.95);
     border: 1px solid var(--primary);
-    border-radius: 20px;
-    padding: 3rem;
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
     width: 90%;
-    max-width: 700px;
+    max-width: 540px;
     max-height: 90vh;
     /* Prevent overflow on small screens */
     overflow-y: auto;
@@ -365,8 +416,9 @@
     position: relative;
     transform: scale(0.9);
     transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    box-shadow: 0 0 50px rgba(189, 0, 255, 0.2);
+    box-shadow: 0 0 24px rgba(189, 0, 255, 0.18);
     isolation: isolate;
+    container-type: inline-size;
 }
 
 .modal-overlay.open .modal-content {
@@ -375,17 +427,17 @@
 
 .close-modal {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.4rem;
+    right: 0.4rem;
     background: transparent;
     border: none;
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.35rem;
     cursor: pointer;
     line-height: 1;
     transition: color 0.2s;
     z-index: 10;
-    padding: 0.5rem;
+    padding: 0.2rem;
     /* Larger touch target */
 }
 
@@ -395,29 +447,30 @@
 }
 
 .modal-header {
-    padding-right: 3rem;
+    padding-right: var(--space-6);
     /* Prevent overlap with close button */
-    margin-top: 1rem;
+    margin-top: 0.2rem;
 }
 
 .modal-header h2 {
-    font-size: 2rem;
-    margin: 0 0 1rem 0;
+    font-size: clamp(1.12rem, 1.4cqi, 1.32rem);
+    margin: 0 0 0.55rem 0;
     color: #fff;
     text-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
     line-height: 1.2;
 }
 
 .modal-description {
-    color: #ccc;
-    font-size: 1rem;
-    line-height: 1.6;
+    color: rgba(233, 228, 245, 0.95);
+    font-size: clamp(0.92rem, 1cqi, 0.98rem);
+    line-height: 1.65;
+    margin-top: var(--space-1);
     text-align: left;
     /* Better readability */
 }
 
 .modal-description p {
-    margin-bottom: 0.85rem;
+    margin-bottom: var(--space-2);
 }
 
 .modal-description p:last-of-type {
@@ -428,7 +481,20 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 1.25rem;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    padding: var(--space-3) calc(var(--space-6) - 0.2rem);
+    border-radius: var(--radius-md);
+}
+
+@container (max-width: 420px) {
+    .modal-description {
+        line-height: 1.58;
+    }
+
+    .modal-description .btn {
+        width: 100%;
+    }
 }
 
 body.modal-open .cursor-dot,
@@ -448,7 +514,7 @@ body.modal-open * {
     }
 
     .carousel-item {
-        min-height: 320px;
+        min-height: 0;
     }
 
     .carousel-item.active {
@@ -465,20 +531,21 @@ body.modal-open * {
 
     /* Mobile Modal Tweaks */
     .modal-content {
-        padding: 1.5rem;
-        padding-top: 3.5rem;
+        padding: var(--space-4);
+        padding-top: 1.9rem;
         /* Space for close button */
         width: 95%;
+        max-width: 400px;
     }
 
     .modal-header h2 {
-        font-size: 1.5rem;
+        font-size: 1.12rem;
     }
 
     .close-modal {
-        top: 0.5rem;
-        right: 0.5rem;
-        font-size: 2.5rem;
+        top: 0.35rem;
+        right: 0.35rem;
+        font-size: 1.5rem;
     }
 }
 
@@ -753,6 +820,27 @@ body.perf-mode .card-3d {
     color: var(--text-muted);
 }
 
+.gh-api-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    background: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
+}
+
+.gh-api-badge::before {
+    content: '⚠';
+    line-height: 1;
+    opacity: 0.95;
+}
+
 .gh-lang-dot {
     width: 8px;
     height: 8px;
@@ -1010,19 +1098,19 @@ h1 .highlight-text {
  * Buttons
  * ---------------- */
 .btn {
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
+    padding: var(--space-4) calc(var(--space-6) + 1rem);
+    border-radius: var(--radius-pill);
     font-weight: 600;
-    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: all 0.4s var(--ease-smooth);
     position: relative;
     overflow: hidden;
-    font-size: 1rem;
+    font-size: var(--text-base);
     letter-spacing: 0.5px;
     z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8rem;
+    gap: var(--space-3);
 }
 
 .btn i {
@@ -1076,9 +1164,9 @@ h1 .highlight-text {
 }
 
 .btn-sm {
-    padding: 0.5rem 1.2rem;
-    font-size: 0.85rem;
-    border-radius: 20px;
+    padding: var(--space-2) var(--space-5);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-xl);
 }
 
 @keyframes spin {
@@ -1270,19 +1358,19 @@ h1 .highlight-text {
  * ---------------- */
 .gh-modal-stats {
     display: flex;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .gh-modal-stat {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     font-family: var(--font-mono);
-    font-size: 0.9rem;
-    color: var(--violet-light);
+    font-size: var(--text-sm);
+    color: rgba(221, 214, 254, 0.95);
 }
 
 .gh-modal-stat svg {
@@ -1308,15 +1396,15 @@ h1 .highlight-text {
 .contact-layout {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: 2rem;
+    gap: var(--space-6);
     align-items: start;
-    margin-top: 2rem;
+    margin-top: var(--space-6);
 }
 
 .contact-social-links {
     display: flex;
     flex-direction: column;
-    gap: 0.9rem;
+    gap: var(--space-4);
     align-items: stretch;
 }
 
@@ -1326,12 +1414,12 @@ h1 .highlight-text {
 
 .contact-discord-group {
     display: flex;
-    gap: 0.9rem;
+    gap: var(--space-4);
 }
 
 .form-group {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
 }
 
 .form-group input,
@@ -1342,14 +1430,14 @@ h1 .highlight-text {
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 1rem;
+    padding: var(--space-4);
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     color: #fff;
     font-family: inherit;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    font-size: var(--text-base);
+    transition: all var(--transition-base);
     outline: none;
 }
 
@@ -1360,11 +1448,11 @@ h1 .highlight-text {
 
 .form-group label {
     position: absolute;
-    left: 1rem;
-    top: 1rem;
+    left: var(--space-4);
+    top: var(--space-4);
     color: var(--text-muted);
     pointer-events: none;
-    transition: all 0.3s ease;
+    transition: all var(--transition-base);
 }
 
 .form-group input:focus+label,
@@ -1372,18 +1460,18 @@ h1 .highlight-text {
 .form-group input:not(:placeholder-shown)+label,
 .form-group textarea:not(:placeholder-shown)+label {
     top: -0.6rem;
-    left: 0.8rem;
-    font-size: 0.8rem;
+    left: var(--space-3);
+    font-size: var(--text-sm);
     color: var(--primary);
     background: #0d0c12;
-    padding: 0 0.4rem;
+    padding: 0 var(--space-2);
 }
 
 .form-feedback {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
     display: none;
 }
 
@@ -1400,14 +1488,14 @@ h1 .highlight-text {
 .contact-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     color: var(--text-muted);
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: var(--text-sm);
     text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    transition: all var(--transition-base);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid transparent;
 }
@@ -1425,7 +1513,7 @@ h1 .highlight-text {
 
 /* ── TIMELINE ── */
 .timeline {
-    margin-top: 2.4rem;
+    margin-top: calc(var(--space-6) + var(--space-4));
     position: relative;
     padding-left: 1.6rem;
 }
@@ -1442,7 +1530,7 @@ h1 .highlight-text {
 
 .tl-item {
     position: relative;
-    margin-bottom: 2.8rem;
+    margin-bottom: calc(var(--space-6) + var(--space-5));
     text-align: left;
 }
 
@@ -1467,8 +1555,8 @@ h1 .highlight-text {
 .tl-meta {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: .5rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
 }
 
 .tl-date {
@@ -1482,22 +1570,22 @@ h1 .highlight-text {
     font-size: .72rem;
     color: var(--text-muted);
     border: 1px solid var(--border);
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     padding: .2rem .7rem;
     font-family: var(--font-mono);
 }
 
 .tl-role {
     font-family: var(--font-heading);
-    font-size: 1.1rem;
+    font-size: var(--text-lg);
     font-weight: 700;
-    margin-bottom: .6rem;
+    margin-bottom: var(--space-3);
     color: #fff;
     line-height: 1.4;
 }
 
 .tl-desc {
-    font-size: .82rem;
+    font-size: 0.86rem;
     color: var(--text-muted);
     line-height: 1.75;
 }
@@ -1517,7 +1605,7 @@ h1 .highlight-text {
 .project-meta {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--text-muted);
@@ -1527,7 +1615,7 @@ h1 .highlight-text {
 .project-title {
     font-size: 1.55rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
     color: #fff;
     line-height: 1.3;
     padding-bottom: 0.1em;
@@ -1535,15 +1623,15 @@ h1 .highlight-text {
 
 .project-desc {
     color: var(--text-muted);
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
     line-height: 1.6;
 }
 
 .tech-stack {
     display: flex;
-    gap: 0.5rem;
+    gap: var(--space-2);
     flex-wrap: wrap;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-6);
 }
 
 .tech-pill {
@@ -1601,10 +1689,10 @@ h1 .highlight-text {
 }
 
 .glass-panel {
-    padding: 2rem;
+    padding: var(--space-6);
     background: rgba(0, 0, 0, 0.25);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: var(--radius-xl);
 }
 
 /* ----------------
@@ -1617,7 +1705,7 @@ h1 .highlight-text {
 }
 
 .contact-inner {
-    padding: 3rem 1.5rem;
+    padding: 3rem var(--space-6);
     text-align: center;
     position: relative;
 }
@@ -1630,7 +1718,7 @@ h1 .highlight-text {
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
     color: #fff;
-    transition: color 0.3s;
+    transition: color var(--transition-base);
 }
 
 .email-display:hover {
@@ -1638,10 +1726,41 @@ h1 .highlight-text {
 }
 
 footer {
-    padding-bottom: 2rem;
+    padding-bottom: var(--space-6);
     color: #555;
     font-size: 0.8rem;
     font-family: var(--font-mono);
+}
+
+/* ----------------
+ * Optional Ultra Compact Mode
+ * ---------------- */
+body.ultra-compact .carousel-track {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+}
+
+body.ultra-compact .carousel-item {
+    padding: var(--space-4);
+}
+
+body.ultra-compact .carousel-item .project-title {
+    font-size: 1.03rem;
+}
+
+body.ultra-compact .carousel-item .project-desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+}
+
+body.ultra-compact .modal-content {
+    max-width: 500px;
+    padding: var(--space-4);
+}
+
+body.ultra-compact .modal-description {
+    font-size: 0.9rem;
+    line-height: 1.55;
 }
 
 /* ----------------

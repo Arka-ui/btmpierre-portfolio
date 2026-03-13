@@ -97,6 +97,12 @@ export const i18n = {
             learnMore: 'En savoir plus',
             github: 'Voir sur GitHub',
             source: 'Code source',
+            status: {
+                production: 'En prod',
+                testing: 'En test',
+                creation: 'En créa',
+                archived: 'Archivé'
+            },
             1: {
                 meta: 'APPLICATION WEB',
                 title: 'Conférences Orientation',
@@ -324,6 +330,12 @@ export const i18n = {
             learnMore: 'Learn more',
             github: 'View on GitHub',
             source: 'Source code',
+            status: {
+                production: 'Live',
+                testing: 'Testing',
+                creation: 'In creation',
+                archived: 'Archived'
+            },
             1: {
                 meta: 'WEB APP',
                 title: 'Orientation Conferences',
