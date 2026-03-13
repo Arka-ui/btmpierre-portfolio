@@ -31,50 +31,55 @@ Le portfolio propose notamment:
 - une carte Discord temps reel
 - un compteur de visiteurs en direct via Supabase Presence
 
+## 🪪 Highlights
+
+| Carte | Description |
+| --- | --- |
+| 🚀 Experience premium | Interface immersive, loader terminal, animations dosees et design plus compact sur mobile. |
+| 📡 Donnees live | Presence Discord, disponibilite synchronisee, visiteurs en temps reel et statistiques GitHub. |
+| 🧩 Base simple a maintenir | Stack front sans framework, structure lisible et logique centralisee dans quelques fichiers cles. |
+| 🛡️ Approche solide | Gestion du rate limit GitHub, policies RLS Supabase et separation claire entre lecture publique et ecriture service role. |
+
 ## 🧠 Carte mentale
 
 ```mermaid
-mindmap
-	root((Portfolio Pierre))
-		Frontend
-			HTML
-			CSS
-			JavaScript
-			i18n FR/EN
-			Modales projets
-			Mode performance
-		UI
-			Loader terminal
-			Mesh background
-			Curseur personnalise
-			Responsive mobile
-			Recherche rapide
-		Donnees temps reel
-			GitHub API
-				Stats globales
-				Stats par projet
-				Langages
-			Lanyard
-				Presence Discord
-				Avatar
-				Activites
-			Supabase
-				Statut disponibilite
-				Presence visiteurs
-		Bot Discord
-			Node.js
-			discord.js
-			Parsing messages
-			Sync portfolio_status
-		Deploiement
-			GitHub Actions
-			GitHub Pages
-			CNAME
-		Securite
-			RLS Supabase
-			Service role ecriture
-			Cle anon lecture frontend
-			CSP frontend
+flowchart TD
+    A[Portfolio Pierre] --> B[Frontend]
+    A --> C[UI]
+    A --> D[Donnees live]
+    A --> E[Bot Discord]
+    A --> F[Deploiement]
+    A --> G[Securite]
+
+    B --> B1[HTML CSS JS]
+    B --> B2[i18n FR EN]
+    B --> B3[Modales projets]
+
+    C --> C1[Loader terminal]
+    C --> C2[Responsive mobile]
+    C --> C3[Mode performance]
+
+    D --> D1[GitHub API]
+    D --> D2[Lanyard]
+    D --> D3[Supabase]
+
+    D1 --> D11[Stats globales]
+    D1 --> D12[Stats par projet]
+    D2 --> D21[Presence et avatar]
+    D3 --> D31[Disponibilite]
+    D3 --> D32[Visiteurs live]
+
+    E --> E1[Node.js]
+    E --> E2[discord.js]
+    E --> E3[Sync portfolio_status]
+
+    F --> F1[GitHub Actions]
+    F --> F2[GitHub Pages]
+    F --> F3[CNAME]
+
+    G --> G1[RLS Supabase]
+    G --> G2[Service role ecriture]
+    G --> G3[CSP frontend]
 ```
 
 ## 🧱 Stack
