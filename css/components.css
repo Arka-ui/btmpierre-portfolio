@@ -1455,11 +1455,15 @@ h1 .highlight-text {
  * Projects Section
  * ---------------- */
 .section {
-    padding: 3.2rem 0;
+    padding: 4.2rem 0;
     position: relative;
     z-index: 2;
     content-visibility: auto;
     contain-intrinsic-size: 1px 820px;
+}
+
+.section + .section {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .section-header {
@@ -1965,14 +1969,14 @@ body.ultra-compact .modal-description {
     }
 
     header {
-        padding: 1.1rem 0;
+        padding: 1.2rem 0;
         background: rgba(5, 2, 9, 0.95);
         backdrop-filter: blur(30px);
         border-bottom: 1px solid var(--border);
     }
 
     header.scrolled {
-        padding: 0.8rem 0;
+        padding: 0.95rem 0;
     }
 
     .logo {
@@ -2001,7 +2005,7 @@ body.ultra-compact .modal-description {
 
     .hero {
         min-height: 100vh;
-        padding: 8.5rem 0 4rem;
+        padding: 9.4rem 0 4.8rem;
         display: flex;
         align-items: center;
     }
@@ -2017,7 +2021,7 @@ body.ultra-compact .modal-description {
 
     .hero p {
         font-size: 0.98rem;
-        margin-bottom: 2.2rem;
+        margin-bottom: 2.6rem;
         line-height: 1.7;
         color: var(--text-muted);
     }
@@ -2036,11 +2040,11 @@ body.ultra-compact .modal-description {
     }
 
     .section {
-        padding: 2.8rem 0;
+        padding: 3.5rem 0;
     }
 
     .section-header {
-        margin-bottom: 1.4rem;
+        margin-bottom: 1.7rem;
     }
 
     .section-tag {
@@ -2131,11 +2135,11 @@ body.ultra-compact .modal-description {
     }
 
     .section {
-        padding: 2.3rem 0;
+        padding: 3rem 0;
     }
 
     .section-header {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
     }
 
     .section-title {
@@ -2374,14 +2378,14 @@ body.ultra-compact .modal-description {
     }
 
     header {
-        padding: 0.78rem 0;
+        padding: 0.92rem 0;
         background: rgba(5, 2, 9, 0.92);
         backdrop-filter: blur(18px);
         border-bottom: 1px solid var(--border);
     }
 
     header.scrolled {
-        padding: 0.62rem 0;
+        padding: 0.74rem 0;
     }
 
     nav {
@@ -2420,7 +2424,7 @@ body.ultra-compact .modal-description {
 
     .hero {
         min-height: auto;
-        padding: 6.3rem 0 2.2rem;
+        padding: 7.4rem 0 3rem;
     }
 
     .hero-content {
@@ -2430,7 +2434,7 @@ body.ultra-compact .modal-description {
 
     .hero-tag,
     .live-visitors {
-        margin-bottom: 0.85rem;
+        margin-bottom: 1.1rem;
     }
 
     h1 {
@@ -2476,11 +2480,11 @@ body.ultra-compact .modal-description {
     }
 
     .section {
-        padding: 2rem 0;
+        padding: 2.8rem 0;
     }
 
     .section-header {
-        margin-bottom: 0.95rem;
+        margin-bottom: 1.25rem;
     }
 
     .section-tag {
@@ -2795,7 +2799,7 @@ body.ultra-compact .modal-description {
     }
 
     .hero {
-        padding-top: 5.8rem;
+        padding-top: 6.6rem;
     }
 
     h1 {
@@ -2827,5 +2831,256 @@ body.ultra-compact .modal-description {
         left: 0.7rem;
         right: 0.7rem;
         bottom: 0.45rem;
+    }
+}
+
+/* ----------------
+ * Mobile Polish Layer
+ * ---------------- */
+@media (max-width: 900px) {
+    .search-overlay {
+        align-items: flex-start;
+        padding-top: clamp(0.8rem, 6dvh, 2.5rem);
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: none;
+    }
+
+    .terminal-container {
+        width: 100%;
+        max-width: none;
+        height: min(84dvh, 640px);
+    }
+
+    .terminal-output {
+        padding: 1rem;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    .terminal-input-row {
+        padding: 0.8rem 1rem;
+    }
+
+    #terminal-input {
+        font-size: 0.88rem;
+    }
+
+    .gh-stats-grid {
+        grid-template-columns: 1fr;
+        grid-row-gap: 1rem;
+        margin-bottom: 1.3rem;
+    }
+
+    .gh-stat-value {
+        font-size: 1.45rem;
+    }
+
+    .donation-row {
+        margin-top: 2rem;
+        gap: 0.8rem;
+    }
+
+    .donation-row .btn {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .footer-spacing {
+        margin-top: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-header {
+        padding: 0.9rem 1rem;
+        gap: 0.7rem;
+    }
+
+    .search-header input {
+        font-size: 1rem;
+        min-width: 0;
+    }
+
+    .search-kbd {
+        display: none;
+    }
+
+    .search-results {
+        max-height: min(58dvh, 420px);
+        padding: 0.4rem;
+    }
+
+    .search-item {
+        padding: 0.75rem;
+        gap: 0.7rem;
+    }
+
+    .search-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+        flex: 0 0 auto;
+    }
+
+    .search-info strong {
+        font-size: 0.9rem;
+        line-height: 1.35;
+    }
+
+    .search-info span {
+        font-size: 0.74rem;
+        line-height: 1.35;
+    }
+
+    .project-meta {
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .project-quality-badge {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .modal-action-space .btn,
+    .modal-description .btn {
+        width: 100%;
+    }
+
+    .form-feedback {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo img {
+        height: 34px !important;
+    }
+
+    .nav-right {
+        gap: 0.45rem;
+    }
+
+    .perf-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+    }
+
+    .lang-btn {
+        font-size: 0.64rem;
+        padding: 0.2rem 0.42rem;
+    }
+
+    .hero-tag {
+        width: auto;
+        max-width: calc(100% - 1rem);
+        justify-content: center;
+        text-align: center;
+        padding: 0.52rem 0.7rem;
+        border-radius: 14px;
+        font-size: 0.74rem;
+        margin-right: 0;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    .live-visitors {
+        width: auto;
+        max-width: calc(100% - 1rem);
+        justify-content: center;
+        text-align: center;
+        border-radius: 14px;
+        font-size: 0.72rem;
+        padding: 0.5rem 0.7rem;
+        margin-left: 0.4rem;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    #live-visitors-text {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: min(58vw, 220px);
+    }
+
+    .modal-content,
+    .skill-modal-content {
+        width: calc(100% - 0.9rem);
+        max-height: min(86dvh, 700px);
+    }
+
+    .terminal-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .terminal-title {
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+    }
+
+    .terminal-input-row {
+        padding: 0.65rem 0.85rem;
+    }
+
+    .contact-link {
+        min-height: 40px;
+    }
+
+    .discord-card {
+        bottom: calc(0.55rem + env(safe-area-inset-bottom));
+    }
+
+    main {
+        padding-bottom: calc(5.8rem + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 420px) {
+    .search-container::after {
+        display: none;
+    }
+
+    .search-results {
+        max-height: min(55dvh, 360px);
+    }
+
+    .hero-sub,
+    .hero p {
+        font-size: 0.88rem;
+    }
+
+    .hero-tag {
+        font-size: 0.7rem;
+        padding: 0.46rem 0.62rem;
+    }
+
+    .live-visitors {
+        font-size: 0.68rem;
+        padding: 0.46rem 0.62rem;
+        margin-left: 0.32rem;
+    }
+
+    #live-visitors-text {
+        max-width: min(54vw, 180px);
+    }
+
+    .tech-pill {
+        font-size: 0.64rem;
+        padding: 0.22rem 0.4rem;
+    }
+
+    .gh-stat-value {
+        font-size: 1.25rem;
+    }
+
+    .gh-stat-label {
+        font-size: 0.68rem;
     }
 }
