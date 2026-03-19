@@ -1,0 +1,78 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "name": "Pierre Bouteman",
+      "url": "https://nexos20lv.github.io/",
+      "jobTitle": "Developpeur Full-Stack",
+      "sameAs": [
+        "https://github.com/nexos20lv",
+        "https://discord.com/users/1288079115248992297"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "name": "Portfolio de Pierre Bouteman",
+      "url": "https://nexos20lv.github.io/",
+      "inLanguage": [
+        "fr",
+        "en"
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Projets portfolio",
+      "itemListElement": [
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 1,
+          "name": "Conferences Orientation",
+          "url": "https://conferencesorientationpdz.eclozionmc.ovh/"
+        },
+        {
+          "@type": "WebSite",
+          "position": 2,
+          "name": "Nexaria",
+          "url": "https://nexaria.netlib.re"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 3,
+          "name": "Guerre Des Capsules",
+          "url": "https://github.com/nexos20lv/La-Guerre-Des-Capsules"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 4,
+          "name": "Portfolio",
+          "url": "https://github.com/nexos20lv/nexos20lv.github.io"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 5,
+          "name": "Nexaria Launcher",
+          "url": "https://github.com/nexos20lv/Nexaria-Launcher"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 6,
+          "name": "WebMap",
+          "url": "https://github.com/nexos20lv/WebMap"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 7,
+          "name": "Home Assistant Desktop",
+          "url": "https://github.com/nexos20lv/Home-Assistant-Desktop"
+        },
+        {
+          "@type": "SoftwareSourceCode",
+          "position": 8,
+          "name": "AzureLab Dashboard",
+          "url": "https://github.com/nexos20lv/AzureLab-Dashboard"
+        }
+      ]
+    }
+  ]
+}

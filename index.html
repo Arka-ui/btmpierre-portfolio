@@ -14,6 +14,9 @@
     <meta property="og:title" content="Pierre | Développeur Créatif">
     <meta property="og:description"
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop.">
+    <meta property="og:image" content="https://opengraph.githubassets.com/1/nexos20lv/nexos20lv.github.io">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:alt" content="Aperçu du portfolio de Pierre Bouteman">
     <meta property="og:image"
         content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.svg">
     <meta property="og:image:secure_url"
@@ -25,17 +28,23 @@
     <meta name="twitter:title" content="Pierre | Développeur Créatif">
     <meta name="twitter:description"
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop.">
+    <meta name="twitter:image" content="https://opengraph.githubassets.com/1/nexos20lv/nexos20lv.github.io">
     <meta name="twitter:image"
         content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.svg">
+    <meta name="twitter:image:alt" content="Aperçu du portfolio de Pierre Bouteman">
 
     <!-- Security Policy (meta fallback). Real security headers must be set by the HTTP server. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
                    script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=' https://cdn.jsdelivr.net https://api.lanyard.rest; 
-                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
+                   style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net; 
+                   style-src-attr 'unsafe-inline';
                    font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; 
-                   img-src 'self' data: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com https://opengraph.githubassets.com https://s.wordpress.com; 
+                   img-src 'self' data: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com https://opengraph.githubassets.com https://s.wordpress.com https://i.scdn.co https://mosaic.scdn.co; 
                    connect-src 'self' https://cdn.jsdelivr.net wss://api.lanyard.rest wss://*.supabase.co https://api.github.com https://*.supabase.co https://discord.com;
-                   frame-src 'self' https://conferencesorientationpdz.eclozionmc.ovh https://nexaria.netlib.re https://nexos20lv.github.io;">
+                   frame-src https://conferencesorientationpdz.eclozionmc.ovh https://nexaria.netlib.re;
+                   base-uri 'self';
+                   form-action 'self';
+                   object-src 'none';">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,6 +62,8 @@
     <link rel="modulepreload" href="js/main.js?v=3.8">
     <link rel="stylesheet" href="css/base.css?v=2.2">
     <link rel="stylesheet" href="css/components.css?v=3.6">
+
+    <script type="application/ld+json" src="assets/structured-data.json"></script>
 </head>
 
 <body>
@@ -86,7 +97,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo">
-                    <img src="assets/logo.svg" alt="Pierre Bouteman" height="52" width="auto" style="display: block;"
+                    <img src="assets/logo.svg" alt="Pierre Bouteman" height="52" width="auto" class="logo-img"
                         loading="eager" decoding="async" fetchpriority="high">
                 </a>
                 <div class="nav-right">
@@ -106,6 +117,9 @@
                                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
                             </svg>
+                        </button>
+                        <button type="button" class="perf-btn" id="accessibilityToggle" title="Toggle accessibility mode" aria-pressed="false">
+                            <i class="bi bi-universal-access-circle" aria-hidden="true"></i>
                         </button>
                         <div class="lang-switch" role="group" aria-label="Language switcher">
                             <button type="button" class="lang-btn active" data-lang="fr">FR</button>
@@ -131,7 +145,7 @@
                 </div>
                 <div class="user-info">
                     <span class="username">NeXoS_20</span>
-                    <span id="discord-status-text" class="status-text-scroller"
+                    <span id="discord-status-text" class="status-text-scroller" role="status" aria-live="polite" aria-atomic="true"
                         data-i18n="discord.initializing">INITIALISATION...</span>
                 </div>
             </div>
@@ -143,7 +157,7 @@
 
         <section class="hero">
             <div class="hero-content">
-                <div class="hero-tag reveal" id="hero-availability" data-i18n="hero.status.loading"><i
+                <div class="hero-tag reveal" id="hero-availability" data-i18n="hero.status.loading" role="status" aria-live="polite" aria-atomic="true"><i
                         class="bi bi-arrow-repeat spin"></i> Synchronisation du statut...</div>
                 <div class="live-visitors reveal" id="live-visitors" aria-live="polite">
                     <i class="bi bi-people-fill"></i>
@@ -300,48 +314,45 @@
                     </p>
                 </div>
                 <div class="glass-panel reveal" data-tilt>
-                    <h4 style="margin-bottom: 1.5rem; color: #fff; font-size: 1.2rem;"
+                    <h4 class="expertise-title"
                         data-i18n="about.expertise.title">Expertise Technique</h4>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="expertise-list">
                         <div>
-                            <strong
-                                style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i
-                                    class="bi bi-window-fullscreen" style="color: var(--primary);"></i> <span
+                            <strong class="expertise-item-title"><i
+                                    class="bi bi-window-fullscreen expertise-icon"></i> <span
                                     data-i18n="about.expertise.1.title">Applications Desktop & Web</span></strong>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.1.desc">
+                            <p class="expertise-item-desc" data-i18n="about.expertise.1.desc">
                                 JavaScript, Electron, HTML/CSS et architecture front-end pour des apps desktop et des
                                 interfaces web interactives.</p>
                         </div>
                         <div>
-                            <strong
-                                style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i
-                                    class="bi bi-database-fill-gear" style="color: var(--primary);"></i> <span
+                            <strong class="expertise-item-title"><i
+                                    class="bi bi-database-fill-gear expertise-icon"></i> <span
                                     data-i18n="about.expertise.2.title">Back-End PHP & Écosystème
                                     Minecraft</span></strong>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.2.desc">
+                            <p class="expertise-item-desc" data-i18n="about.expertise.2.desc">
                                 PHP, MySQL et intégrations Azuriom/Paper API pour des outils communautaires (launcher,
                                 plugin WebMap, services web).</p>
                         </div>
                         <div>
-                            <strong
-                                style="color: #fff; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><i
-                                    class="bi bi-shield-check" style="color: var(--primary);"></i> <span
+                            <strong class="expertise-item-title"><i
+                                    class="bi bi-shield-check expertise-icon"></i> <span
                                     data-i18n="about.expertise.3.title">Qualité & Livraison</span></strong>
-                            <p style="color: var(--text-muted); font-size: 0.9rem;" data-i18n="about.expertise.3.desc">
+                            <p class="expertise-item-desc" data-i18n="about.expertise.3.desc">
                                 Utilisation avancée des LLMs pour accélérer certaines tâches, avec validation manuelle.
                                 Utilisation de Git, releases GitHub et automatisations CI pour livrer des versions
                                 stables.</p>
                         </div>
                     </div>
                 </div>
-                <div class="glass-panel reveal github-card" data-tilt style="margin-top: 1.5rem;">
-                    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem;">
+                <div class="glass-panel reveal github-card github-card-spaced" data-tilt>
+                    <div class="github-metrics-header">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"
-                            style="color: var(--violet-light);">
+                            class="github-logo-icon">
                             <path
                                 d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                         </svg>
-                        <span class="mono" style="color: #fff; font-size: 1rem; letter-spacing: 0.1em;">GITHUB
+                        <span class="mono github-metrics-title">GITHUB
                             METRICS</span>
                     </div>
                     <div class="gh-stats-grid">
@@ -455,7 +466,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary"
                                     data-i18n="projects.1.action">Accès Interne</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -482,7 +493,7 @@
                                 <a href="https://nexaria.netlib.re" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-primary" data-i18n="projects.2.action">Voir le site</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -510,7 +521,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.github">Voir
                                     sur GitHub</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -538,7 +549,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.source">Code
                                     source</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -566,7 +577,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.github">Voir
                                     sur GitHub</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -592,7 +603,7 @@
                                 <a href="https://github.com/nexos20lv/WebMap" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-primary" data-i18n="projects.github">Voir sur GitHub</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -620,7 +631,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.github">Voir
                                     sur GitHub</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -647,7 +658,7 @@
                                     rel="noopener noreferrer" class="btn btn-primary" data-i18n="projects.github">Voir
                                     sur GitHub</a>
                             </div>
-                            <button class="btn btn-secondary btn-sm learn-more-btn" style="margin-top: 1.5rem;"><span
+                                <button class="btn btn-secondary btn-sm learn-more-btn learn-more-spaced"><span
                                     data-i18n="projects.learnMore">En savoir plus</span></button>
                         </div>
                     </article>
@@ -657,13 +668,13 @@
         </section>
 
         <!-- Project Details Modal (Custom Overlay) -->
-        <div id="project-modal" class="modal-overlay">
-            <div class="modal-content">
-                <button class="close-modal">×</button>
+        <div id="project-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+            <div class="modal-content" tabindex="-1">
+                <button class="close-modal" aria-label="Fermer la fenêtre projet">×</button>
                 <div class="modal-body-content">
                     <div class="modal-header">
                         <i id="modal-icon" class="bi bi-code-square"></i>
-                        <span id="modal-meta" class="mono" style="color:var(--primary)"></span>
+                        <span id="modal-meta" class="mono modal-meta-text"></span>
                         <span id="modal-status" class="project-status-badge modal-status-badge"></span>
                         <span id="modal-build" class="project-build-badge modal-build-badge"></span>
                         <h2 id="modal-title"></h2>
@@ -671,19 +682,19 @@
                     <div id="modal-desc" class="modal-description"></div>
                     <div id="modal-quality" class="project-quality-badges"></div>
                     <div id="gh-modal-stats" class="gh-modal-stats"></div>
-                    <div id="modal-action" style="margin-top: 2rem;"></div>
+                    <div id="modal-action" class="modal-action-space"></div>
                 </div>
             </div>
         </div>
 
         <!-- Skill Details Modal -->
-        <div id="skill-modal" class="modal-overlay">
-            <div class="modal-content skill-modal-content">
-                <button class="close-modal" id="close-skill-modal">×</button>
+        <div id="skill-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="skill-modal-title" aria-hidden="true">
+            <div class="modal-content skill-modal-content" tabindex="-1">
+                <button class="close-modal" id="close-skill-modal" aria-label="Fermer la fenêtre compétence">×</button>
                 <div class="modal-body-content">
                     <div class="modal-header">
                         <i id="skill-modal-icon" class="bi bi-code-square"></i>
-                        <span id="skill-modal-meta" class="mono" style="color:var(--primary)">TECH STACK</span>
+                        <span id="skill-modal-meta" class="mono modal-meta-text">TECH STACK</span>
                         <h2 id="skill-modal-title">Compétence</h2>
                     </div>
                     <div id="skill-modal-desc" class="modal-description"></div>
@@ -719,7 +730,7 @@
                             <button type="submit" class="btn btn-primary" id="contact-submit">
                                 <span data-i18n="contact.send">Envoyer le message</span>
                             </button>
-                            <div id="form-feedback" class="form-feedback"></div>
+                            <div id="form-feedback" class="form-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
                         </form>
                     </div>
 
@@ -740,15 +751,15 @@
                     </div>
                 </div>
 
-                <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <div class="donation-row">
                     <a href="https://buymeacoffee.com/nexos20" target="_blank" rel="noopener noreferrer"
                         class="btn btn-secondary" title="Support me on Buy Me A Coffee">☕ Buy Me A Coffee</a>
                 </div>
 
                 <footer>
-                    <div style="margin-top: 5rem;">
+                    <div class="footer-spacing">
                         <p data-i18n-html="footer.copyright">© 2026 Pierre Bouteman. Fait main avec <span
-                                style="color:var(--primary)">❤</span> et du code.</p>
+                                class="footer-heart">❤</span> et du code.</p>
                     </div>
                 </footer>
             </div>
@@ -757,7 +768,7 @@
     </main>
 
     <!-- Search Modal (Ctrl+K) -->
-    <div id="search-modal" class="search-overlay">
+    <div id="search-modal" class="search-overlay" role="dialog" aria-modal="true" aria-labelledby="projects-search" aria-hidden="true">
         <div class="search-container glass-panel">
             <div class="search-header">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -775,13 +786,13 @@
     </div>
 
     <!-- Global Terminal -->
-    <div id="terminal-modal" class="terminal-overlay">
+    <div id="terminal-modal" class="terminal-overlay" role="dialog" aria-modal="true" aria-labelledby="terminal-title" aria-hidden="true">
         <div class="terminal-container glass-panel">
             <div class="terminal-header">
                 <div class="terminal-dots">
                     <span></span><span></span><span></span>
                 </div>
-                <div class="terminal-title mono">SYSTEM_TERMINAL_V3</div>
+                <div class="terminal-title mono" id="terminal-title">SYSTEM_TERMINAL_V3</div>
                 <button class="close-terminal">×</button>
             </div>
             <div id="terminal-content" class="terminal-output mono">
@@ -800,5 +811,4 @@
     <!-- Main Script Module -->
     <script type="module" src="js/main.js?v=3.8"></script>
 </body>
-
 </html>

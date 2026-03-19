@@ -21,6 +21,42 @@ client.once('ready', () => {
 
 let lastUpdateTimestamp = 0;
 const COOLDOWN_MS = 5000; // 5 seconds cooldown
+const MAX_PROJECTS = 20;
+
+function clampProjects(value) {
+    return Math.max(0, Math.min(MAX_PROJECTS, value));
+}
+
+function parseStatusCommand(content) {
+    const normalized = content.trim();
+
+    const statusWithProjects = normalized.match(/^!status\s+(available|busy)\s+projects=(\d{1,2})$/i);
+    if (statusWithProjects) {
+        return {
+            isAvailable: statusWithProjects[1].toLowerCase() === 'available',
+            activeProjects: clampProjects(parseInt(statusWithProjects[2], 10)),
+            command: 'status-with-projects'
+        };
+    }
+
+    const onlyProjects = normalized.match(/^!projects\s+(\d{1,2})$/i);
+    if (onlyProjects) {
+        return {
+            activeProjects: clampProjects(parseInt(onlyProjects[1], 10)),
+            command: 'projects-only'
+        };
+    }
+
+    const onlyAvailability = normalized.match(/^!availability\s+(available|busy)$/i);
+    if (onlyAvailability) {
+        return {
+            isAvailable: onlyAvailability[1].toLowerCase() === 'available',
+            command: 'availability-only'
+        };
+    }
+
+    return null;
+}
 
 client.on('messageCreate', async (message) => {
     // 1. Safety Checks: Only listen to the target channel, ignore bots, and VERIFY AUTHOR
@@ -37,7 +73,11 @@ client.on('messageCreate', async (message) => {
         return;
     }
 
-    const content = message.content.toLowerCase();
+    const parsedCommand = parseStatusCommand(message.content);
+    if (!parsedCommand) {
+        await message.react('❔');
+        return;
+    }
 
     try {
         // 3. Fetch current state to handle partial updates
@@ -50,19 +90,25 @@ client.on('messageCreate', async (message) => {
         let activeProjects = currentStatus ? currentStatus.active_projects : 0;
         let isAvailable = currentStatus ? currentStatus.is_available : true;
 
-        // 4. Parse content for changes
-        // Use a more specific regex to avoid accidental matches
-        const projectsMatch = content.match(/\b([0-9]+)\b/);
-        if (projectsMatch) {
-            const parsed = parseInt(projectsMatch[1]);
-            if (!isNaN(parsed)) activeProjects = parsed;
+        // 4. Apply parsed command changes
+        if (typeof parsedCommand.activeProjects === 'number') {
+            activeProjects = parsedCommand.activeProjects;
+        }
+        if (typeof parsedCommand.isAvailable === 'boolean') {
+            isAvailable = parsedCommand.isAvailable;
         }
 
-        if (content.includes('indisponible') || content.includes('busy') || content.includes('occupé') || content.includes('full') || content.includes('indispo')) {
-            isAvailable = false;
-        } else if (content.includes('disponible') || content.includes('dispo') || content.includes('available') || content.includes('libre')) {
-            isAvailable = true;
-        }
+        const auditLog = {
+            event: 'status_update',
+            command: parsedCommand.command,
+            actorId: message.author.id,
+            channelId: message.channelId,
+            messageId: message.id,
+            activeProjects,
+            isAvailable,
+            at: new Date().toISOString()
+        };
+        console.info('AUDIT_STATUS_UPDATE', JSON.stringify(auditLog));
 
         console.log(`📝 Updating status: ${activeProjects} projects, Available: ${isAvailable}`);
 
