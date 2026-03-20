@@ -2166,6 +2166,10 @@ body.motion-ready .hero-content .reveal {
     width: 100%;
 }
 
+#contact-form .form-group {
+    margin-bottom: 2rem;
+}
+
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -3856,6 +3860,10 @@ body.ultra-compact .modal-description {
     position: relative;
     display: flex;
     flex-direction: column;
+    margin-bottom: 0;
+}
+
+#booking-form .form-group {
     margin-bottom: 0;
 }
 
