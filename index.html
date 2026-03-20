@@ -796,51 +796,94 @@
                 </div>
 
                 <form id="booking-form" class="booking-form">
-                    <!-- Availability Info -->
-                    <div class="booking-section">
-                        <label class="section-label" data-i18n="contact.booking.availabilityLabel">Créneaux de dispo (Europe/Paris)</label>
-                        <div class="booking-availability-slots">
-                            <span class="booking-slot-pill" data-slot="week" data-i18n="contact.booking.slots.week">Lun-Ven · 18:00-20:00</span>
-                            <span class="booking-slot-pill" data-slot="sat" data-i18n="contact.booking.slots.sat">Sam · 14:00-18:00</span>
+                    <div class="booking-form-columns">
+                        <div class="booking-form-left">
+                            <!-- Name -->
+                            <div class="form-group">
+                                <input type="text" id="booking-name" name="name" required placeholder=" " />
+                                <label for="booking-name" data-i18n="contact.booking.name">Votre nom</label>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group">
+                                <input type="email" id="booking-email" name="email" required placeholder=" " />
+                                <label for="booking-email" data-i18n="contact.booking.email">Votre email</label>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="form-group">
+                                <input type="tel" id="booking-phone" name="phone" placeholder=" " />
+                                <label for="booking-phone" data-i18n="contact.booking.phone">Votre téléphone</label>
+                            </div>
+
+                            <!-- Project Description -->
+                            <div class="form-group">
+                                <textarea id="booking-description" name="description" required placeholder=" "></textarea>
+                                <label for="booking-description" data-i18n="contact.booking.projectDesc">Description du projet</label>
+                            </div>
                         </div>
-                    </div>
+                        <div class="booking-form-right">
+                            <!-- Availability Info -->
+                            <div class="booking-section">
+                                <label class="section-label" data-i18n="contact.booking.availabilityLabel">Créneaux de dispo (Europe/Paris)</label>
+                                <div class="booking-availability-slots">
+                                    <span class="booking-slot-pill" data-slot="week" data-i18n="contact.booking.slots.week">Lun-Ven · 18:00-20:00</span>
+                                    <span class="booking-slot-pill" data-slot="sat" data-i18n="contact.booking.slots.sat">Sam · 14:00-18:00</span>
+                                </div>
+                            </div>
 
-                    <!-- Name -->
-                    <div class="form-group">
-                        <input type="text" id="booking-name" name="name" required placeholder=" " />
-                        <label for="booking-name" data-i18n="contact.booking.name">Votre nom</label>
-                    </div>
+                            <!-- Date & Time Picker -->
+                            <div class="datetime-picker">
+                                <!-- Date Picker -->
+                                <div class="date-picker-wrapper">
+                                    <label class="picker-label" data-i18n="contact.booking.selectedDate">Choisir une date</label>
+                                    <div class="calendar-container">
+                                        <div class="calendar-header">
+                                            <button type="button" class="calendar-nav prev" aria-label="Mois précédent">
+                                                <i class="bi bi-chevron-left"></i>
+                                            </button>
+                                            <div class="calendar-month-year">
+                                                <span class="calendar-month"></span>
+                                                <span class="calendar-year"></span>
+                                            </div>
+                                            <button type="button" class="calendar-nav next" aria-label="Mois suivant">
+                                                <i class="bi bi-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                        <div class="calendar-weekdays">
+                                            <div class="weekday">L</div>
+                                            <div class="weekday">M</div>
+                                            <div class="weekday">M</div>
+                                            <div class="weekday">J</div>
+                                            <div class="weekday">V</div>
+                                            <div class="weekday">S</div>
+                                            <div class="weekday">D</div>
+                                        </div>
+                                        <div class="calendar-days"></div>
+                                    </div>
+                                    <input type="hidden" id="booking-date" name="date" required />
+                                </div>
 
-                    <!-- Email -->
-                    <div class="form-group">
-                        <input type="email" id="booking-email" name="email" required placeholder=" " />
-                        <label for="booking-email" data-i18n="contact.booking.email">Votre email</label>
-                    </div>
+                                <!-- Time Picker -->
+                                <div class="time-picker-wrapper">
+                                    <label class="picker-label" data-i18n="contact.booking.selectedTime">Choisir une heure</label>
+                                    <div class="time-grid"></div>
+                                    <input type="hidden" id="booking-time" name="time" required />
+                                </div>
 
-                    <!-- Phone -->
-                    <div class="form-group">
-                        <input type="tel" id="booking-phone" name="phone" placeholder=" " />
-                        <label for="booking-phone" data-i18n="contact.booking.phone">Votre téléphone</label>
-                    </div>
-
-                    <!-- Date Selection -->
-                    <div class="form-group">
-                        <input type="date" id="booking-date" name="date" required placeholder=" " />
-                        <label for="booking-date" data-i18n="contact.booking.selectedDate">Date souhaitée</label>
-                    </div>
-
-                    <!-- Time Selection -->
-                    <div class="form-group">
-                        <select id="booking-time" name="time" required>
-                            <option value="" disabled selected>-- Choisir une heure --</option>
-                        </select>
-                        <label for="booking-time" data-i18n="contact.booking.selectedTime">Heure souhaitée</label>
-                    </div>
-
-                    <!-- Project Description -->
-                    <div class="form-group">
-                        <textarea id="booking-description" name="description" required placeholder=" "></textarea>
-                        <label for="booking-description" data-i18n="contact.booking.projectDesc">Description du projet</label>
+                                <!-- Selected Display -->
+                                <div class="selected-datetime-display">
+                                    <div class="selected-item">
+                                        <i class="bi bi-calendar3"></i>
+                                        <span class="datetime-value" id="selected-date-display">--</span>
+                                    </div>
+                                    <div class="selected-item">
+                                        <i class="bi bi-clock"></i>
+                                        <span class="datetime-value" id="selected-time-display">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Buttons -->

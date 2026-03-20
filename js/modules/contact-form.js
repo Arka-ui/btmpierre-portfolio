@@ -101,64 +101,158 @@ export function initContactForm({ config, t }) {
     if (bookingToggleBtn && bookingModal && bookingForm) {
         const bookingDateInput = document.getElementById('booking-date');
         const bookingTimeInput = document.getElementById('booking-time');
+        const calendarDaysEl = document.querySelector('.calendar-days');
+        const calendarMonthEl = document.querySelector('.calendar-month');
+        const calendarYearEl = document.querySelector('.calendar-year');
+        const timeGridEl = document.querySelector('.time-grid');
+        const calendarPrevBtn = document.querySelector('.calendar-nav.prev');
+        const calendarNextBtn = document.querySelector('.calendar-nav.next');
+        const selectedDateDisplay = document.getElementById('selected-date-display');
+        const selectedTimeDisplay = document.getElementById('selected-time-display');
 
-        // Generate available dates and times
-        const generateAvailableDates = () => {
-            const dates = [];
+        let currentDate = new Date();
+        currentDate.setHours(12, 0, 0, 0);
+
+        const getMonthDays = (date) => {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            return { daysInMonth, startingDayOfWeek, year, month };
+        };
+
+        const isDateAvailable = (date) => {
+            const dayOfWeek = date.getDay();
             const today = new Date();
-            
-            // Generate next 14 days
-            for (let i = 1; i <= 14; i++) {
-                const date = new Date(today);
-                date.setDate(date.getDate() + i);
-                const dayOfWeek = date.getDay();
-                
-                // Skip Sundays (0)
-                if (dayOfWeek !== 0) {
-                    dates.push({
-                        date: date,
-                        isWeekday: dayOfWeek >= 1 && dayOfWeek <= 5,
-                        isSaturday: dayOfWeek === 6
-                    });
-                }
-            }
-            return dates;
+            today.setHours(0, 0, 0, 0);
+
+            // Must be after today
+            if (date < today) return false;
+            // Must not be Sunday (0)
+            if (dayOfWeek === 0) return false;
+            return true;
         };
 
         const getAvailableHours = (date) => {
             const dayOfWeek = date.getDay();
             const hours = [];
-            
+
             if (dayOfWeek >= 1 && dayOfWeek <= 5) {
                 // Lun-Ven: 18:00-20:00
-                hours.push('18:00', '18:30', '19:00', '19:30', '20:00');
+                for (let h = 18; h <= 20; h++) {
+                    hours.push(`${h.toString().padStart(2, '0')}:00`);
+                    if (h < 20) hours.push(`${h.toString().padStart(2, '0')}:30`);
+                }
             } else if (dayOfWeek === 6) {
                 // Sam: 14:00-18:00
-                hours.push('14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00');
+                for (let h = 14; h <= 18; h++) {
+                    hours.push(`${h.toString().padStart(2, '0')}:00`);
+                    if (h < 18) hours.push(`${h.toString().padStart(2, '0')}:30`);
+                }
             }
             return hours;
         };
 
-        // Set min date and populate dates
-        if (bookingDateInput) {
-            const today = new Date();
-            today.setDate(today.getDate() + 1);
-            const minDate = today.toISOString().split('T')[0];
-            bookingDateInput.setAttribute('min', minDate);
+        const renderCalendar = () => {
+            const { daysInMonth, startingDayOfWeek, year, month } = getMonthDays(currentDate);
 
-            bookingDateInput.addEventListener('change', (e) => {
-                const selectedDate = new Date(e.target.value + 'T00:00:00');
-                const availableHours = getAvailableHours(selectedDate);
-                
-                // Update time dropdown
-                bookingTimeInput.innerHTML = '<option value="" disabled selected>-- Choisir une heure --</option>';
-                availableHours.forEach(hour => {
-                    const option = document.createElement('option');
-                    option.value = hour;
-                    option.textContent = hour;
-                    bookingTimeInput.appendChild(option);
+            calendarMonthEl.textContent = currentDate.toLocaleDateString('fr-FR', { month: 'long' });
+            calendarYearEl.textContent = year;
+
+            calendarDaysEl.innerHTML = '';
+
+            // Empty cells for days before month starts (adjust for Monday start)
+            const adjustedStart = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1;
+            for (let i = 0; i < adjustedStart; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'calendar-day empty';
+                calendarDaysEl.appendChild(emptyCell);
+            }
+
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dayEl = document.createElement('button');
+                dayEl.type = 'button';
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = day;
+
+                const isAvailable = isDateAvailable(date);
+                const isSelected = bookingDateInput.value === date.toISOString().split('T')[0];
+
+                if (!isAvailable) {
+                    dayEl.disabled = true;
+                    dayEl.className += ' disabled';
+                } else if (isSelected) {
+                    dayEl.className += ' selected';
+                }
+
+                dayEl.addEventListener('click', () => {
+                    if (isAvailable) {
+                        bookingDateInput.value = date.toISOString().split('T')[0];
+                        selectedDateDisplay.textContent = date.toLocaleDateString('fr-FR', {
+                            weekday: 'short',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                        renderCalendar();
+                        renderTimeGrid();
+                    }
                 });
-                bookingTimeInput.value = '';
+
+                calendarDaysEl.appendChild(dayEl);
+            }
+        };
+
+        const renderTimeGrid = () => {
+            const selectedDate = bookingDateInput.value;
+            if (!selectedDate) {
+                timeGridEl.innerHTML = '<p class="time-placeholder">Sélectionner une date d\'abord</p>';
+                return;
+            }
+
+            const date = new Date(selectedDate + 'T00:00:00');
+            const hours = getAvailableHours(date);
+
+            timeGridEl.innerHTML = '';
+
+            hours.forEach(time => {
+                const timeBtn = document.createElement('button');
+                timeBtn.type = 'button';
+                timeBtn.className = 'time-slot';
+                timeBtn.textContent = time;
+
+                if (bookingTimeInput.value === time) {
+                    timeBtn.className += ' selected';
+                }
+
+                timeBtn.addEventListener('click', () => {
+                    bookingTimeInput.value = time;
+                    selectedTimeDisplay.textContent = time;
+                    document.querySelectorAll('.time-slot').forEach(btn => {
+                        btn.classList.remove('selected');
+                    });
+                    timeBtn.classList.add('selected');
+                });
+
+                timeGridEl.appendChild(timeBtn);
+            });
+        };
+
+        if (calendarPrevBtn) {
+            calendarPrevBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+        }
+
+        if (calendarNextBtn) {
+            calendarNextBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
             });
         }
 
@@ -167,10 +261,9 @@ export function initContactForm({ config, t }) {
             bookingModal.classList.add('open');
             document.body.style.overflow = 'hidden';
             
-            // Trigger date change to populate times
-            if (bookingDateInput && bookingDateInput.value) {
-                bookingDateInput.dispatchEvent(new Event('change'));
-            }
+            // Initialize pickers
+            renderCalendar();
+            renderTimeGrid();
         });
 
         // Close modal

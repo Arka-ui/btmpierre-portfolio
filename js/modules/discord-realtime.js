@@ -22,6 +22,11 @@ export function initDiscordRealtime({
     let statusAttempts = 0;
     let statusChannel = null;
     let hasSupabaseStatusSync = false;
+    let activityPopupOverlay = null;
+    let activityPopupDialog = null;
+    let activityPopupBody = null;
+    let activityPopupTitle = null;
+    let activityPopupLastTrigger = null;
 
     const presenceColors = {
         online: '#00ff88',
@@ -127,7 +132,9 @@ export function initDiscordRealtime({
         const activities = presence.activities || [];
         const game = activities.find((activity) => activity.type === 0);
 
-        if (spotify) {
+        if (spotify && game) {
+            renderSpotifyAndGame(spotify, game);
+        } else if (spotify) {
             renderSpotify(spotify);
         } else if (game) {
             renderGame(game);
@@ -306,7 +313,178 @@ export function initDiscordRealtime({
         }
     }
 
-    function renderSpotify(spotify) {
+    function activityLabel(fr, en) {
+        return getCurrentLang?.() === 'en' ? en : fr;
+    }
+
+    function formatDurationMs(milliseconds) {
+        if (!Number.isFinite(milliseconds) || milliseconds <= 0) return 'N/A';
+
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        if (hours > 0) {
+            return `${hours}h ${String(minutes).padStart(2, '0')}m`;
+        }
+
+        return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function formatClock(epochMs) {
+        if (!Number.isFinite(epochMs)) return 'N/A';
+        try {
+            return new Date(epochMs).toLocaleTimeString(getCurrentLang?.() || 'fr', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch {
+            return 'N/A';
+        }
+    }
+
+    function closeActivityPopup() {
+        if (!activityPopupOverlay) return;
+        activityPopupOverlay.classList.remove('open');
+        activityPopupOverlay.hidden = true;
+        document.body.classList.remove('activity-popup-open');
+        if (activityPopupLastTrigger && typeof activityPopupLastTrigger.focus === 'function') {
+            try {
+                activityPopupLastTrigger.focus();
+            } catch {
+                // Ignore focus restoration issues when source element has been re-rendered.
+            }
+        }
+        activityPopupLastTrigger = null;
+    }
+
+    function ensureActivityPopup() {
+        if (activityPopupOverlay) return;
+
+        activityPopupOverlay = document.createElement('div');
+        activityPopupOverlay.className = 'activity-popup-overlay';
+        activityPopupOverlay.hidden = true;
+
+        activityPopupDialog = document.createElement('section');
+        activityPopupDialog.className = 'activity-popup';
+        activityPopupDialog.setAttribute('role', 'dialog');
+        activityPopupDialog.setAttribute('aria-modal', 'true');
+
+        const header = document.createElement('div');
+        header.className = 'activity-popup-header';
+
+        activityPopupTitle = document.createElement('h3');
+        activityPopupTitle.className = 'activity-popup-title';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'activity-popup-close';
+        closeBtn.textContent = '×';
+        closeBtn.setAttribute('aria-label', activityLabel('Fermer', 'Close'));
+        closeBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            closeActivityPopup();
+        });
+
+        header.append(activityPopupTitle, closeBtn);
+
+        activityPopupBody = document.createElement('div');
+        activityPopupBody.className = 'activity-popup-body';
+
+        activityPopupDialog.append(header, activityPopupBody);
+        activityPopupOverlay.appendChild(activityPopupDialog);
+        document.body.appendChild(activityPopupOverlay);
+
+        activityPopupOverlay.addEventListener('click', (event) => {
+            if (event.target === activityPopupOverlay) {
+                closeActivityPopup();
+            }
+        });
+
+        activityPopupDialog.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && activityPopupOverlay && !activityPopupOverlay.hidden) {
+                closeActivityPopup();
+            }
+        });
+    }
+
+    function openActivityPopup(options = {}, triggerElement = null) {
+        ensureActivityPopup();
+
+        const { title, entries = [], actionHref = '', actionLabel = '' } = options;
+        activityPopupTitle.textContent = title || activityLabel('Détails', 'Details');
+        activityPopupBody.innerHTML = '';
+
+        const meta = document.createElement('div');
+        meta.className = 'activity-meta';
+
+        entries
+            .filter((entry) => entry && entry.label && entry.value !== undefined && entry.value !== null && `${entry.value}`.trim() !== '')
+            .forEach((entry, index) => {
+                const item = document.createElement('div');
+                item.className = 'activity-meta-item';
+                item.style.setProperty('--stagger-index', String(index));
+
+                const label = document.createElement('span');
+                label.className = 'activity-meta-label';
+                label.textContent = `${entry.label}:`;
+
+                const value = document.createElement('span');
+                value.className = 'activity-meta-value';
+                value.textContent = `${entry.value}`;
+
+                item.append(label, value);
+                meta.appendChild(item);
+            });
+
+        if (meta.childElementCount > 0) {
+            activityPopupBody.appendChild(meta);
+        }
+
+        if (actionHref && actionLabel) {
+            const action = document.createElement('a');
+            action.className = 'activity-action';
+            action.href = actionHref;
+            action.target = '_blank';
+            action.rel = 'noopener noreferrer';
+            action.textContent = actionLabel;
+            activityPopupBody.appendChild(action);
+        }
+
+        activityPopupLastTrigger = triggerElement;
+        activityPopupOverlay.hidden = false;
+        activityPopupOverlay.classList.add('open');
+        document.body.classList.add('activity-popup-open');
+        const closeBtn = activityPopupDialog.querySelector('.activity-popup-close');
+        if (closeBtn instanceof HTMLElement) {
+            closeBtn.focus();
+        }
+    }
+
+    function addActivityDetails(row, options = {}) {
+        row.classList.add('activity-interactive');
+        row.setAttribute('role', 'button');
+        row.setAttribute('tabindex', '0');
+        row.setAttribute('aria-haspopup', 'dialog');
+
+        const open = () => openActivityPopup(options, row);
+
+        row.addEventListener('click', open);
+        row.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                open();
+            }
+        });
+    }
+
+    function buildSpotifyRow(spotify) {
         const total = spotify.timestamps.end - spotify.timestamps.start;
         const current = Date.now() - spotify.timestamps.start;
         const progress = Math.min((current / total) * 100, 100);
@@ -360,13 +538,37 @@ export function initDiscordRealtime({
         bar.appendChild(progressEl);
 
         info.append(name, details, state, bar);
-        activityRow.append(img, info);
+
+        const rowMain = document.createElement('div');
+        rowMain.className = 'activity-row-main';
+        rowMain.append(img, info);
+        activityRow.append(rowMain);
+
+        addActivityDetails(activityRow, {
+            title: activityLabel('Détails Spotify', 'Spotify Details'),
+            entries: [
+                { label: activityLabel('Titre', 'Song'), value: spotify.song },
+                { label: activityLabel('Artiste', 'Artist'), value: spotify.artist },
+                { label: activityLabel('Album', 'Album'), value: spotify.album || '' },
+                { label: activityLabel('Durée', 'Duration'), value: formatDurationMs(total) },
+                { label: activityLabel('Début', 'Start'), value: formatClock(spotify.timestamps.start) },
+                { label: activityLabel('Fin', 'End'), value: formatClock(spotify.timestamps.end) }
+            ],
+            actionHref: spotify.track_id ? `https://open.spotify.com/track/${spotify.track_id}` : '',
+            actionLabel: activityLabel('Ouvrir sur Spotify', 'Open in Spotify')
+        });
+
+        return activityRow;
+    }
+
+    function renderSpotify(spotify) {
+        const activityRow = buildSpotifyRow(spotify);
 
         activityContainer.innerHTML = '';
         activityContainer.appendChild(activityRow);
     }
 
-    async function renderGame(game) {
+    async function buildGameRow(game) {
         let iconUrl = getDiscordCdnAssetUrl(game.application_id, game.assets?.large_image)
             || getDiscordCdnAssetUrl(game.application_id, game.assets?.small_image)
             || await getDiscordApplicationIconUrl(game.application_id)
@@ -410,7 +612,41 @@ export function initDiscordRealtime({
         state.textContent = game.state || '';
 
         info.append(name, details, state);
-        activityRow.append(img, info);
+
+        const rowMain = document.createElement('div');
+        rowMain.className = 'activity-row-main';
+        rowMain.append(img, info);
+        activityRow.append(rowMain);
+
+        addActivityDetails(activityRow, {
+            title: activityLabel('Détails activité', 'Activity Details'),
+            entries: [
+                { label: activityLabel('Nom', 'Name'), value: game.name || '' },
+                { label: activityLabel('Statut', 'Status'), value: game.details || t('discord.playing') },
+                { label: activityLabel('État', 'State'), value: game.state || '' },
+                { label: activityLabel('Application ID', 'Application ID'), value: game.application_id || '' },
+                { label: activityLabel('Début', 'Start'), value: formatClock(game.timestamps?.start) },
+                { label: activityLabel('Durée', 'Elapsed'), value: formatDurationMs(game.timestamps?.start ? Date.now() - game.timestamps.start : NaN) }
+            ]
+        });
+
+        return activityRow;
+    }
+
+    async function renderSpotifyAndGame(spotify, game) {
+        const spotifyRow = buildSpotifyRow(spotify);
+        const gameRow = await buildGameRow(game);
+
+        const stack = document.createElement('div');
+        stack.className = 'activity-stack';
+        stack.append(spotifyRow, gameRow);
+
+        activityContainer.innerHTML = '';
+        activityContainer.appendChild(stack);
+    }
+
+    async function renderGame(game) {
+        const activityRow = await buildGameRow(game);
 
         activityContainer.innerHTML = '';
         activityContainer.appendChild(activityRow);

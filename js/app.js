@@ -20,6 +20,7 @@ import {
     initLoader,
     initCustomCursor,
     initScrollRevealAndNavSpy,
+    initMotionEnhancements,
     initTiltEffect,
     initHeaderScroll,
     initReadingProgress
@@ -130,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initScrollRevealAndNavSpy();
+    initMotionEnhancements();
     initTiltEffect();
     initHeaderScroll();
 

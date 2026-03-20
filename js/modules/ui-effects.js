@@ -93,6 +93,73 @@ export function initScrollRevealAndNavSpy() {
     });
 }
 
+export function initMotionEnhancements() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.body.classList.contains('perf-mode')) {
+        return;
+    }
+
+    document.body.classList.add('motion-ready');
+
+    const heroRevealItems = document.querySelectorAll('.hero .reveal');
+    heroRevealItems.forEach((element, index) => {
+        element.style.setProperty('--reveal-order', String(index));
+    });
+
+    const staggerGroups = [
+        '.carousel-item',
+        '.contact-social-link',
+        '.timeline-item'
+    ];
+
+    const staggerItems = [];
+    staggerGroups.forEach((selector) => {
+        document.querySelectorAll(selector).forEach((element) => {
+            element.classList.add('motion-stagger');
+            staggerItems.push(element);
+        });
+    });
+
+    const staggerObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('motion-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+    staggerItems.forEach((element, index) => {
+        element.style.setProperty('--stagger-index', String(index % 8));
+        staggerObserver.observe(element);
+    });
+
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    const heroContent = document.querySelector('.hero-content');
+    if (!heroContent) return;
+
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const smoothParallax = () => {
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+        heroContent.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        requestAnimationFrame(smoothParallax);
+    };
+
+    document.addEventListener('mousemove', (event) => {
+        const xRatio = (event.clientX / window.innerWidth) - 0.5;
+        const yRatio = (event.clientY / window.innerHeight) - 0.5;
+        targetX = xRatio * 10;
+        targetY = yRatio * 6;
+    });
+
+    smoothParallax();
+}
+
 export function initTiltEffect() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
 
