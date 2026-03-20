@@ -237,7 +237,42 @@ export const i18n = {
             message: 'Votre message...',
             send: 'Envoyer le message',
             success: 'Message envoyé avec succès !',
-            error: 'Erreur lors de l’envoi. Réessayez plus tard.'
+            error: 'Erreur lors de l’envoi. Réessayez plus tard.',
+            booking: {
+                title: 'Réserver un appel',
+                subtitle: 'Chois une date et une heure, je confirme rapidement.',
+                formSubtitle: 'Quelques infos pour organiser notre discussion.',
+                availabilityLabel: 'Créneaux de dispo (Europe/Paris)',
+                availabilityInfo: 'Lun-Ven: 18:00-20:00 · Sam: 14:00-18:00',
+                slots: {
+                    week: 'Lun-Ven · 18:00-20:00',
+                    sat: 'Sam · 14:00-18:00'
+                },
+                formTitle: 'Réserver un appel',
+                name: 'Votre nom',
+                email: 'Votre email (important)',
+                phone: 'Votre téléphone',
+                selectedDate: 'Date souhaitée',
+                selectedTime: 'Heure souhaitée',
+                selectedSlot: 'Créneau souhaité',
+                projectDesc: 'Description du projet',
+                projectDescPlaceholder: 'Contexte, objectifs, délais...',
+                submit: 'Réserver',
+                cancel: 'Annuler',
+                success: 'Réservation confirmée ! Je te contacte au plus tôt.',
+                error: 'Erreur lors de la réservation. Réessaye.',
+                templatesLabel: 'Templates rapides :',
+                templates: {
+                    web: 'Site web',
+                    desktop: 'App desktop',
+                    maintenance: 'Maintenance'
+                },
+                messages: {
+                    web: 'Bonjour Pierre,\n\nJe cherche un développeur pour un projet web.\n\nContexte :\n-\n\nObjectif :\n-\n\nDélais souhaités :\n-\n\nBudget estimé :\n-',
+                    desktop: 'Bonjour Pierre,\n\nJe souhaite créer/faire évoluer une application desktop.\n\nContexte technique :\n-\n\nFonctionnalités prioritaires :\n-\n\nPlateformes visées :\n-\n\nDélais :\n-',
+                    maintenance: 'Bonjour Pierre,\n\nJ\'ai besoin d\'aide en maintenance/optimisation.\n\nApplication concernée :\n-\n\nProblèmes observés :\n-\n\nPriorité :\n-\n\nStack actuelle :\n-'
+                }
+            }
         },
         footer: {
             copyright: '© 2026 Pierre Bouteman. Fait main avec <span style="color:var(--primary)">❤</span> et du code.'
@@ -491,7 +526,42 @@ export const i18n = {
             message: 'Your message...',
             send: 'Send message',
             success: 'Message sent successfully!',
-            error: 'Error sending message. Try again later.'
+            error: 'Error sending message. Try again later.',
+            booking: {
+                title: 'Book a Call',
+                subtitle: 'Pick a date and time, I confirm ASAP.',
+                formSubtitle: 'A few details to organize our discussion.',
+                availabilityLabel: 'Available slots (Europe/Paris)',
+                availabilityInfo: 'Mon-Fri: 18:00-20:00 · Sat: 14:00-18:00',
+                slots: {
+                    week: 'Mon-Fri · 18:00-20:00',
+                    sat: 'Sat · 14:00-18:00'
+                },
+                formTitle: 'Book a call',
+                name: 'Your name',
+                email: 'Your email (important)',
+                phone: 'Your phone',
+                selectedDate: 'Preferred date',
+                selectedTime: 'Preferred time',
+                selectedSlot: 'Preferred slot',
+                projectDesc: 'Project description',
+                projectDescPlaceholder: 'Context, goals, timeline...',
+                submit: 'Book',
+                cancel: 'Cancel',
+                success: 'Booking confirmed! I\'ll contact you soon.',
+                error: 'Booking failed. Please try again.',
+                templatesLabel: 'Quick templates:',
+                templates: {
+                    web: 'Website',
+                    desktop: 'Desktop app',
+                    maintenance: 'Maintenance'
+                },
+                messages: {
+                    web: 'Hi Pierre,\n\nI\'m looking for a developer for a web project.\n\nContext:\n-\n\nGoal:\n-\n\nExpected timeline:\n-\n\nEstimated budget:\n-',
+                    desktop: 'Hi Pierre,\n\nI\'d like to build/improve a desktop application.\n\nTechnical context:\n-\n\nPriority features:\n-\n\nTarget platforms:\n-\n\nTimeline:\n-',
+                    maintenance: 'Hi Pierre,\n\nI need help with maintenance/optimization.\n\nApplication:\n-\n\nCurrent issues:\n-\n\nPriority:\n-\n\nCurrent stack:\n-'
+                }
+            }
         },
         footer: {
             copyright: '© 2026 Pierre Bouteman. Handcrafted with <span style="color:var(--primary)">❤</span> and code.'

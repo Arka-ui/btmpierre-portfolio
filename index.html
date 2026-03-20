@@ -748,6 +748,22 @@
                                 <i class="bi bi-shield-shaded icon"></i> Mon serveur Discord
                             </a>
                         </div>
+
+                        <!-- Résa Rapide Modal -->
+                        <button type="button" class="btn btn-secondary btn-booking-toggle" id="booking-toggle-btn">
+                            <i class="bi bi-calendar-check"></i>
+                            <span data-i18n="contact.booking.title">Résa rapide</span>
+                        </button>
+
+                        <!-- Quick Templates -->
+                        <div class="message-templates">
+                            <span class="templates-label" data-i18n="contact.booking.templatesLabel">Templates rapides :</span>
+                            <div class="template-grid">
+                                <button type="button" class="template-btn" data-contact-template="web" data-i18n="contact.booking.templates.web">Site web</button>
+                                <button type="button" class="template-btn" data-contact-template="desktop" data-i18n="contact.booking.templates.desktop">App desktop</button>
+                                <button type="button" class="template-btn" data-contact-template="maintenance" data-i18n="contact.booking.templates.maintenance">Maintenance</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -766,6 +782,78 @@
         </section>
 
     </main>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="booking-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="booking-dialog-title" aria-hidden="true">
+        <div class="booking-modal-dialog">
+            <button type="button" class="booking-close-btn" aria-label="Fermer la modal">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="booking-modal-content">
+                <div class="booking-modal-head">
+                    <h2 id="booking-dialog-title" data-i18n="contact.booking.formTitle">Réserver un appel</h2>
+                    <p data-i18n="contact.booking.formSubtitle">Quelques infos pour organiser notre discussion.</p>
+                </div>
+
+                <form id="booking-form" class="booking-form">
+                    <!-- Availability Info -->
+                    <div class="booking-section">
+                        <label class="section-label" data-i18n="contact.booking.availabilityLabel">Créneaux de dispo (Europe/Paris)</label>
+                        <div class="booking-availability-slots">
+                            <span class="booking-slot-pill" data-slot="week" data-i18n="contact.booking.slots.week">Lun-Ven · 18:00-20:00</span>
+                            <span class="booking-slot-pill" data-slot="sat" data-i18n="contact.booking.slots.sat">Sam · 14:00-18:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <input type="text" id="booking-name" name="name" required placeholder=" " />
+                        <label for="booking-name" data-i18n="contact.booking.name">Votre nom</label>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <input type="email" id="booking-email" name="email" required placeholder=" " />
+                        <label for="booking-email" data-i18n="contact.booking.email">Votre email</label>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <input type="tel" id="booking-phone" name="phone" placeholder=" " />
+                        <label for="booking-phone" data-i18n="contact.booking.phone">Votre téléphone</label>
+                    </div>
+
+                    <!-- Date Selection -->
+                    <div class="form-group">
+                        <input type="date" id="booking-date" name="date" required placeholder=" " />
+                        <label for="booking-date" data-i18n="contact.booking.selectedDate">Date souhaitée</label>
+                    </div>
+
+                    <!-- Time Selection -->
+                    <div class="form-group">
+                        <select id="booking-time" name="time" required>
+                            <option value="" disabled selected>-- Choisir une heure --</option>
+                        </select>
+                        <label for="booking-time" data-i18n="contact.booking.selectedTime">Heure souhaitée</label>
+                    </div>
+
+                    <!-- Project Description -->
+                    <div class="form-group">
+                        <textarea id="booking-description" name="description" required placeholder=" "></textarea>
+                        <label for="booking-description" data-i18n="contact.booking.projectDesc">Description du projet</label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="booking-form-actions">
+                        <button type="button" class="btn btn-secondary" id="booking-cancel-btn" data-i18n="contact.booking.cancel">Annuler</button>
+                        <button type="submit" class="btn btn-primary" id="booking-submit-btn" data-i18n="contact.booking.submit">Réserver</button>
+                    </div>
+
+                    <div id="booking-feedback" class="form-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Search Modal (Ctrl+K) -->
     <div id="search-modal" class="search-overlay" role="dialog" aria-modal="true" aria-labelledby="projects-search" aria-hidden="true">
