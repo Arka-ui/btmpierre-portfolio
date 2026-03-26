@@ -12,6 +12,11 @@ export function initContactForm({ config, t }) {
     const bookingCancelBtn = document.getElementById('booking-cancel-btn');
     const bookingFeedback = document.getElementById('booking-feedback');
 
+    const formatTelegramMessage = ({ title, lines }) => {
+        const safeLines = lines.map((line) => (line === null || line === undefined ? '' : String(line).trim()));
+        return [title, ...safeLines].join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    };
+
     if (!contactForm || !feedback) return;
 
     // Template buttons handler for main contact form
@@ -40,17 +45,35 @@ export function initContactForm({ config, t }) {
         submitBtn.innerHTML = '<span class="loader-dots">...</span>';
 
         const formData = new FormData(contactForm);
+        const receivedAt = new Date().toLocaleString('fr-FR', {
+            dateStyle: 'short',
+            timeStyle: 'short'
+        });
         const payload = {
-            embeds: [{
-                title: 'Nouveau Message du Portfolio 📬',
-                color: 0x8b5cf6,
-                fields: [
-                    { name: 'Nom', value: formData.get('name'), inline: true },
-                    { name: 'Email', value: formData.get('email'), inline: true },
-                    { name: 'Message', value: formData.get('message') }
-                ],
-                timestamp: new Date().toISOString()
-            }]
+            provider: 'telegram',
+            type: 'contact',
+            timestamp: new Date().toISOString(),
+            contact: {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            },
+            text: formatTelegramMessage({
+                title: '📬 Nouveau message portfolio',
+                lines: [
+                    '━━━━━━━━━━━━',
+                    '👤 Contact',
+                    `• Nom: ${formData.get('name')}`,
+                    `• Email: ${formData.get('email')}`,
+                    '',
+                    '📝 Message',
+                    formData.get('message'),
+                    '',
+                    '📎 Meta',
+                    `• Recu: ${receivedAt}`,
+                    '• Source: Formulaire contact'
+                ]
+            })
         };
 
         if (!config.supabaseUrl || config.supabaseUrl.includes('{{')) {
@@ -112,6 +135,13 @@ export function initContactForm({ config, t }) {
 
         let currentDate = new Date();
         currentDate.setHours(12, 0, 0, 0);
+
+        const toLocalDateInputValue = (date) => {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        };
 
         const getMonthDays = (date) => {
             const year = date.getFullYear();
@@ -181,7 +211,8 @@ export function initContactForm({ config, t }) {
                 dayEl.textContent = day;
 
                 const isAvailable = isDateAvailable(date);
-                const isSelected = bookingDateInput.value === date.toISOString().split('T')[0];
+                const localDateValue = toLocalDateInputValue(date);
+                const isSelected = bookingDateInput.value === localDateValue;
 
                 if (!isAvailable) {
                     dayEl.disabled = true;
@@ -192,7 +223,7 @@ export function initContactForm({ config, t }) {
 
                 dayEl.addEventListener('click', () => {
                     if (isAvailable) {
-                        bookingDateInput.value = date.toISOString().split('T')[0];
+                        bookingDateInput.value = localDateValue;
                         selectedDateDisplay.textContent = date.toLocaleDateString('fr-FR', {
                             weekday: 'short',
                             month: 'short',
@@ -216,10 +247,31 @@ export function initContactForm({ config, t }) {
 
             const date = new Date(selectedDate + 'T00:00:00');
             const hours = getAvailableHours(date);
+            const now = new Date();
+            now.setSeconds(0, 0);
+            const [year, month, day] = selectedDate.split('-').map(Number);
 
             timeGridEl.innerHTML = '';
 
+            let hasAvailableSlots = false;
+
             hours.forEach(time => {
+                const [hour, minute] = time.split(':').map(Number);
+                const slotDateTime = new Date(year, month - 1, day, hour, minute, 0, 0);
+                const isPastSlot = slotDateTime.getTime() <= now.getTime();
+
+                if (isPastSlot) {
+                    if (bookingTimeInput.value === time) {
+                        bookingTimeInput.value = '';
+                        if (selectedTimeDisplay) {
+                            selectedTimeDisplay.textContent = '--:--';
+                        }
+                    }
+                    return;
+                }
+
+                hasAvailableSlots = true;
+
                 const timeBtn = document.createElement('button');
                 timeBtn.type = 'button';
                 timeBtn.className = 'time-slot';
@@ -240,6 +292,10 @@ export function initContactForm({ config, t }) {
 
                 timeGridEl.appendChild(timeBtn);
             });
+
+            if (!hasAvailableSlots) {
+                timeGridEl.innerHTML = '<p class="time-placeholder">Aucun créneau restant pour cette date</p>';
+            }
         };
 
         if (calendarPrevBtn) {
@@ -301,20 +357,44 @@ export function initContactForm({ config, t }) {
             const selectedTime = formData.get('time');
             const dateObj = new Date(selectedDate + 'T' + selectedTime);
             const dateDisplay = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const receivedAt = new Date().toLocaleString('fr-FR', {
+                dateStyle: 'short',
+                timeStyle: 'short'
+            });
 
             const payload = {
-                embeds: [{
-                    title: '📅 Nouvelle Résa Rapide',
-                    color: 0x7c3ae5,
-                    fields: [
-                        { name: 'Nom', value: formData.get('name'), inline: true },
-                        { name: 'Email', value: formData.get('email'), inline: true },
-                        { name: 'Téléphone', value: formData.get('phone') || 'Non fourni', inline: true },
-                        { name: 'Date et Heure', value: `${dateDisplay} à ${selectedTime}`, inline: false },
-                        { name: 'Description du Projet', value: formData.get('description') }
-                    ],
-                    timestamp: new Date().toISOString()
-                }]
+                provider: 'telegram',
+                type: 'booking',
+                timestamp: new Date().toISOString(),
+                booking: {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone') || 'Non fourni',
+                    date: selectedDate,
+                    time: selectedTime,
+                    dateDisplay,
+                    description: formData.get('description')
+                },
+                text: formatTelegramMessage({
+                    title: '📅 Nouvelle reservation rapide',
+                    lines: [
+                        '━━━━━━━━━━━━',
+                        '👤 Contact',
+                        `• Nom: ${formData.get('name')}`,
+                        `• Email: ${formData.get('email')}`,
+                        `• Telephone: ${formData.get('phone') || 'Non fourni'}`,
+                        '',
+                        '🕒 Creneau',
+                        `• Date et heure: ${dateDisplay} a ${selectedTime}`,
+                        '',
+                        '🧩 Projet',
+                        formData.get('description'),
+                        '',
+                        '📎 Meta',
+                        `• Recu: ${receivedAt}`,
+                        '• Source: Reservation rapide'
+                    ]
+                })
             };
 
             if (!config.supabaseUrl || config.supabaseUrl.includes('{{')) {

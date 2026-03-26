@@ -12,6 +12,7 @@ Le projet repose sur une base statique simple a maintenir, enrichie par plusieur
 - GitHub API pour les statistiques globales et par projet
 - Lanyard pour la presence Discord
 - Supabase pour la disponibilite et le compteur de visiteurs
+- Telegram Bot API pour recevoir les messages de contact
 - GitHub Pages pour le deploiement
 - un bot Node.js pour synchroniser un statut Discord vers Supabase
 
@@ -290,6 +291,31 @@ Objectif:
 - ecriture reservee au role service
 
 Cela permet au frontend de lire librement l'etat du portfolio tout en reservant les modifications au bot.
+
+## ✉️ Contact -> Telegram (Edge Function)
+
+Les formulaires de contact frontend envoient leurs messages a:
+
+- `functions/v1/contact-handler`
+
+La fonction edge se trouve ici:
+
+- `supabase/functions/contact-handler/index.ts`
+
+Secrets requis cote Supabase:
+
+```env
+TELEGRAM_BOT_TOKEN=...
+TELEGRAM_CHAT_ID=...
+```
+
+Deploiement:
+
+```bash
+supabase functions deploy contact-handler
+```
+
+Le bot Discord dans `bot/` reste uniquement dedie au statut de disponibilite.
 
 ## 🚢 Deploiement
 
