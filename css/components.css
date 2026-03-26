@@ -2012,6 +2012,50 @@ body.motion-ready .hero-content .reveal {
     position: relative;
 }
 
+.quick-tour-indicator {
+    position: fixed;
+    top: 5.6rem;
+    right: 1.2rem;
+    z-index: 1200;
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(125, 211, 252, 0.4);
+    background: rgba(6, 11, 24, 0.82);
+    color: #e0f2fe;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.quick-tour-indicator.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#projects.quick-tour-focus,
+#contact.quick-tour-focus {
+    scroll-margin-top: 5.6rem;
+    animation: quickTourPulse 1.2s ease-in-out 1;
+}
+
+@keyframes quickTourPulse {
+    0% {
+        filter: drop-shadow(0 0 0 rgba(125, 211, 252, 0));
+    }
+
+    40% {
+        filter: drop-shadow(0 0 22px rgba(125, 211, 252, 0.28));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 0 rgba(125, 211, 252, 0));
+    }
+}
+
 /* ----------------
  * Contact Form
  * ---------------- */
@@ -2038,6 +2082,24 @@ body.motion-ready .hero-content .reveal {
 
 .contact-link-main {
     white-space: nowrap;
+}
+
+.response-time-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: fit-content;
+    padding: 0.42rem 0.72rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(125, 211, 252, 0.35);
+    background: rgba(14, 165, 233, 0.12);
+    color: rgba(224, 242, 254, 0.95);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+}
+
+.response-time-pill i {
+    color: #7dd3fc;
 }
 
 .contact-discord-group {
@@ -2990,6 +3052,13 @@ body.ultra-compact .modal-description {
     .hero {
         min-height: auto;
         padding: 7.4rem 0 3rem;
+    }
+
+    .quick-tour-indicator {
+        top: 4.8rem;
+        right: 0.8rem;
+        max-width: calc(100vw - 1.4rem);
+        font-size: 0.68rem;
     }
 
     .hero-content {

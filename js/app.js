@@ -104,6 +104,88 @@ document.addEventListener('DOMContentLoaded', () => {
         projectsUI?.refreshOpenModal();
     }
 
+    const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    function setTourFocus(target, sections) {
+        sections.forEach((section) => section.classList.remove('quick-tour-focus'));
+        target?.classList.add('quick-tour-focus');
+    }
+
+    function createTourIndicator() {
+        const indicator = document.createElement('div');
+        indicator.id = 'quick-tour-indicator';
+        indicator.className = 'quick-tour-indicator';
+        indicator.setAttribute('role', 'status');
+        indicator.setAttribute('aria-live', 'polite');
+        return indicator;
+    }
+
+    function initQuickGuidedTour() {
+        const quickTourBtn = document.getElementById('quick-tour-btn');
+        const projectsSection = document.getElementById('projects');
+        const contactSection = document.getElementById('contact');
+        if (!quickTourBtn || !projectsSection || !contactSection) return;
+
+        const tourSections = [projectsSection, contactSection];
+        const tourIndicator = createTourIndicator();
+        document.body.appendChild(tourIndicator);
+
+        const setStep = (step) => {
+            tourIndicator.textContent = `${t('hero.cta.tourRunning')} ${step}`;
+            tourIndicator.classList.add('visible');
+        };
+
+        const closeProjectModalIfOpen = async () => {
+            const closeProjectBtn = document.querySelector('#project-modal .close-modal');
+            if (closeProjectBtn instanceof HTMLElement) {
+                closeProjectBtn.click();
+                await wait(260);
+            }
+        };
+
+        quickTourBtn.addEventListener('click', async () => {
+            if (!projectsUI) return;
+
+            quickTourBtn.disabled = true;
+            const quickTourText = quickTourBtn.querySelector('span');
+            const originalText = quickTourText ? quickTourText.textContent : '';
+            if (quickTourText) quickTourText.textContent = t('hero.cta.tourRunning');
+
+            try {
+                setStep(t('hero.tour.step1'));
+                setTourFocus(projectsSection, tourSections);
+                projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                await wait(1000);
+
+                setStep(t('hero.tour.step2'));
+                const featuredProjectIndexes = [0, 4, 7];
+                for (const index of featuredProjectIndexes) {
+                    await projectsUI.openModal(index);
+                    await wait(1600);
+                    await closeProjectModalIfOpen();
+                    await wait(160);
+                }
+
+                await wait(380);
+                setStep(t('hero.tour.step3'));
+                setTourFocus(contactSection, tourSections);
+                contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                await wait(950);
+
+                const contactNameInput = document.getElementById('contact-name');
+                if (contactNameInput instanceof HTMLElement) {
+                    contactNameInput.focus({ preventScroll: true });
+                }
+                await wait(900);
+            } finally {
+                quickTourBtn.disabled = false;
+                if (quickTourText) quickTourText.textContent = originalText || t('hero.cta.tour');
+                tourIndicator.classList.remove('visible');
+                setTourFocus(null, tourSections);
+            }
+        });
+    }
+
     langButtons.forEach((button) => {
         button.addEventListener('click', () => {
             applyLanguage(button.dataset.lang);
@@ -192,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     runWhenIdle(() => projectsUI.initGitHubStats(), 2200);
     initContactForm({ config, t });
+    initQuickGuidedTour();
     runWhenIdle(() => initTerminal(), 2200);
 
     initReadingProgress();

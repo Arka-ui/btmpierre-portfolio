@@ -27,7 +27,12 @@ export const i18n = {
             tag: ' Disponible pour des projets',
             title: { prefix: 'Développeur', highlight: 'Full-Stack', suffix: '& Créatif' },
             desc: 'Je conçois des architectures complètes et des interfaces immersives. Ma priorité reste l’ingénierie logicielle robuste, avec l’IA comme accélérateur ponctuel.',
-            cta: { projects: 'Voir les projets', contact: 'Me contacter' },
+            cta: { projects: 'Voir les projets', contact: 'Me contacter', tour: 'Voir en 30 secondes', tourRunning: 'Parcours en cours...' },
+            tour: {
+                step1: '1/3 Projets phares',
+                step2: '2/3 Showcase multi-projets',
+                step3: '3/3 Contact direct'
+            },
             status: {
                 available: ' Disponible pour des projets',
                 available_busy: ' Disponible (Travaille sur {count} projets en parallèle)',
@@ -232,6 +237,7 @@ export const i18n = {
         },
         contact: {
             title: 'Un projet en tête ?',
+            responseTime: 'Temps de réponse moyen : < 24h',
             name: 'Votre nom',
             email: 'Votre email',
             message: 'Votre message...',
@@ -316,7 +322,12 @@ export const i18n = {
             tag: ' Available for projects',
             title: { prefix: 'Creative', highlight: 'Full-Stack', suffix: 'Developer' },
             desc: 'I build complete architectures and immersive interfaces. My priority is robust software engineering, with AI used as an occasional accelerator.',
-            cta: { projects: 'View projects', contact: 'Contact me' },
+            cta: { projects: 'View projects', contact: 'Contact me', tour: 'See it in 30 seconds', tourRunning: 'Guided tour running...' },
+            tour: {
+                step1: '1/3 Featured projects',
+                step2: '2/3 Multi-project showcase',
+                step3: '3/3 Direct contact'
+            },
             status: {
                 available: ' Available for projects',
                 available_busy: ' Available (Working on {count} projects in parallel)',
@@ -521,6 +532,7 @@ export const i18n = {
         },
         contact: {
             title: 'Have a project in mind?',
+            responseTime: 'Average response time: < 24h',
             name: 'Your name',
             email: 'Your email',
             message: 'Your message...',
