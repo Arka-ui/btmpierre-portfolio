@@ -30,10 +30,13 @@ import { initLazyImages } from './modules/lazy-images.js';
 import { initWebVitals } from './modules/web-vitals.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Basic clickjacking defense when served without strict headers.
-    if (window.self !== window.top) {
-        window.top.location = window.self.location;
-    }
+    // Basic clickjacking defense. try/catch needed: cross-origin sandboxed iframes
+    // throw SecurityError on .top access. frame-ancestors 'none' in CSP is the real guard.
+    try {
+        if (window.self !== window.top) {
+            window.top.location = window.self.location;
+        }
+    } catch (_) { /* cross-origin frame — CSP frame-ancestors handles this */ }
 
     // i18n
     const langButtons = document.querySelectorAll('.lang-btn');
@@ -80,8 +83,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('[data-i18n-html]').forEach((element) => {
             const raw = t(element.dataset.i18nHtml);
-            // Basic sanitization for trusted but dynamic content
-            element.innerHTML = raw.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gim, "");
+            // DOM-based sanitizer: only allows safe tags and attributes.
+            // <template>.content is an inert fragment — no script execution or network requests.
+            const ALLOWED_TAGS = new Set(['STRONG', 'EM', 'SPAN', 'BR', 'A']);
+            const ALLOWED_ATTRS = { A: ['href'] };
+
+            const tpl = document.createElement('template');
+            tpl.innerHTML = raw;
+            const frag = tpl.content;
+
+            frag.querySelectorAll('*').forEach((node) => {
+                if (!ALLOWED_TAGS.has(node.tagName)) {
+                    node.replaceWith(...node.childNodes);
+                    return;
+                }
+                Array.from(node.attributes).forEach((attr) => {
+                    const allowed = ALLOWED_ATTRS[node.tagName] ?? [];
+                    if (!allowed.includes(attr.name)) node.removeAttribute(attr.name);
+                });
+            });
+
+            element.replaceChildren(frag);
         });
 
         document.querySelectorAll('[data-i18n-content]').forEach((element) => {
@@ -90,6 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('[data-i18n-aria-label]').forEach((element) => {
             element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel));
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach((element) => {
+            element.setAttribute('placeholder', t(element.dataset.i18nPlaceholder));
         });
 
         if (lastDiscordStatus) {
