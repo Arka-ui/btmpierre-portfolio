@@ -140,9 +140,10 @@
     box-shadow: 0 0 14px rgba(189, 0, 255, 0.15);
 }
 .client-filter-btn.active {
-    background: rgba(189, 0, 255, 0.18);
-    border-color: rgba(189, 0, 255, 0.5);
+    background: var(--violet);
     color: #fff;
+    border-color: var(--violet);
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 .featured-metrics-panel {
     margin-top: 0.9rem;
@@ -174,18 +175,18 @@
 }
 .featured-metric-label {
     display: block;
-    color: rgba(221, 214, 254, 0.72);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.32rem;
     font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.32rem;
 }
 .featured-metric-value {
-    color: #fff;
-    font-size: 1.12rem;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
     font-weight: 700;
-    text-shadow: 0 0 16px rgba(189, 0, 255, 0.25);
+    color: var(--violet-light);
 }
 
 /* ── PROJECTS GRID ── */
@@ -238,21 +239,17 @@
 }
 
 .carousel-item {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    /* Finer border */
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     padding: calc(var(--space-5) + 0.15rem);
-    /* Larger padding and radius */
-    background: rgba(20, 15, 35, 0.4);
-    /* Darker semi-transparent bg */
-    backdrop-filter: blur(18px) saturate(160%);
-    /* Stronger blur and saturation */
-    -webkit-backdrop-filter: blur(18px) saturate(160%);
-    transition: all 0.5s var(--ease-smooth);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur) saturate(160%);
+    -webkit-backdrop-filter: var(--glass-blur) saturate(160%);
+    transition: all 0.4s var(--ease-smooth);
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-card);
 }
 
 .carousel-item.project-hidden {
@@ -283,9 +280,9 @@
 }
 
 .carousel-item:hover {
-    border-color: rgba(189, 0, 255, 0.4);
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.3), 0 0 12px rgba(189, 0, 255, 0.12);
+    border-color: rgba(124, 58, 237, 0.45);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: var(--glow-hover);
 }
 
 .carousel-item:hover::before {
@@ -2575,18 +2572,27 @@ body.motion-ready .hero-content .reveal {
 }
 
 .tech-pill {
-    padding: 6px 12px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.05);
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
     font-family: var(--font-mono);
-    color: #d0d0d0;
-    transition: background 0.3s;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius-pill);
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: var(--violet-pale);
+    transition: background 0.2s, border-color 0.2s;
 }
 
 .card-3d:hover .tech-pill {
     background: rgba(255, 255, 255, 0.1);
     color: #fff;
+}
+
+.carousel-item:hover .tech-pill {
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.5);
 }
 
 .project-link {
