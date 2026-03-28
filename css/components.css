@@ -1647,8 +1647,8 @@ h1 .highlight-text {
 }
 
 .hero-tag:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(124, 58, 237, 0.15);
+    border-color: rgba(124, 58, 237, 0.4);
 }
 
 .hero-sub {
@@ -2380,7 +2380,6 @@ body.motion-ready .hero-content .reveal {
 
 .form-group input:focus,
 .form-group textarea:focus {
-    outline: none;
     border-color: var(--violet);
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2), 0 0 16px rgba(124, 58, 237, 0.1);
 }
@@ -2597,8 +2596,9 @@ body.motion-ready .hero-content .reveal {
 }
 
 .card-3d:hover .tech-pill {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.5);
+    color: var(--violet-pale);
 }
 
 .carousel-item:hover .tech-pill {
