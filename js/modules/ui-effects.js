@@ -246,10 +246,6 @@ export function initReadingProgress() {
 
 /**
  * Initializes the hamburger menu for mobile navigation.
- * Opens/closes a nav drawer with keyboard and touch support.
- */
-/**
- * Initializes the hamburger menu for mobile navigation.
  * Opens/closes a nav drawer with keyboard, focus trap, and touch support.
  */
 export function initHamburgerMenu() {
