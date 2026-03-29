@@ -121,7 +121,7 @@
 .client-mode-filters {
     display: flex;
     gap: var(--space-2);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 .client-filter-btn {
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -145,6 +145,23 @@
     border-color: var(--violet);
     box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
+
+@media (max-width: 768px) {
+    .client-mode-filters {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+
+    .client-filter-btn {
+        scroll-snap-align: start;
+        flex-shrink: 0;
+    }
+}
+
 .featured-metrics-panel {
     margin-top: 0.9rem;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -281,7 +298,7 @@
 
 .carousel-item:hover {
     border-color: rgba(124, 58, 237, 0.45);
-    transform: translateY(-6px) scale(1.01);
+    transform: translateY(-3px) scale(1.01);
     box-shadow: var(--glow-hover);
 }
 
@@ -674,8 +691,18 @@ body.modal-open * {
 }
 
 @media (max-width: 600px) {
+    .carousel-grid,
+    .projects-grid,
     .carousel-track {
         grid-template-columns: 1fr;
+    }
+
+    .tech-pill {
+        white-space: nowrap;
+    }
+
+    .featured-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .carousel-item {
@@ -3982,6 +4009,26 @@ body.nav-open .hamburger-btn .hamburger-bar:nth-child(3) {
     .form-feedback {
         font-size: 0.8rem;
     }
+
+    .modal-overlay.open .modal-content,
+    #project-modal.open .modal-content,
+    #skill-modal.open .modal-content {
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 16px 16px 0 0;
+        margin: 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        overflow-y: auto;
+    }
+
+    .close-modal {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 10;
+    }
 }
 
 @media (max-width: 600px) {
@@ -4709,4 +4756,15 @@ body.nav-open .hamburger-btn .hamburger-bar:nth-child(3) {
         padding: var(--space-2);
         font-size: 0.8rem;
     }
+}
+
+/* ----------------
+ * Search Input Focus
+ * ---------------- */
+#projects-search:focus,
+.project-search-input:focus,
+.search-input:focus {
+    outline: none;
+    border-color: var(--violet);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
 }

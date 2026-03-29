@@ -98,6 +98,22 @@ export function createOverlayManager() {
         overlay.classList.add('open');
         overlay.setAttribute('aria-hidden', 'false');
         trapFocus(overlay, onEscape);
+
+        // Swipe-down to close on mobile touch devices
+        if (window.matchMedia('(max-width: 768px)').matches) {
+            let touchStartY = 0;
+            const onTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
+            const onTouchEnd = (e) => {
+                const delta = e.changedTouches[0].clientY - touchStartY;
+                if (delta > 80) {
+                    overlay.removeEventListener('touchstart', onTouchStart);
+                    overlay.removeEventListener('touchend', onTouchEnd);
+                    onEscape?.();
+                }
+            };
+            overlay.addEventListener('touchstart', onTouchStart, { passive: true });
+            overlay.addEventListener('touchend', onTouchEnd, { passive: true });
+        }
     };
 
     /**
