@@ -2505,13 +2505,13 @@ body.motion-ready .hero-content .reveal {
 .tl-item::before {
     content: '';
     position: absolute;
-    left: -1.95rem;
-    top: .45rem;
-    width: 10px;
-    height: 10px;
+    left: -5px;
+    top: 0.5rem;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--violet);
-    box-shadow: 0 0 12px var(--glow);
+    box-shadow: 0 0 6px var(--glow);
 }
 
 /* Color coding by type */
