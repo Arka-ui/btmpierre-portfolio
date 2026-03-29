@@ -2483,10 +2483,11 @@ body.motion-ready .hero-content .reveal {
     content: '';
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.95), rgba(124, 58, 237, 0.45));
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--violet), transparent);
+    border-radius: 2px;
 }
 
 .tl-item {
@@ -2512,6 +2513,15 @@ body.motion-ready .hero-content .reveal {
     background: var(--violet);
     box-shadow: 0 0 12px var(--glow);
 }
+
+/* Color coding by type */
+.tl-item[data-type="personal"]   { border-left: 2px solid var(--violet); }
+.tl-item[data-type="school"]     { border-left: 2px solid var(--accent); }
+.tl-item[data-type="internship"] { border-left: 2px solid var(--violet-light); }
+
+.tl-item[data-type="personal"]::before   { background: var(--violet); }
+.tl-item[data-type="school"]::before     { background: var(--accent); }
+.tl-item[data-type="internship"]::before { background: var(--violet-light); }
 
 .tl-meta {
     display: flex;
@@ -2549,6 +2559,20 @@ body.motion-ready .hero-content .reveal {
     font-size: 0.86rem;
     color: var(--text-muted);
     line-height: 1.75;
+}
+
+.tl-toggle {
+    display: none;
+}
+
+/* Desktop: always show desc */
+@media (min-width: 769px) {
+    .tl-desc {
+        max-height: none !important;
+    }
+    .tl-toggle {
+        display: none;
+    }
 }
 
 .card-content {
@@ -3522,6 +3546,33 @@ body.nav-open .hamburger-btn .hamburger-bar:nth-child(3) {
     .tl-desc {
         font-size: 0.84rem;
         line-height: 1.58;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s var(--ease-smooth);
+    }
+
+    .tl-item.expanded .tl-desc {
+        max-height: 300px;
+    }
+
+    .tl-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
+        color: var(--violet-light);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        font-family: var(--font-mono);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tl-desc {
+            transition: none;
+        }
     }
 
     .carousel-container {

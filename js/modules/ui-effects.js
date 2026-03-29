@@ -339,3 +339,26 @@ export function initHamburgerMenu() {
         });
     });
 }
+
+/**
+ * On mobile (<768px), collapses timeline descriptions and adds expand/collapse toggle.
+ */
+export function initTimelineCollapse() {
+    if (window.matchMedia('(min-width: 769px)').matches) return;
+
+    const items = document.querySelectorAll('.tl-item');
+    items.forEach((item) => {
+        const toggle = item.querySelector('.tl-toggle');
+        const desc = item.querySelector('.tl-desc');
+        if (!toggle || !desc) return;
+
+        toggle.addEventListener('click', () => {
+            const expanded = item.classList.toggle('expanded');
+            toggle.setAttribute('aria-expanded', String(expanded));
+            const icon = toggle.querySelector('i');
+            const label = toggle.querySelector('span');
+            if (icon) icon.className = expanded ? 'bi bi-chevron-up' : 'bi bi-chevron-down';
+            if (label) label.textContent = expanded ? 'Réduire' : 'Voir';
+        });
+    });
+}
