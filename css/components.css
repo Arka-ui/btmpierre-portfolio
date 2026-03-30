@@ -2524,27 +2524,19 @@ body.motion-ready .hero-content .reveal {
 .timeline {
     margin-top: calc(var(--space-6) + var(--space-4));
     position: relative;
-    padding-left: 2.2rem;
-    /* Plus d'espace pour la ligne et les points */
+    padding-left: 0;
+    /* Suppression de l'espace pour la ligne et les points */
 }
 
 .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: linear-gradient(to bottom, var(--violet), transparent 96%);
-    border-radius: 2px;
-    z-index: 0;
+    content: none;
 }
 
 .tl-item {
     position: relative;
     margin-bottom: calc(var(--space-6) + var(--space-5));
     text-align: left;
-    padding-left: 0.2rem;
+    padding-left: 0;
     z-index: 1;
 }
 
@@ -2555,23 +2547,10 @@ body.motion-ready .hero-content .reveal {
 }
 
 .tl-item::before {
-    content: '';
-    position: absolute;
-    left: -2px;
-    top: 0.7rem;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--violet);
-    box-shadow: 0 0 8px var(--glow);
-    border: 2px solid #181028;
-    z-index: 2;
+    content: none;
 }
 
 /* Color coding by type */
-.tl-item[data-type="personal"]   { border-left: 2px solid var(--violet); }
-.tl-item[data-type="school"]     { border-left: 2px solid var(--accent); }
-.tl-item[data-type="internship"] { border-left: 2px solid var(--violet-light); }
 
 .tl-item[data-type="personal"]::before   { background: var(--violet); }
 .tl-item[data-type="school"]::before     { background: var(--accent); }
