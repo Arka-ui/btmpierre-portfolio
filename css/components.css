@@ -1,6 +1,54 @@
 /* ----------------
  * Discord Card (Fixed Bottom Left)
  * ---------------- */
+
+/* ── CARD BASE SYSTEM (Applied to all cards for consistency) ── */
+.card-base {
+    position: relative;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    backdrop-filter: var(--card-blur);
+    -webkit-backdrop-filter: var(--card-blur);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--card-shadow);
+    transition: all 0.4s var(--ease-smooth);
+}
+
+.card-base::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--card-border-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.4s var(--ease-smooth);
+}
+
+.card-base:hover {
+    border-color: rgba(112, 66, 248, 0.6);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-base:hover::before {
+    opacity: 1;
+}
+
+.card-base > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* ----------------
+ * Discord Card (Fixed Bottom Left)
+ * ---------------- */
 .discord-card {
     position: fixed;
     bottom: 2rem;
@@ -2325,18 +2373,21 @@ body.motion-ready .hero-content .reveal {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    width: fit-content;
-    padding: 0.42rem 0.72rem;
+    width: 100%;
+    margin-bottom: var(--space-5);
+    padding: 0.75rem 1rem;
     border-radius: var(--radius-pill);
-    border: 1px solid rgba(125, 211, 252, 0.35);
-    background: rgba(14, 165, 233, 0.12);
-    color: rgba(224, 242, 254, 0.95);
-    font-size: 0.78rem;
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    background: rgba(6, 182, 212, 0.15);
+    color: #7dd3fc;
+    font-size: 0.85rem;
     font-family: var(--font-mono);
+    font-weight: 500;
 }
 
 .response-time-pill i {
-    color: #7dd3fc;
+    color: #06b6d4;
+    font-size: 1.1rem;
 }
 
 .contact-discord-group {
@@ -2416,22 +2467,25 @@ body.motion-ready .hero-content .reveal {
 }
 
 .template-btn {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.04);
-    color: rgba(233, 228, 245, 0.95);
+    border: 1px solid rgba(112, 66, 248, 0.3);
+    background: rgba(112, 66, 248, 0.08);
+    color: #e2d9f3;
     font-family: var(--font-mono);
-    font-size: 0.73rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.4px;
     border-radius: var(--radius-sm);
-    padding: 0.45rem 0.55rem;
+    padding: 0.7rem 1rem;
     cursor: pointer;
     transition: all var(--transition-base);
 }
 
 .template-btn:hover {
-    transform: translateY(-1px);
-    border-color: rgba(180, 155, 255, 0.45);
-    background: rgba(112, 66, 248, 0.15);
+    transform: translateY(-2px);
+    border-color: rgba(112, 66, 248, 0.6);
+    background: rgba(112, 66, 248, 0.2);
     color: #fff;
+    box-shadow: 0 0 16px rgba(112, 66, 248, 0.25);
 }
 
 .template-btn:focus-visible {
@@ -2487,8 +2541,8 @@ body.motion-ready .hero-content .reveal {
 .form-group textarea {
     width: 100%;
     padding: var(--space-4);
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
+    background: rgba(10, 0, 37, 0.5);
+    border: 1px solid rgba(112, 66, 248, 0.3);
     border-radius: var(--radius-md);
     color: #fff;
     font-family: inherit;
@@ -2499,8 +2553,9 @@ body.motion-ready .hero-content .reveal {
 
 .form-group input:focus,
 .form-group textarea:focus {
-    border-color: transparent;
-    box-shadow: 0 0 0 3px rgba(112, 66, 248, 0.2), 0 0 16px rgba(112, 66, 248, 0.1);
+    border-color: rgba(112, 66, 248, 0.6);
+    background: rgba(10, 0, 37, 0.7);
+    box-shadow: 0 0 16px rgba(112, 66, 248, 0.3), 0 0 4px rgba(112, 66, 248, 0.2);
 }
 
 .form-group textarea {
@@ -2552,8 +2607,8 @@ body.motion-ready .hero-content .reveal {
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background: var(--glass-bg);
-    border: none;
+    background: rgba(10, 0, 37, 0.3);
+    border: 1px solid rgba(112, 66, 248, 0.2);
     border-radius: var(--radius-md);
     color: var(--text-muted);
     font-size: 0.9rem;
@@ -2561,14 +2616,28 @@ body.motion-ready .hero-content .reveal {
     width: 100%;
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
+    margin-bottom: var(--space-3);
 }
 
 .contact-link:hover {
     background: rgba(112, 66, 248, 0.12);
     border-color: rgba(112, 66, 248, 0.4);
     color: #fff;
-    box-shadow: var(--glow-hover);
+    box-shadow: 0 0 16px rgba(112, 66, 248, 0.25);
     transform: translateX(4px);
+}
+
+.contact-link-primary {
+    border: 1px solid rgba(112, 66, 248, 0.4) !important;
+    background: rgba(112, 66, 248, 0.08) !important;
+    color: var(--space-purple-light) !important;
+    font-weight: 500;
+    margin-bottom: var(--space-5) !important;
+}
+
+.contact-link-primary:hover {
+    background: rgba(112, 66, 248, 0.18) !important;
+    border-color: rgba(112, 66, 248, 0.6) !important;
 }
 
 .contact-link .icon {

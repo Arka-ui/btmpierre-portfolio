@@ -68,6 +68,16 @@
     --welcome-bg:     rgba(3, 0, 20, 0.4);
     --welcome-border: rgba(112, 66, 248, 0.55);
     --welcome-shadow: inset 0 -7px 11px rgba(164, 143, 255, 0.12);
+
+    /* ── CARD BASE SYSTEM ── */
+    --card-bg:             rgba(6, 0, 20, 0.4);
+    --card-border:         #2A0E61;
+    --card-blur:           blur(16px) saturate(150%);
+    --card-padding:        var(--space-5);
+    --card-radius:         var(--radius-lg);
+    --card-shadow:         0 10px 30px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover:   0 0 30px rgba(112, 66, 248, 0.3), 0 20px 60px rgba(42, 14, 97, 0.5);
+    --card-border-gradient: linear-gradient(135deg, rgba(112, 66, 248, 0.3), transparent 40%, rgba(112, 66, 248, 0.1) 60%, rgba(112, 66, 248, 0.3));
 }
 
 /* Reset & Base */
