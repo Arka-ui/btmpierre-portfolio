@@ -53,12 +53,12 @@
     <link rel="preload" href="css/base.css?v=2.2" as="style">
     <link rel="preload" href="css/components-critical.css" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/components-critical.css"></noscript>
-    <link rel="preload" href="css/components.css?v=3.6" as="style">
+    <link rel="preload" href="css/components.css?v=3.8" as="style">
     <link rel="preload" href="css/animations.css?v=1.0" as="style">
     <link rel="preload" href="css/ui-modern.css?v=1.0" as="style">
-    <link rel="modulepreload" href="js/main.js?v=3.8">
+    <link rel="modulepreload" href="js/main.js?v=3.9">
     <link rel="stylesheet" href="css/base.css?v=2.2">
-    <link rel="stylesheet" href="css/components.css?v=3.6">
+    <link rel="stylesheet" href="css/components.css?v=3.8">
     <link rel="stylesheet" href="css/animations.css?v=1.0">
     <link rel="stylesheet" href="css/hero-style.css?v=1.0">
     <link rel="stylesheet" href="css/ui-modern.css?v=1.0">
@@ -130,6 +130,7 @@
                 <div class="nav-right">
                     <ul class="nav-links">
                         <li><a href="#about"><span data-i18n="nav.about">À propos</span></a></li>
+                        <li><a href="#skills"><span data-i18n="nav.skills">Compétences</span></a></li>
                         <li><a href="#experience"><span data-i18n="nav.experience">Expérience</span></a></li>
                         <li><a href="#projects"><span data-i18n="nav.projects">Projets</span></a></li>
                         <li><a href="#contact"><span data-i18n="nav.contact">Contact</span></a></li>
@@ -156,6 +157,7 @@
             <button type="button" class="nav-drawer-close" id="navDrawerClose" aria-label="Fermer le menu" data-i18n-aria-label="common.closeMenu">×</button>
             <ul class="nav-drawer-links">
                 <li><a href="#about"><i class="bi bi-person-fill"></i> <span data-i18n="nav.about">À propos</span></a></li>
+                <li><a href="#skills"><i class="bi bi-bar-chart-fill"></i> <span data-i18n="nav.skills">Compétences</span></a></li>
                 <li><a href="#experience"><i class="bi bi-briefcase-fill"></i> <span data-i18n="nav.experience">Expérience</span></a></li>
                 <li><a href="#projects"><i class="bi bi-code-slash"></i> <span data-i18n="nav.projects">Projets</span></a></li>
                 <li><a href="#contact"><i class="bi bi-envelope-at-fill"></i> <span data-i18n="nav.contact">Contact</span></a></li>
@@ -330,6 +332,165 @@
                         <div class="gh-lang-bar-container" id="gh-lang-bar"></div>
                         <div id="gh-lang-labels" class="gh-lang-labels"></div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section container">
+            <span class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.skills.tag">02 / COMPÉTENCES</span></span>
+            <h2 class="section-title reveal" data-i18n="sections.skills.title">Mes compétences</h2>
+            <p class="section-seo reveal" data-i18n="seo.skills">Stack technique organisée par domaine, avec un niveau honnête pour chaque outil — basé sur mes projets réels.</p>
+
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skills-category glass-panel reveal">
+                    <div class="skills-category-header">
+                        <i class="bi bi-window-fullscreen"></i>
+                        <h3 data-i18n="sections.skills.frontend">Frontend</h3>
+                    </div>
+                    <ul class="skills-list" role="list">
+                        <li class="skill-row reveal" style="--skill-idx:0">
+                            <div class="skill-row-top">
+                                <i class="devicon-javascript-plain colored skill-icon"></i>
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-badge level-expert" data-i18n="skills.levels.expert">Expert</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="JavaScript">
+                                <div class="skill-bar-fill" style="--skill-pct:0.9"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:1">
+                            <div class="skill-row-top">
+                                <i class="devicon-html5-plain colored skill-icon"></i>
+                                <span class="skill-name">HTML / CSS</span>
+                                <span class="skill-badge level-expert" data-i18n="skills.levels.expert">Expert</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="HTML/CSS">
+                                <div class="skill-bar-fill" style="--skill-pct:0.9"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:2">
+                            <div class="skill-row-top">
+                                <i class="bi bi-layout-wtf skill-icon"></i>
+                                <span class="skill-name" data-i18n="sections.skills.uiEng">UI Engineering</span>
+                                <span class="skill-badge level-intermediate" data-i18n="skills.levels.intermediate">Intermédiaire</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" aria-label="UI Engineering">
+                                <div class="skill-bar-fill" style="--skill-pct:0.65"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:3">
+                            <div class="skill-row-top">
+                                <i class="devicon-react-original colored skill-icon"></i>
+                                <span class="skill-name">React</span>
+                                <span class="skill-badge level-intermediate" data-i18n="skills.levels.intermediate">Intermédiaire</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="React">
+                                <div class="skill-bar-fill" style="--skill-pct:0.5"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Backend -->
+                <div class="skills-category glass-panel reveal">
+                    <div class="skills-category-header">
+                        <i class="bi bi-database-fill-gear"></i>
+                        <h3 data-i18n="sections.skills.backend">Backend</h3>
+                    </div>
+                    <ul class="skills-list" role="list">
+                        <li class="skill-row reveal" style="--skill-idx:0">
+                            <div class="skill-row-top">
+                                <i class="devicon-php-plain colored skill-icon"></i>
+                                <span class="skill-name">PHP</span>
+                                <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" aria-label="PHP">
+                                <div class="skill-bar-fill" style="--skill-pct:0.9"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:1">
+                            <div class="skill-row-top">
+                                <i class="devicon-mysql-plain colored skill-icon"></i>
+                                <span class="skill-name">MySQL</span>
+                                <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="MySQL">
+                                <div class="skill-bar-fill" style="--skill-pct:0.7"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:2">
+                            <div class="skill-row-top">
+                                <i class="devicon-nodejs-plain colored skill-icon"></i>
+                                <span class="skill-name">Node.js</span>
+                                <span class="skill-badge level-intermediate" data-i18n="skills.levels.intermediate">Intermédiaire</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Node.js">
+                                <div class="skill-bar-fill" style="--skill-pct:0.5"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:3">
+                            <div class="skill-row-top">
+                                <i class="devicon-python-plain colored skill-icon"></i>
+                                <span class="skill-name">Python</span>
+                                <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Python">
+                                <div class="skill-bar-fill" style="--skill-pct:0.70"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Outils & Infra -->
+                <div class="skills-category glass-panel reveal">
+                    <div class="skills-category-header">
+                        <i class="bi bi-tools"></i>
+                        <h3 data-i18n="sections.skills.tools">Outils &amp; Infra</h3>
+                    </div>
+                    <ul class="skills-list" role="list">
+                        <li class="skill-row reveal" style="--skill-idx:0">
+                            <div class="skill-row-top">
+                                <i class="devicon-electron-original colored skill-icon"></i>
+                                <span class="skill-name">Electron</span>
+                                <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" aria-label="Electron">
+                                <div class="skill-bar-fill" style="--skill-pct:0.78"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:1">
+                            <div class="skill-row-top">
+                                <i class="devicon-git-plain colored skill-icon"></i>
+                                <span class="skill-name">Git / GitHub Actions</span>
+                                <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" aria-label="Git / GitHub Actions">
+                                <div class="skill-bar-fill" style="--skill-pct:0.72"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:2">
+                            <div class="skill-row-top">
+                                <i class="devicon-docker-plain colored skill-icon"></i>
+                                <span class="skill-name">Docker</span>
+                                <span class="skill-badge level-intermediate" data-i18n="skills.levels.intermediate">Intermédiaire</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Docker">
+                                <div class="skill-bar-fill" style="--skill-pct:0.5"></div>
+                            </div>
+                        </li>
+                        <li class="skill-row reveal" style="--skill-idx:3">
+                            <div class="skill-row-top">
+                                <i class="devicon-godot-plain colored skill-icon"></i>
+                                <span class="skill-name">Godot Engine</span>
+                                <span class="skill-badge level-beginner" data-i18n="skills.levels.beginner">Débutant</span>
+                            </div>
+                            <div class="skill-bar" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" aria-label="Godot Engine">
+                                <div class="skill-bar-fill" style="--skill-pct:0.35"></div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </section>
@@ -780,15 +941,19 @@
                     </div>
                 </div>
 
-                <div class="donation-row">
-                    <a href="https://buymeacoffee.com/nexos20" target="_blank" rel="noopener noreferrer"
-                        class="btn btn-secondary" title="Support me on Buy Me A Coffee" data-i18n-title="donation.title">☕ <span data-i18n="donation.cta">Buy Me A Coffee</span></a>
-                </div>
-
-                <footer>
-                    <div class="footer-spacing">
-                        <p data-i18n-html="footer.copyright">© 2026 Pierre Bouteman. Fait main avec <span
-                                class="footer-heart">❤</span> et du code.</p>
+                <footer class="site-footer">
+                    <div class="site-footer-inner">
+                        <div class="site-footer-brand">
+                            <img src="assets/logo.svg" alt="Pierre Bouteman" height="22" width="auto" loading="lazy" decoding="async">
+                            <span class="site-footer-name">Pierre Bouteman</span>
+                        </div>
+                        <p class="site-footer-copy" data-i18n-html="footer.copyright">© 2026 Pierre Bouteman. Fait main avec <span class="footer-heart">❤</span> et du code.</p>
+                        <div class="site-footer-actions">
+                            <a href="https://github.com/nexos20lv" target="_blank" rel="noopener noreferrer" class="site-footer-icon" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                            <a href="https://discord.com/users/1288079115248992297" target="_blank" rel="noopener noreferrer" class="site-footer-icon" aria-label="Discord"><i class="bi bi-discord"></i></a>
+                            <a href="mailto:pierre.bouteman@icloud.com" class="site-footer-icon" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+                            <a href="https://buymeacoffee.com/nexos20" target="_blank" rel="noopener noreferrer" class="site-footer-icon" title="Buy Me A Coffee" data-i18n-title="donation.title" aria-label="Buy Me A Coffee">☕</a>
+                        </div>
                     </div>
                 </footer>
             </div>
@@ -955,7 +1120,7 @@
     <script type="module" src="js/hero-video-loop.js"></script>
 
     <!-- Main Script Module -->
-    <script type="module" src="js/main.js?v=3.8"></script>
+    <script type="module" src="js/main.js?v=3.9"></script>
 
 <a href="#" class="back-to-top" aria-label="Retour en haut" data-i18n-aria-label="common.backToTop">↑</a>
 </body>

@@ -33,6 +33,7 @@ export const i18n = {
         nav: {
             projects: 'Projets',
             about: 'À propos',
+            skills: 'Compétences',
             experience: 'Expérience',
             contact: 'Contact',
             drawerAria: 'Menu de navigation'
@@ -82,16 +83,25 @@ export const i18n = {
             12: 'Python',
             modalMeta: 'TECH STACK',
             modalTitle: 'Compétence',
-            closeModalAria: 'Fermer la fenêtre compétence'
+            closeModalAria: 'Fermer la fenêtre compétence',
+            levels: {
+                expert: 'Expert',
+                advanced: 'Avancé',
+                intermediate: 'Intermédiaire',
+                learning: 'Apprentissage',
+                beginner: 'Débutant'
+            }
         },
         sections: {
             about: { tag: '01 / À PROPOS' },
-            experience: { tag: '02 / EXPÉRIENCE', title: 'Mon parcours' },
-            projects: { tag: '03 / PROJETS', title: 'Ce que j\'ai construit' },
-            contact: { tag: '04 / CONTACT' }
+            skills: { tag: '02 / COMPÉTENCES', title: 'Mes compétences', frontend: 'Frontend', backend: 'Backend', tools: 'Outils & Infra', uiEng: 'UI Engineering' },
+            experience: { tag: '03 / EXPÉRIENCE', title: 'Mon parcours' },
+            projects: { tag: '04 / PROJETS', title: 'Ce que j\'ai construit' },
+            contact: { tag: '05 / CONTACT' }
         },
         seo: {
             about: 'Développeur full-stack en France, je conçois des applications web et desktop robustes, maintenables et orientées performance.',
+            skills: 'Stack technique organisée par domaine, avec un niveau honnête pour chaque outil — basé sur mes projets réels.',
             experience: 'Parcours orienté ingénierie logicielle, architecture d\'applications, livraison continue et projets concrets en environnement réel.',
             projects: 'Sélection de projets web, desktop et outils dev avec focus UX, performance, observabilité et qualité de code.',
             contact: 'Disponible pour collaborations web/desktop, optimisation produit, automatisation et maintenance d\'applications existantes.'
@@ -418,6 +428,7 @@ export const i18n = {
         nav: {
             projects: 'Projects',
             about: 'About',
+            skills: 'Skills',
             experience: 'Experience',
             contact: 'Contact',
             drawerAria: 'Navigation menu'
@@ -467,16 +478,25 @@ export const i18n = {
             12: 'Python',
             modalMeta: 'TECH STACK',
             modalTitle: 'Skill',
-            closeModalAria: 'Close skill window'
+            closeModalAria: 'Close skill window',
+            levels: {
+                expert: 'Expert',
+                advanced: 'Advanced',
+                intermediate: 'Intermediate',
+                learning: 'Learning',
+                beginner: 'Beginner'
+            }
         },
         sections: {
             about: { tag: '01 / ABOUT' },
-            experience: { tag: '02 / EXPERIENCE', title: 'My Journey' },
-            projects: { tag: '03 / PROJECTS', title: 'What I\'ve Built' },
-            contact: { tag: '04 / CONTACT' }
+            skills: { tag: '02 / SKILLS', title: 'My Skills', frontend: 'Frontend', backend: 'Backend', tools: 'Tools & Infra', uiEng: 'UI Engineering' },
+            experience: { tag: '03 / EXPERIENCE', title: 'My Journey' },
+            projects: { tag: '04 / PROJECTS', title: 'What I\'ve Built' },
+            contact: { tag: '05 / CONTACT' }
         },
         seo: {
             about: 'Full-stack developer based in France, building robust web and desktop applications focused on performance and maintainability.',
+            skills: 'Tech stack organized by domain, with an honest skill level for each tool — based on real projects.',
             experience: 'Journey focused on software engineering, architecture, reliable delivery, and real-world project execution.',
             projects: 'Selection of web, desktop, and dev tooling projects with emphasis on UX, performance, observability, and code quality.',
             contact: 'Available for web/desktop collaborations, product optimization, automation, and long-term maintenance.'

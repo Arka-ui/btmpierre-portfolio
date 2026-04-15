@@ -128,6 +128,44 @@ export function initScrollRevealAndNavSpy() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
     const reveals = document.querySelectorAll('.reveal');
+    const skillRows = document.querySelectorAll('.skill-row');
+
+    const applySkillTooltip = (row) => {
+        const bar = row.querySelector('.skill-bar');
+        const fill = row.querySelector('.skill-bar-fill');
+        const value = Number(bar?.getAttribute('aria-valuenow') || 0);
+        const clamped = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0;
+        const tooltip = `${clamped}%`;
+
+        if (bar) {
+            bar.setAttribute('aria-valuetext', tooltip);
+            bar.setAttribute('tabindex', '0');
+
+            let tooltipNode = bar.querySelector('.skill-tooltip');
+            if (!tooltipNode) {
+                tooltipNode = document.createElement('span');
+                tooltipNode.className = 'skill-tooltip';
+                tooltipNode.setAttribute('aria-hidden', 'true');
+                bar.appendChild(tooltipNode);
+            }
+
+            tooltipNode.textContent = tooltip;
+        }
+
+        if (fill) {
+            fill.setAttribute('aria-hidden', 'true');
+        }
+    };
+
+    // Runtime fallback: prevent fully-filled bars when a stale CSS rule is cached.
+    skillRows.forEach((row) => {
+        applySkillTooltip(row);
+
+        const fill = row.querySelector('.skill-bar-fill');
+        if (fill) {
+            fill.style.width = '0%';
+        }
+    });
 
     // Add stagger indices to all reveals
     reveals.forEach((element, index) => {
@@ -138,6 +176,17 @@ export function initScrollRevealAndNavSpy() {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+
+                if (entry.target.classList.contains('skill-row')) {
+                    const fill = entry.target.querySelector('.skill-bar-fill');
+                    const bar = entry.target.querySelector('.skill-bar');
+                    const value = Number(bar?.getAttribute('aria-valuenow') || 0);
+                    const clamped = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0;
+
+                    if (fill) {
+                        fill.style.width = `${clamped}%`;
+                    }
+                }
             }
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
