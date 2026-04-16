@@ -90,11 +90,27 @@ export const i18n = {
                 intermediate: 'Intermédiaire',
                 learning: 'Apprentissage',
                 beginner: 'Débutant'
+            },
+            legend: {
+                aria: 'Légende des niveaux de compétences',
+                title: 'Légende des niveaux'
+            },
+            legendDesc: {
+                expert: 'Autonome sur des projets complexes, bonnes pratiques solides.',
+                advanced: 'Production régulière, architecture et debug maîtrisés.',
+                intermediate: 'Utilisable en projet, besoin ponctuel de documentation.',
+                beginner: 'Bases acquises, en progression active.',
+                learning: 'Technologie en cours d\'exploration ou de montée en compétence.'
+            },
+            learning: {
+                active: 'En cours',
+                exploring: 'Exploration',
+                basics: 'Bases'
             }
         },
         sections: {
             about: { tag: '01 / À PROPOS' },
-            skills: { tag: '02 / COMPÉTENCES', title: 'Mes compétences', frontend: 'Frontend', backend: 'Backend', tools: 'Outils & Infra', uiEng: 'UI Engineering' },
+            skills: { tag: '02 / COMPÉTENCES', title: 'Mes compétences', frontend: 'Frontend', backend: 'Backend', tools: 'Outils & Infra', uiEng: 'UI Engineering', learning: 'En cours d\'apprentissage' },
             experience: { tag: '03 / EXPÉRIENCE', title: 'Mon parcours' },
             projects: { tag: '04 / PROJETS', title: 'Ce que j\'ai construit' },
             contact: { tag: '05 / CONTACT' }
@@ -161,6 +177,13 @@ export const i18n = {
                 maintenance: 'Maintenance'
             },
             closeModalAria: 'Fermer la fenêtre projet',
+            statusAria: 'Statut : {status}',
+            carousel: {
+                navAria: 'Navigation du carrousel',
+                prev: 'Projet précédent',
+                next: 'Projet suivant',
+                dotAria: 'Aller au projet {n}'
+            },
             featuredMetrics: {
                 title: 'Projets phares (GitHub)',
                 stars: 'Stars total',
@@ -176,6 +199,7 @@ export const i18n = {
                 updated: 'Maj',
                 version: 'Version',
                 release: 'Release',
+                passing: 'valide',
                 stable: 'stable',
                 prerelease: 'pre-release',
                 none: 'aucune'
@@ -270,7 +294,19 @@ export const i18n = {
         search: {
             placeholder: "Rechercher un projet (Titre, tags...)...",
             noResults: "Aucun projet trouvé.",
-            kbd: "ESC pour fermer"
+            noCommand: 'Aucune commande trouvée commençant par "{cmd}"',
+            commandPrefix: 'Commande : >{cmd}',
+            kbd: "ESC pour fermer",
+            commands: {
+                about: 'Aller à À propos',
+                experience: 'Aller à Expérience',
+                projects: 'Aller à Projets',
+                contact: 'Aller à Contact',
+                theme: 'Basculer le mode haute performance',
+                fr: 'Passer en français',
+                en: 'Passer en anglais',
+                terminal: 'Ouvrir le terminal'
+            }
         },
         about: {
             title: 'À propos',
@@ -372,7 +408,11 @@ export const i18n = {
         github: {
             metricsTitle: 'GITHUB METRICS',
             repos: 'Repos',
-            stars: 'Stars'
+            stars: 'Stars',
+            starsUnit: 'stars',
+            forksUnit: 'forks',
+            rateLimited: 'API GitHub limitée',
+            noLanguageData: 'Aucune donnée de langage disponible'
         },
         terminal: {
             title: 'SYSTEM_TERMINAL_V3',
@@ -485,11 +525,27 @@ export const i18n = {
                 intermediate: 'Intermediate',
                 learning: 'Learning',
                 beginner: 'Beginner'
+            },
+            legend: {
+                aria: 'Skill level legend',
+                title: 'Level Legend'
+            },
+            legendDesc: {
+                expert: 'Fully autonomous on complex projects with strong engineering practices.',
+                advanced: 'Regular production usage with solid architecture and debugging skills.',
+                intermediate: 'Usable in real projects with occasional documentation support.',
+                beginner: 'Fundamentals acquired, currently improving through practice.',
+                learning: 'Technology currently being explored or actively learned.'
+            },
+            learning: {
+                active: 'In progress',
+                exploring: 'Exploring',
+                basics: 'Basics'
             }
         },
         sections: {
             about: { tag: '01 / ABOUT' },
-            skills: { tag: '02 / SKILLS', title: 'My Skills', frontend: 'Frontend', backend: 'Backend', tools: 'Tools & Infra', uiEng: 'UI Engineering' },
+            skills: { tag: '02 / SKILLS', title: 'My Skills', frontend: 'Frontend', backend: 'Backend', tools: 'Tools & Infra', uiEng: 'UI Engineering', learning: 'Currently Learning' },
             experience: { tag: '03 / EXPERIENCE', title: 'My Journey' },
             projects: { tag: '04 / PROJECTS', title: 'What I\'ve Built' },
             contact: { tag: '05 / CONTACT' }
@@ -556,6 +612,13 @@ export const i18n = {
                 maintenance: 'Maintenance'
             },
             closeModalAria: 'Close project window',
+            statusAria: 'Status: {status}',
+            carousel: {
+                navAria: 'Carousel navigation',
+                prev: 'Previous project',
+                next: 'Next project',
+                dotAria: 'Go to project {n}'
+            },
             featuredMetrics: {
                 title: 'Featured projects (GitHub)',
                 stars: 'Total stars',
@@ -571,6 +634,7 @@ export const i18n = {
                 updated: 'Updated',
                 version: 'Version',
                 release: 'Release',
+                passing: 'passing',
                 stable: 'stable',
                 prerelease: 'pre-release',
                 none: 'none'
@@ -665,7 +729,19 @@ export const i18n = {
         search: {
             placeholder: "Search projects (Title, tags...)...",
             noResults: "No projects found.",
-            kbd: "ESC to close"
+            noCommand: 'No command found starting with "{cmd}"',
+            commandPrefix: 'Command: >{cmd}',
+            kbd: "ESC to close",
+            commands: {
+                about: 'Go to About',
+                experience: 'Go to Experience',
+                projects: 'Go to Projects',
+                contact: 'Go to Contact',
+                theme: 'Toggle High Performance Mode',
+                fr: 'Switch to French',
+                en: 'Switch to English',
+                terminal: 'Open Terminal'
+            }
         },
         about: {
             title: 'About',
@@ -767,7 +843,11 @@ export const i18n = {
         github: {
             metricsTitle: 'GITHUB METRICS',
             repos: 'Repos',
-            stars: 'Stars'
+            stars: 'Stars',
+            starsUnit: 'stars',
+            forksUnit: 'forks',
+            rateLimited: 'GitHub API rate limited',
+            noLanguageData: 'No language data available'
         },
         terminal: {
             title: 'SYSTEM_TERMINAL_V3',

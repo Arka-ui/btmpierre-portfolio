@@ -3,7 +3,7 @@
  * Caches critical assets and enables offline support
  */
 
-const CACHE_VERSION = 'v1.0.1';
+const CACHE_VERSION = 'v1.0.5';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
 // Assets to precache on install

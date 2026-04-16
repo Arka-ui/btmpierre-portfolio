@@ -36,7 +36,9 @@ import {
     initLoader,
     initCustomCursor,
     initScrollRevealAndNavSpy,
+    initHeroSubtitleTypewriter,
     initMotionEnhancements,
+    initSectionTitleScramble,
     initTiltEffect,
     initHeaderScroll,
     initReadingProgress,
@@ -103,6 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const key = count > 1 ? 'visitors.plural' : 'visitors.singular';
         visitorsText.textContent = t(key).replace('{count}', count);
+        const visitorsContainer = document.getElementById('live-visitors');
+        if (visitorsContainer) visitorsContainer.style.display = '';
     }
 
     /**
@@ -129,6 +133,29 @@ document.addEventListener('DOMContentLoaded', () => {
         langButtons.forEach((button) => {
             button.classList.toggle('active', button.dataset.lang === currentLang);
         });
+
+        const translatedTitle = t('meta.title');
+        if (translatedTitle) {
+            document.title = translatedTitle;
+        }
+
+        const translatedDescription = t('meta.description');
+        if (translatedDescription) {
+            const descriptionMeta = document.querySelector('meta[name="description"]');
+            const ogTitleMeta = document.querySelector('meta[property="og:title"]');
+            const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
+            const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
+            const twitterDescriptionMeta = document.querySelector('meta[name="twitter:description"]');
+
+            descriptionMeta?.setAttribute('content', translatedDescription);
+            ogDescriptionMeta?.setAttribute('content', translatedDescription);
+            twitterDescriptionMeta?.setAttribute('content', translatedDescription);
+
+            if (translatedTitle) {
+                ogTitleMeta?.setAttribute('content', translatedTitle);
+                twitterTitleMeta?.setAttribute('content', translatedTitle);
+            }
+        }
 
         document.querySelectorAll('[data-i18n]').forEach((element) => {
             element.textContent = t(element.dataset.i18n);
@@ -381,6 +408,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initScrollRevealAndNavSpy();
+    initHeroSubtitleTypewriter();
+    initSectionTitleScramble();
     initMotionEnhancements();
     initTiltEffect();
     initHeaderScroll();
@@ -445,4 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
 
     console.log('System Initialized: Ultra Modern Portfolio V3');
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+    }
 });

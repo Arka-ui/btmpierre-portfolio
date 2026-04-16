@@ -285,6 +285,152 @@ export function initMotionEnhancements() {
 }
 
 /**
+ * Animates hero subtitle with a terminal-like typewriter effect on first viewport entry.
+ */
+export function initHeroSubtitleTypewriter() {
+    const subtitle = document.querySelector('.hero-sub');
+    if (!subtitle) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let started = false;
+
+    const startTyping = () => {
+        if (started) return;
+        started = true;
+
+        const finalText = subtitle.textContent || '';
+        const chars = Array.from(finalText);
+        subtitle.textContent = '';
+        subtitle.classList.add('is-typing');
+
+        let index = 0;
+        const typeNext = () => {
+            if (index >= chars.length) {
+                subtitle.classList.remove('is-typing');
+                return;
+            }
+
+            subtitle.textContent += chars[index];
+            const delay = chars[index] === ' ' ? 14 : 24;
+            index += 1;
+            setTimeout(typeNext, delay);
+        };
+
+        setTimeout(typeNext, 120);
+    };
+
+    const loader = document.getElementById('loader');
+    if (!loader) {
+        startTyping();
+        return;
+    }
+
+    const isLoaderGone = () => loader.style.display === 'none';
+
+    const startAfterLoader = () => {
+        if (started) return;
+        setTimeout(startTyping, 160);
+    };
+
+    if (isLoaderGone()) {
+        startAfterLoader();
+        return;
+    }
+
+    const loaderObserver = new MutationObserver(() => {
+        if (!isLoaderGone()) return;
+        loaderObserver.disconnect();
+        startAfterLoader();
+    });
+
+    loaderObserver.observe(loader, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
+
+    // Fallback in case loader state mutation is not observed.
+    setTimeout(() => {
+        loaderObserver.disconnect();
+        startAfterLoader();
+    }, 3200);
+}
+
+/**
+ * Applies a short hacker-like text scramble on section titles when entering viewport.
+ */
+export function initSectionTitleScramble() {
+    const titles = document.querySelectorAll('.section-title');
+    if (!titles.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isPerfMode = document.body.classList.contains('perf-mode');
+    if (prefersReducedMotion || isPerfMode) return;
+
+    const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&*+?';
+
+    const scramble = (element, duration = 600) => {
+        const finalText = element.textContent || '';
+        const chars = Array.from(finalText);
+        const textIndexes = chars
+            .map((char, index) => (/\s/.test(char) ? -1 : index))
+            .filter((index) => index !== -1);
+        const totalLetters = textIndexes.length;
+
+        if (!totalLetters) {
+            element.dataset.scrambleDone = 'true';
+            return;
+        }
+
+        element.classList.add('is-scrambling');
+        const start = performance.now();
+
+        const tick = (now) => {
+            const progress = Math.min(1, (now - start) / duration);
+            const revealedLetters = Math.floor(progress * totalLetters);
+            const revealedLimit = textIndexes[Math.max(0, revealedLetters - 1)] ?? -1;
+
+            element.textContent = chars
+                .map((char, index) => {
+                    if (/\s/.test(char)) return char;
+                    if (index <= revealedLimit) return char;
+                    return GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+                })
+                .join('');
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+                return;
+            }
+
+            element.textContent = finalText;
+            element.classList.remove('is-scrambling');
+            element.dataset.scrambleDone = 'true';
+        };
+
+        requestAnimationFrame(tick);
+    };
+
+    if (!('IntersectionObserver' in window)) {
+        titles.forEach((title) => scramble(title));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            if (entry.target.dataset.scrambleDone === 'true') return;
+
+            scramble(entry.target, 600);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
+
+    titles.forEach((title) => observer.observe(title));
+}
+
+/**
  * Adds 3D tilt transform effect to cards on mousemove for fine-pointer devices.
  */
 export function initTiltEffect() {
@@ -473,6 +619,19 @@ export function initTimelineCollapse() {
             if (label) label.textContent = getToggleLabel(expanded);
         });
     });
+
+    const firstItem = items[0];
+    if (firstItem) {
+        firstItem.classList.add('expanded');
+        const toggle = firstItem.querySelector('.tl-toggle');
+        if (toggle) {
+            toggle.setAttribute('aria-expanded', 'true');
+            const icon = toggle.querySelector('i');
+            const label = toggle.querySelector('span');
+            if (icon) icon.className = 'bi bi-chevron-up';
+            if (label) label.textContent = getToggleLabel(true);
+        }
+    }
 }
 
 /**
