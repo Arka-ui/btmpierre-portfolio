@@ -127,14 +127,14 @@ export function initProjectSearchUI({
 
     function renderCommands(cmd) {
         const commands = [
-            { id: 'about', label: t('search.commands.about'), icon: '👤', action: () => scrollToSection('about') },
-            { id: 'experience', label: t('search.commands.experience'), icon: '💼', action: () => scrollToSection('experience') },
-            { id: 'projects', label: t('search.commands.projects'), icon: '🚀', action: () => scrollToSection('projects') },
-            { id: 'contact', label: t('search.commands.contact'), icon: '📧', action: () => scrollToSection('contact') },
-            { id: 'theme', label: t('search.commands.theme'), icon: '⚡', action: () => document.getElementById('perfToggle')?.click() },
-            { id: 'fr', label: t('search.commands.fr'), icon: '🇫🇷', action: () => applyLanguage('fr') },
-            { id: 'en', label: t('search.commands.en'), icon: '🇬🇧', action: () => applyLanguage('en') },
-            { id: 'terminal', label: t('search.commands.terminal'), icon: '⌨️', action: () => toggleTerminal(true) }
+            { id: 'about', label: 'Go to About', icon: '👤', action: () => scrollToSection('about') },
+            { id: 'experience', label: 'Go to Experience', icon: '💼', action: () => scrollToSection('experience') },
+            { id: 'projects', label: 'Go to Projects', icon: '🚀', action: () => scrollToSection('projects') },
+            { id: 'contact', label: 'Go to Contact', icon: '📧', action: () => scrollToSection('contact') },
+            { id: 'theme', label: 'Toggle High Performance Mode', icon: '⚡', action: () => document.getElementById('perfToggle')?.click() },
+            { id: 'fr', label: 'Switch to French', icon: '🇫🇷', action: () => applyLanguage('fr') },
+            { id: 'en', label: 'Switch to English', icon: '🇬🇧', action: () => applyLanguage('en') },
+            { id: 'terminal', label: 'Open Terminal', icon: '⌨️', action: () => toggleTerminal(true) }
         ];
 
         const matches = commands.filter((command) => command.id.includes(cmd) || command.label.toLowerCase().includes(cmd));
@@ -142,7 +142,7 @@ export function initProjectSearchUI({
         if (matches.length === 0) {
             const noResult = document.createElement('div');
             noResult.style.cssText = 'padding: 2rem; text-align: center; color: var(--text-muted);';
-            noResult.textContent = t('search.noCommand').replace('{cmd}', cmd);
+            noResult.textContent = `No command found starting with "${cmd}"`;
             resultsContainer.appendChild(noResult);
             return;
         }
@@ -163,7 +163,7 @@ export function initProjectSearchUI({
             label.textContent = command.label;
 
             const cmdText = document.createElement('span');
-            cmdText.textContent = t('search.commandPrefix').replace('{cmd}', command.id);
+            cmdText.textContent = `Command: >${command.id}`;
 
             info.append(label, cmdText);
             item.append(icon, info);

@@ -286,11 +286,6 @@
     50% { opacity: 1; }
 }
 
-@keyframes terminalCaretBlink {
-    0%, 44% { opacity: 1; }
-    45%, 100% { opacity: 0; }
-}
-
 /* ── BACKGROUND ANIMATIONS ── */
 
 @keyframes gradientShift {
@@ -411,18 +406,6 @@
 
 .reveal.visible {
     animation: slideUp var(--anim-duration-base) var(--ease-smooth) forwards;
-}
-
-.hero-sub.is-typing::after {
-    content: '|';
-    margin-left: 0.12em;
-    color: hsl(var(--primary));
-    animation: terminalCaretBlink 0.9s steps(1, end) infinite;
-}
-
-.section-title.is-scrambling {
-    text-shadow: 0 0 12px hsl(var(--primary) / 0.28);
-    filter: saturate(1.08);
 }
 
 body.motion-ready .motion-section .reveal {
