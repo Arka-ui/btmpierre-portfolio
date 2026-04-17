@@ -1110,16 +1110,7 @@
     <!-- Main Script Module -->
     <script type="module" src="js/main.js?v=3.9"></script>
 
-    <script>
-        // Force copyright reference 
-        document.addEventListener("DOMContentLoaded", () => {
-            const cp = document.getElementById("copyright-text");
-            if(!cp || !cp.innerHTML.includes("Handcrafted with AI and ❤")) {
-                console.error("Copyright format has been tampered with. Please report to arka.riftmc.net");
-                document.body.innerHTML = "<div style='display:flex; height:100vh; align-items:center; justify-content:center; color:white; font-family: monospace; text-align:center;'><h2>Copyright violation. Restore the original footer credits. Made by Arka - arka.riftmc.net</h2></div>";
-            }
-        });
-    </script>
+    <!-- Attribution, if required, should remain as normal markup and be enforced via project policy or build checks, not by rewriting the DOM at runtime. -->
 
 <a href="#" class="back-to-top" aria-label="Retour en haut" data-i18n-aria-label="common.backToTop">↑</a>
 </body>
