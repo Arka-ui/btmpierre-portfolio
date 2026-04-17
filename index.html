@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <link rel="apple-touch-icon" href="assets/logo.svg">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#7042f8">
     <meta name="description"
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop."
         data-i18n-content="meta.description">
@@ -17,16 +15,16 @@
     <meta property="og:title" content="Pierre | Développeur Créatif">
     <meta property="og:description"
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.jpg">
-    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.jpg">
-    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.svg">
+    <meta property="og:image:secure_url" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.svg">
+    <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Pierre | Développeur Créatif">
     <meta name="twitter:description"
         content="Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.jpg">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/nexos20lv/nexos20lv.github.io/main/assets/og-image.svg">
     <meta name="twitter:image:alt" content="Aperçu du portfolio de Pierre Bouteman">
 
     <!-- Security Policy (meta fallback). Real security headers must be set by the HTTP server. -->
@@ -92,18 +90,7 @@
     <!-- Reading Progress Bar -->
     <div id="reading-progress"></div>
 
-    <!-- Loader -->
-    <div id="loader">
-        <div class="loader-content">
-            <div class="loader-terminal">
-                <div class="terminal-line mono" data-i18n="loader.init">> INITIALISATION DU SYSTÈME...</div>
-                <div id="loader-logs" class="mono"></div>
-            </div>
-            <div class="loader-bar-container">
-                <div class="loader-bar"></div>
-            </div>
-        </div>
-    </div>
+    <!-- Removed Loader as per user request -->
 
     <!-- Custom Cursor -->
     <div class="cursor-dot" id="cursorDot"></div>
@@ -200,11 +187,10 @@
         <section class="hero">
             <div class="hero-blur-shape" aria-hidden="true"></div>
             <div class="hero-content">
-                <div class="hero-tag reveal" id="hero-availability" role="status" aria-live="polite" aria-atomic="true">
-                    <i class="bi bi-arrow-repeat spin sparkle"></i>
-                    <span data-i18n="hero.status.loading">Synchronisation du statut...</span>
+                <div class="hero-tag reveal shimmer" id="hero-availability" role="status" aria-live="polite" aria-atomic="true">
+                    <span data-i18n="hero.status.loading" style="visibility: hidden;">Synchronisation du statut...</span>
                 </div>
-                <div class="hero-tag reveal" id="live-visitors" aria-live="polite" style="display:none">
+                <div class="hero-tag reveal" id="live-visitors" aria-live="polite">
                     <i class="bi bi-people-fill sparkle"></i>
                     <span id="live-visitors-text" data-i18n="visitors.loading">Visiteurs en ligne: ...</span>
                 </div>
@@ -221,6 +207,8 @@
                             data-i18n="hero.cta.projects">Voir les projets</span></a>
                     <a href="#contact" class="btn btn-secondary"><i class="bi bi-chat-dots-fill"></i> <span
                             data-i18n="hero.cta.contact">Me contacter</span></a>
+                    <button type="button" class="btn btn-secondary" id="quick-tour-btn"><i class="bi bi-lightning-charge-fill"></i> <span
+                        data-i18n="hero.cta.tour">Voir en 30 secondes</span></button>
                 </div>
             </div>
         </section>
@@ -259,7 +247,7 @@
         <section id="about" class="section container">
             <div class="bio-grid">
                 <div class="reveal">
-                    <span class="section-tag reveal"><i class="bi bi-person-fill sparkle"></i> <span data-i18n="sections.about.tag">01 / À PROPOS</span></span>
+                    <span class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.about.tag">01 / À PROPOS</span></span>
                     <p class="section-seo" data-i18n="seo.about">Développeur full-stack en France, je conçois des
                         applications web et desktop robustes, maintenables et orientées performance.</p>
                     <p class="big-text">
@@ -338,7 +326,7 @@
 
         <!-- Skills Section -->
         <section id="skills" class="section container">
-            <span class="section-tag reveal"><i class="bi bi-code-square sparkle"></i> <span data-i18n="sections.skills.tag">02 / COMPÉTENCES</span></span>
+            <span class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.skills.tag">02 / COMPÉTENCES</span></span>
             <h2 class="section-title reveal" data-i18n="sections.skills.title">Mes compétences</h2>
             <p class="section-seo reveal" data-i18n="seo.skills">Stack technique organisée par domaine, avec un niveau honnête pour chaque outil — basé sur mes projets réels.</p>
 
@@ -492,74 +480,11 @@
                         </li>
                     </ul>
                 </div>
-                <!-- Currently Learning -->
-                <div class="skills-category glass-panel reveal">
-                    <div class="skills-category-header">
-                        <i class="bi bi-lightning-charge-fill"></i>
-                        <h3 data-i18n="sections.skills.learning">En cours d'apprentissage</h3>
-                    </div>
-                    <ul class="skills-list learning-list" role="list">
-                        <li class="skill-row learning-item reveal" style="--skill-idx:0">
-                            <div class="skill-row-top">
-                                <i class="devicon-typescript-plain colored skill-icon"></i>
-                                <span class="skill-name">TypeScript</span>
-                                <span class="skill-badge level-learning" data-i18n="skills.learning.active">En cours</span>
-                            </div>
-                        </li>
-                        <li class="skill-row learning-item reveal" style="--skill-idx:1">
-                            <div class="skill-row-top">
-                                <i class="devicon-rust-plain skill-icon"></i>
-                                <span class="skill-name">Rust</span>
-                                <span class="skill-badge level-learning" data-i18n="skills.learning.exploring">Exploration</span>
-                            </div>
-                        </li>
-                        <li class="skill-row learning-item reveal" style="--skill-idx:2">
-                            <div class="skill-row-top">
-                                <i class="devicon-kubernetes-plain colored skill-icon"></i>
-                                <span class="skill-name">Kubernetes</span>
-                                <span class="skill-badge level-learning" data-i18n="skills.learning.basics">Bases</span>
-                            </div>
-                        </li>
-                        <li class="skill-row learning-item reveal" style="--skill-idx:3">
-                            <div class="skill-row-top">
-                                <i class="devicon-nextjs-plain skill-icon"></i>
-                                <span class="skill-name">Next.js</span>
-                                <span class="skill-badge level-learning" data-i18n="skills.learning.active">En cours</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="skills-legend glass-panel reveal" role="note" aria-label="Légende des niveaux de compétences" data-i18n-aria-label="skills.legend.aria">
-                <p class="skills-legend-title" data-i18n="skills.legend.title">Légende des niveaux</p>
-                <div class="skills-legend-items" role="list">
-                    <div class="skills-legend-item" role="listitem">
-                        <span class="skill-badge level-expert" data-i18n="skills.levels.expert">Expert</span>
-                        <span class="skills-legend-text" data-i18n="skills.legendDesc.expert">Autonome sur des projets complexes, bonnes pratiques solides.</span>
-                    </div>
-                    <div class="skills-legend-item" role="listitem">
-                        <span class="skill-badge level-advanced" data-i18n="skills.levels.advanced">Avancé</span>
-                        <span class="skills-legend-text" data-i18n="skills.legendDesc.advanced">Production régulière, architecture et debug maîtrisés.</span>
-                    </div>
-                    <div class="skills-legend-item" role="listitem">
-                        <span class="skill-badge level-intermediate" data-i18n="skills.levels.intermediate">Intermédiaire</span>
-                        <span class="skills-legend-text" data-i18n="skills.legendDesc.intermediate">Utilisable en projet, besoin ponctuel de documentation.</span>
-                    </div>
-                    <div class="skills-legend-item" role="listitem">
-                        <span class="skill-badge level-beginner" data-i18n="skills.levels.beginner">Débutant</span>
-                        <span class="skills-legend-text" data-i18n="skills.legendDesc.beginner">Bases acquises, en progression active.</span>
-                    </div>
-                    <div class="skills-legend-item" role="listitem">
-                        <span class="skill-badge level-learning" data-i18n="skills.levels.learning">Apprentissage</span>
-                        <span class="skills-legend-text" data-i18n="skills.legendDesc.learning">Technologie en cours d'exploration ou de montée en compétence.</span>
-                    </div>
-                </div>
             </div>
         </section>
 
         <section id="experience" class="section container">
-            <div class="section-tag reveal"><i class="bi bi-briefcase-fill sparkle"></i> <span data-i18n="sections.experience.tag">03 / EXPÉRIENCE</span></div>
+            <div class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.experience.tag">02 / EXPÉRIENCE</span></div>
             <h2 class="section-title reveal" data-i18n="sections.experience.title">Mon parcours</h2>
             <p class="section-seo reveal" data-i18n="seo.experience">Parcours orienté ingénierie logicielle,
                 architecture d'applications, livraison continue et projets concrets en environnement réel.</p>
@@ -639,7 +564,7 @@
 
         <section id="projects" class="section container">
             <div class="section-header reveal">
-                <span class="section-tag reveal"><i class="bi bi-grid-fill sparkle"></i> <span data-i18n="sections.projects.tag">04 / PROJETS</span></span>
+                <span class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.projects.tag">03 / PROJETS</span></span>
                 <h2 class="section-title" data-i18n="sections.projects.title">Ce que j'ai construit</h2>
                 <p class="section-seo" data-i18n="seo.projects">Sélection de projets web, desktop et outils dev avec
                     focus UX, performance, observabilité et qualité de code.</p>
@@ -897,11 +822,6 @@
                     </article>
                 </div>
 
-                <div class="carousel-nav" role="group" aria-label="Navigation du carrousel" data-i18n-aria-label="projects.carousel.navAria">
-                    <button class="nav-btn" id="carousel-prev" aria-label="Projet précédent" data-i18n-aria-label="projects.carousel.prev"><i class="bi bi-chevron-left"></i></button>
-                    <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Projets"></div>
-                    <button class="nav-btn" id="carousel-next" aria-label="Projet suivant" data-i18n-aria-label="projects.carousel.next"><i class="bi bi-chevron-right"></i></button>
-                </div>
             </div>
         </section>
 
@@ -943,7 +863,7 @@
 
         <section id="contact" class="footer-cta container">
             <div class="contact-inner reveal">
-                <span class="section-tag reveal"><i class="bi bi-envelope-at-fill sparkle"></i> <span data-i18n="sections.contact.tag">05 / CONTACT</span></span>
+                <span class="section-tag reveal"><i class="bi bi-stars sparkle"></i> <span data-i18n="sections.contact.tag">04 / CONTACT</span></span>
                 <h2 class="section-title" data-i18n="contact.title">Un projet en tête ?</h2>
                 <p class="section-seo" data-i18n="seo.contact">Disponible pour collaborations web/desktop,
                     optimisation produit, automatisation et maintenance d'applications existantes.</p>
@@ -1015,12 +935,12 @@
                             <img src="assets/logo.svg" alt="Pierre Bouteman" height="22" width="auto" loading="lazy" decoding="async">
                             <span class="site-footer-name">Pierre Bouteman</span>
                         </div>
-                        <p class="site-footer-copy" data-i18n-html="footer.copyright">© 2026 Pierre Bouteman. Fait main avec <span class="footer-heart">❤</span> et du code.</p>
+                        <p class="site-footer-copy" id="copyright-text">© 2026 Pierre Bouteman. Handcrafted with AI and ❤.</p>
                         <div class="site-footer-actions">
+                            <a href="https://arka.riftmc.net" target="_blank" rel="noopener noreferrer" class="site-footer-icon" title="Made by Arka" aria-label="Made by Arka"><i class="bi bi-palette-fill"></i></a>
                             <a href="https://github.com/nexos20lv" target="_blank" rel="noopener noreferrer" class="site-footer-icon" aria-label="GitHub"><i class="bi bi-github"></i></a>
                             <a href="https://discord.com/users/1288079115248992297" target="_blank" rel="noopener noreferrer" class="site-footer-icon" aria-label="Discord"><i class="bi bi-discord"></i></a>
                             <a href="mailto:pierre.bouteman@icloud.com" class="site-footer-icon" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
-                            <a href="https://buymeacoffee.com/nexos20" target="_blank" rel="noopener noreferrer" class="site-footer-icon" title="Buy Me A Coffee" data-i18n-title="donation.title" aria-label="Buy Me A Coffee">☕</a>
                         </div>
                     </div>
                 </footer>
@@ -1189,6 +1109,8 @@
 
     <!-- Main Script Module -->
     <script type="module" src="js/main.js?v=3.9"></script>
+
+    <!-- Attribution, if required, should remain as normal markup and be enforced via project policy or build checks, not by rewriting the DOM at runtime. -->
 
 <a href="#" class="back-to-top" aria-label="Retour en haut" data-i18n-aria-label="common.backToTop">↑</a>
 </body>

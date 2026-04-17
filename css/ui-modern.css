@@ -1,18 +1,6 @@
-/* ================================================
- * MODERN UI SYSTEM - Ultra-Modern Interface Design
- *
- * This file contains modern UI enhancements:
- * - Advanced input field designs
- * - Modern form validation
- * - Button state animations
- * - Section dividers
- * - Visual hierarchy improvements
- * - Premium micro-interactions
- * ================================================ */
+/* Modern UI System */
 
-/* ──────────────────────────────────────────
- * MODERN INPUT FIELD SYSTEM
- * ────────────────────────────────────────── */
+/* Modern Input Field System */
 
 .form-group {
     position: relative;
@@ -143,15 +131,29 @@
     min-height: 180px;
 }
 
-/* ──────────────────────────────────────────
- * MODERN BUTTON STATES
- * ────────────────────────────────────────── */
+/* Modern Button States */
 
 .btn {
     position: relative;
     overflow: hidden;
     transition: all 0.3s var(--ease-smooth);
     will-change: transform, box-shadow;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px; /* Comfortable tap target */
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        min-height: 56px; /* Larger tap target for fingers */
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
 }
 
 /* Loading State */
@@ -190,9 +192,7 @@
     animation: popIn 0.5s var(--ease-bounce);
 }
 
-/* ──────────────────────────────────────────
- * SECTION DIVIDERS & SEPARATORS
- * ────────────────────────────────────────── */
+/* Section Dividers & Separators */
 
 .section-divider {
     position: relative;
@@ -242,9 +242,7 @@
     border: none;
 }
 
-/* ──────────────────────────────────────────
- * ENHANCED CARD ELEVATION
- * ────────────────────────────────────────── */
+/* Enhanced Card Elevation */
 
 .card-elevated {
     position: relative;
@@ -306,9 +304,7 @@
     box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
 }
 
-/* ──────────────────────────────────────────
- * MODERN BADGE SYSTEM
- * ────────────────────────────────────────── */
+/* Modern Badge System */
 
 .badge-modern {
     display: inline-flex;
@@ -366,9 +362,7 @@
     border: 1.5px solid rgba(112, 66, 248, 0.4);
 }
 
-/* ──────────────────────────────────────────
- * VISUAL HIERARCHY IMPROVEMENTS
- * ────────────────────────────────────────── */
+/* Visual Hierarchy */
 
 .text-label {
     font-size: 0.75rem;
@@ -397,9 +391,7 @@
     font-weight: 500;
 }
 
-/* ──────────────────────────────────────────
- * PROGRESS INDICATORS
- * ────────────────────────────────────────── */
+/* Progress Indicators */
 
 .progress-bar {
     width: 100%;
@@ -440,9 +432,7 @@
     box-shadow: 0 0 20px rgba(112, 66, 248, 0.3);
 }
 
-/* ──────────────────────────────────────────
- * MODERN FOOTER SYSTEM
- * ────────────────────────────────────────── */
+/* Modern Footer System */
 
 footer {
     background: linear-gradient(

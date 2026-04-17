@@ -8,14 +8,15 @@
     --space-purple:       #7042f8;
     --space-purple-light: #b49bff;
     --space-purple-pale:  #e2d9f3;
-    --space-cyan:         #06b6d4;   /* replaces pink accent */
-    --space-border:       #2A0E61;   /* card border from space-portfolio */
+    /* Closer harmony color instead of faraway cyan */
+    --space-magenta:      #d946ef;   
+    --space-border:       var(--space-purple);
 
     /* Aliases for backwards-compat with components */
     --violet:         var(--space-purple);
     --violet-light:   var(--space-purple-light);
     --violet-pale:    var(--space-purple-pale);
-    --accent:         var(--space-cyan);
+    --accent:         var(--space-magenta);
 
     --text-main:  #e2d9f3;
     --text-muted: #9ca3af;   /* gray-400 — matches space-portfolio */
@@ -31,20 +32,39 @@
 
     --primary:      var(--space-purple);
     --primary-glow: var(--glow);
-    --secondary:    var(--space-cyan);
+    --secondary:    var(--space-magenta);
 
-    /* Fonts */
-    --font-main:    'DM Mono', monospace;
+    /* Fonts & Typography Variables */
     --font-heading: 'Syne', sans-serif;
+    --font-main:    'DM Mono', monospace;
     --font-mono:    'DM Mono', monospace;
 
-    /* Spacing scale */
+    /* Text Sizes & Weights */
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.25rem;
+    --text-2xl:  1.5rem;
+    --text-3xl:  2rem;
+    --text-title: clamp(3.5rem, 8vw, 7rem);
+    
+    --weight-light: 300;
+    --weight-normal: 400;
+    --weight-medium: 500;
+    --weight-bold: 700;
+    --weight-black: 800;
+
+    /* Layout & Margin Space Variables */
     --space-1: 0.25rem;
     --space-2: 0.5rem;
     --space-3: 0.75rem;
     --space-4: 1rem;
     --space-5: 1.25rem;
     --space-6: 1.5rem;
+    --space-7: 2rem;
+    --space-8: 3rem;
+    --space-content: 5rem;
 
     /* Radius scale */
     --radius-sm:   8px;
@@ -53,19 +73,23 @@
     --radius-xl:   20px;
     --radius-pill: 999px;
 
-    /* Type scale */
-    --text-sm:   0.875rem;
-    --text-base: 1rem;
-    --text-lg:   1.125rem;
-
-    /* Motion */
+    /* Motion & Interactions */
     --ease-smooth:      cubic-bezier(0.2, 0.8, 0.2, 1);
     --ease-bounce:      cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-sharp:       cubic-bezier(0.4, 0, 0.6, 1);
-    --transition-fast:  0.2s;
-    --transition-base:  0.3s;
+    
+    --duration-fast:    0.2s;
+    --duration-base:    0.3s;
+    --duration-slow:    0.6s;
+    --duration-tour:    1.2s;
+    
+    --transition-fast:  var(--duration-fast) var(--ease-smooth);
+    --transition-base:  var(--duration-base) var(--ease-smooth);
 
-    /* Elevation & Glass system — space theme */
+    /* Motion */
+    /* Handled above */
+
+    /* Elevation & Glass system */
     --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     --shadow-md:   0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
@@ -91,12 +115,12 @@
     --card-shadow-hover:   0 0 30px rgba(112, 66, 248, 0.3), 0 20px 60px rgba(42, 14, 97, 0.5);
     --card-border-gradient: linear-gradient(135deg, rgba(112, 66, 248, 0.3), transparent 40%, rgba(112, 66, 248, 0.1) 60%, rgba(112, 66, 248, 0.3));
 
-    /* Modern gradient overlays */
-    --gradient-primary:   linear-gradient(135deg, var(--space-purple) 0%, var(--space-cyan) 100%);
-    --gradient-hover:     linear-gradient(135deg, var(--space-purple-light) 0%, var(--space-cyan) 100%);
+    /* Gradient overlays */
+    --gradient-primary:   linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    --gradient-hover:     linear-gradient(135deg, var(--violet-light) 0%, var(--secondary) 100%);
 }
 
-/* Reset & Base */
+/* Base resets */
 * {
     margin: 0;
     padding: 0;
@@ -213,9 +237,6 @@ a {
     font-family: var(--font-mono);
 }
 
-/* ─────────────────────────────────────────
- * WELCOME BOX  (space-portfolio frosted pill)
- * ───────────────────────────────────────── */
 .welcome-box {
     isolation: isolate;
     overflow: hidden;
@@ -249,7 +270,7 @@ a {
         rgba(255, 255, 255, 0.4),
         rgba(255, 255, 255, 0.4)
     ),
-    linear-gradient(90.01deg, #e59cff 0.01%, #ba9cff 50.01%, #9cb2ff 100%);
+    linear-gradient(90.01deg, var(--space-magenta) 0.01%, var(--space-purple-light) 50.01%, var(--space-purple-pale) 100%);
     background-blend-mode: normal, screen;
     -webkit-background-clip: text;
     background-clip: text;
@@ -264,95 +285,43 @@ a {
     filter: drop-shadow(0 0 6px rgba(180, 155, 255, 0.8));
 }
 
-/* ----------------
- * Enhanced Loader (Terminal Style)
- * ---------------- */
-#loader {
-    position: fixed;
-    inset: 0;
-    background: #030014;
-    z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
-}
-
-.loader-content {
-    width: 90%;
-    max-width: 500px;
-}
-
-.loader-terminal {
-    background: rgba(3, 0, 20, 0.6);
-    border: 1px solid rgba(112, 66, 248, 0.25);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+/* Shimmer Loading base components */
+.shimmer {
     position: relative;
     overflow: hidden;
-    text-align: left;
+    background-color: var(--surface);
+    border-radius: var(--radius-sm);
 }
 
-.loader-terminal::after {
-    content: '';
+.shimmer::after {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(transparent, rgba(112, 66, 248, 0.04) 50%, transparent);
-    animation: scanline 4s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes scanline {
-    from { transform: translateY(-100%); opacity: 0.8; }
-    to   { transform: translateY(100%); opacity: 0; }
-}
-
-.terminal-line {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--space-purple-light);
-    opacity: 0;
-    transform: translateY(5px);
-    animation: lineFadeIn 0.3s forwards;
-}
-
-@keyframes lineFadeIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.loader-bar-container {
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 100px;
-    overflow: hidden;
-}
-
-.loader-bar {
-    width: 0%;
     height: 100%;
-    background: linear-gradient(to right, var(--space-purple), var(--space-cyan));
-    transition: width 0.3s ease;
+    content: '';
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-100%);
+    animation: shimmer-load 2s infinite;
 }
 
-#loader.fade-out {
-    opacity: 0;
-    visibility: hidden;
+@keyframes shimmer-load {
+    100% {
+        transform: translateX(100%);
+    }
 }
 
-/* ----------------
- * Custom Cursor
- * ---------------- */
+/* Custom Cursor */
 .cursor-dot {
     position: fixed; top: 0; left: 0; z-index: 9999;
     pointer-events: none;
     width: 8px; height: 8px; border-radius: 50%;
-    background: var(--space-cyan);
+    background: var(--secondary);
     transform: translate(-50%, -50%);
     transition: transform .1s;
     will-change: transform;
@@ -515,7 +484,7 @@ nav {
     left: 0;
     height: 3px;
     width: 0%;
-    background: linear-gradient(to right, var(--space-purple), var(--space-cyan));
+    background: var(--gradient-primary);
     z-index: 1002;
     pointer-events: none;
     transition: width 0.1s linear;
@@ -607,9 +576,9 @@ nav {
     padding: 0 2rem;
 }
 
-/* Hero h1 — gradient text from purple to cyan */
+/* Hero h1 */
 .hero h1 {
-    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-size: var(--text-title);
     line-height: 1.05;
     letter-spacing: -0.03em;
     font-family: var(--font-heading);
@@ -617,7 +586,7 @@ nav {
 }
 
 .hero h1 .glow-word {
-    background: linear-gradient(135deg, var(--space-purple-light) 0%, var(--space-cyan) 100%);
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

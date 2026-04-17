@@ -1,16 +1,5 @@
 /**
- * @module app
- * @description Main application bootstrap. Initializes all modules in dependency order:
- * 1. i18n + language switching
- * 2. Loader animation + performance/accessibility modes
- * 3. Scroll, lazy-loading, web vitals, custom cursor
- * 4. Discord realtime + visitor count
- * 5. Projects UI (GitHub stats deferred)
- * 6. Terminal + project search (deferred via runWhenIdle)
- * 7. Contact form + quick guided tour
- *
- * Entry: js/main.js → js/app.js
- * Heavy initialization is deferred with runWhenIdle() to keep TTI low.
+ * Main application bootstrap. Initializes all modules sequentially.
  */
 
 import { i18n } from './i18n.js';
@@ -33,12 +22,9 @@ import { initContactForm } from './modules/contact-form.js';
 import { initProjectSearchUI } from './modules/project-search-ui.js';
 import { initProjectsUI } from './modules/projects-ui.js';
 import {
-    initLoader,
     initCustomCursor,
     initScrollRevealAndNavSpy,
-    initHeroSubtitleTypewriter,
     initMotionEnhancements,
-    initSectionTitleScramble,
     initTiltEffect,
     initHeaderScroll,
     initReadingProgress,
@@ -52,15 +38,14 @@ import { initLazyImages } from './modules/lazy-images.js';
 import { initWebVitals } from './modules/web-vitals.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Basic clickjacking defense. try/catch needed: cross-origin sandboxed iframes
-    // throw SecurityError on .top access. frame-ancestors 'none' in CSP is the real guard.
+    // Basic cross-origin frame defense
     try {
         if (window.self !== window.top) {
             window.top.location = window.self.location;
         }
     } catch (_) { /* cross-origin frame — CSP frame-ancestors handles this */ }
 
-    // ── SPACE STAR BACKGROUND ──
+    // Initialize space background
     let starsInstance = null;
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         starsInstance = new SpaceStars('star-canvas');
@@ -73,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLang = localStorage.getItem('portfolio-lang');
     if (!currentLang || !i18n[currentLang]) currentLang = fallbackLang;
     let lastDiscordStatus = null;
-    // Fonction globale pour forcer la mise à jour du badge Discord dans la bonne langue
+    // Update Discord badge in active language
     window.refreshDiscordStatusLang = function() {
         const statusNode = document.getElementById('discord-status-text');
         if (statusNode) {
@@ -85,15 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     let liveVisitorsCount = null;
-    // Pour le badge de statut via Supabase/BOT Discord
+    // Supabase status reference
     window.lastSupabaseStatus = null;
     const { openOverlay, closeOverlay } = createOverlayManager();
     let projectsUI = null;
 
-    /**
-     * Updates the hero live visitor counter element.
-     * @param {number} count - Non-integer or negative values show loading state.
-     */
+    // Update hero live visitor counter
     function renderLiveVisitorsCount(count) {
         const visitorsText = document.getElementById('live-visitors-text');
         if (!visitorsText) return;
@@ -105,24 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const key = count > 1 ? 'visitors.plural' : 'visitors.singular';
         visitorsText.textContent = t(key).replace('{count}', count);
-        const visitorsContainer = document.getElementById('live-visitors');
-        if (visitorsContainer) visitorsContainer.style.display = '';
     }
 
-    /**
-     * Translates a dot-notation i18n key. Falls back: currentLang → fr → key itself.
-     * @param {string} key - e.g. 'hero.title.prefix'
-     * @returns {string}
-     */
+    // Translate key to string in active language
     function t(key) {
         return getNested(i18n[currentLang], key) ?? getNested(i18n[fallbackLang], key) ?? key;
     }
 
-    /**
-     * Applies a language to all i18n-bound DOM elements and persists the choice.
-     * Handles: textContent, sanitized HTML, content/aria-label/placeholder attributes.
-     * @param {string} lang - 'fr' | 'en'
-     */
+    // Apply language to all elements
     function applyLanguage(lang) {
         if (!i18n[lang]) return;
 
@@ -134,37 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.toggle('active', button.dataset.lang === currentLang);
         });
 
-        const translatedTitle = t('meta.title');
-        if (translatedTitle) {
-            document.title = translatedTitle;
-        }
-
-        const translatedDescription = t('meta.description');
-        if (translatedDescription) {
-            const descriptionMeta = document.querySelector('meta[name="description"]');
-            const ogTitleMeta = document.querySelector('meta[property="og:title"]');
-            const ogDescriptionMeta = document.querySelector('meta[property="og:description"]');
-            const twitterTitleMeta = document.querySelector('meta[name="twitter:title"]');
-            const twitterDescriptionMeta = document.querySelector('meta[name="twitter:description"]');
-
-            descriptionMeta?.setAttribute('content', translatedDescription);
-            ogDescriptionMeta?.setAttribute('content', translatedDescription);
-            twitterDescriptionMeta?.setAttribute('content', translatedDescription);
-
-            if (translatedTitle) {
-                ogTitleMeta?.setAttribute('content', translatedTitle);
-                twitterTitleMeta?.setAttribute('content', translatedTitle);
-            }
-        }
-
         document.querySelectorAll('[data-i18n]').forEach((element) => {
             element.textContent = t(element.dataset.i18n);
         });
 
         document.querySelectorAll('[data-i18n-html]').forEach((element) => {
             const raw = t(element.dataset.i18nHtml);
-            // DOM-based sanitizer: only allows safe tags and attributes.
-            // <template>.content is an inert fragment — no script execution or network requests.
+            // Simple DOM sanitizer for translated HTML
             const ALLOWED_TAGS = new Set(['STRONG', 'EM', 'SPAN', 'BR', 'A']);
             const ALLOWED_ATTRS = { A: ['href'] };
 
@@ -217,10 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        // Rafraîchit le badge Discord dans la bonne langue
+        // Refresh discord status components
         window.refreshDiscordStatusLang();
 
-        // Rafraîchit le badge de statut via Supabase/BOT Discord dans la bonne langue
         if (window.lastSupabaseStatus && window.applyStatusToUI) {
             window.applyStatusToUI(window.lastSupabaseStatus);
         }
@@ -270,11 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Sets up the 30-second portfolio tour button.
-     * Tour: projects section → 3 featured modals → contact section.
-     * Skip button resolves the current wait promise immediately.
-     */
+    // Setup the 30-second tour button
     function initQuickGuidedTour() {
         const quickTourBtn = document.getElementById('quick-tour-btn');
         const projectsSection = document.getElementById('projects');
@@ -374,7 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
     applyLanguage(currentLang);
 
     // Core UI effects
-    initLoader(t);
     initPerformanceMode(
         document.getElementById('perfToggle'),
         shouldAutoEnablePerfMode(config.perf)
@@ -408,8 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     initScrollRevealAndNavSpy();
-    initHeroSubtitleTypewriter();
-    initSectionTitleScramble();
     initMotionEnhancements();
     initTiltEffect();
     initHeaderScroll();
@@ -474,10 +414,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
 
     console.log('System Initialized: Ultra Modern Portfolio V3');
-
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-        });
-    }
 });

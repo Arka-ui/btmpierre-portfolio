@@ -71,7 +71,7 @@ export function initProjectsUI({
         return response?.status === 403 || message.includes('api rate limit exceeded');
     }
 
-    function createGitHubRateLimitBadge(text = t('github.rateLimited')) {
+    function createGitHubRateLimitBadge(text = 'API rate limited') {
         const badge = document.createElement('div');
         badge.className = 'gh-api-badge';
         badge.textContent = text;
@@ -259,7 +259,7 @@ export function initProjectsUI({
 
             badge.dataset.status = statusKey;
             badge.textContent = getProjectStatusLabel(statusKey);
-            badge.setAttribute('aria-label', t('projects.statusAria').replace('{status}', badge.textContent));
+            badge.setAttribute('aria-label', `Status: ${badge.textContent}`);
 
             let buildBadge = card.querySelector('.project-build-badge');
             if (!buildBadge) {
@@ -369,7 +369,7 @@ export function initProjectsUI({
             if (modalQuality) {
                 const latestRun = Array.isArray(runsPayload?.workflow_runs) ? runsPayload.workflow_runs[0] : null;
                 const ciValue = latestRun
-                    ? (latestRun.conclusion === 'success' ? t('projects.quality.passing') : (latestRun.conclusion || latestRun.status || '--'))
+                    ? (latestRun.conclusion === 'success' ? 'passing' : (latestRun.conclusion || latestRun.status || '--'))
                     : '--';
                 const ciTone = latestRun?.conclusion === 'success' ? 'ok' : (latestRun ? 'warn' : 'neutral');
 
@@ -401,14 +401,14 @@ export function initProjectsUI({
             starsDiv.className = 'gh-modal-stat';
             starsDiv.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>';
             const starsSpan = document.createElement('span');
-            starsSpan.textContent = `${repoData.stargazers_count} ${t('github.starsUnit')}`;
+            starsSpan.textContent = `${repoData.stargazers_count} stars`;
             starsDiv.appendChild(starsSpan);
 
             const forksDiv = document.createElement('div');
             forksDiv.className = 'gh-modal-stat';
             forksDiv.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.2 13.3l-6.2-1.3V3c0-.6-.4-1-1-1S10 2.4 10 3v9l-6.2 1.3c-.6.1-1 .7-.9 1.3.1.6.7 1 1.3.9l5.8-1.2v5.6l-2.3 2.3c-.4.4-.4 1 0 1.4s1 .4 1.4 0l1.9-1.9 1.9 1.9c.4.4 1 .4 1.4 0s.4-1 0-1.4l-2.3-2.3v-5.6l5.8 1.2c.6.1 1.2-.3 1.3-.9.1-.6-.3-1.2-.9-1.3z"/></svg>';
             const forksSpan = document.createElement('span');
-            forksSpan.textContent = `${repoData.forks_count} ${t('github.forksUnit')}`;
+            forksSpan.textContent = `${repoData.forks_count} forks`;
             forksDiv.appendChild(forksSpan);
 
             metaStats.append(starsDiv, forksDiv);
@@ -540,60 +540,8 @@ export function initProjectsUI({
         const starsEl = document.getElementById('gh-stars');
         const langBar = document.getElementById('gh-lang-bar');
         const langLabels = document.getElementById('gh-lang-labels');
-        const githubCard = document.querySelector('.github-card');
 
         if (!reposEl) return;
-
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const isPerfMode = document.body.classList.contains('perf-mode');
-        const shouldAnimateCounters = !prefersReducedMotion && !isPerfMode;
-        let cardVisible = !githubCard || !('IntersectionObserver' in window);
-        let countersAnimated = false;
-        let pendingCounters = null;
-
-        const animateCounter = (element, targetValue, duration = 1000) => {
-            if (!element) return;
-
-            const safeTarget = Math.max(0, Math.floor(Number(targetValue) || 0));
-            if (!shouldAnimateCounters) {
-                element.textContent = String(safeTarget);
-                return;
-            }
-
-            const start = performance.now();
-            const tick = (now) => {
-                const progress = Math.min(1, (now - start) / duration);
-                const eased = 1 - ((1 - progress) ** 3);
-                element.textContent = String(Math.round(safeTarget * eased));
-
-                if (progress < 1) {
-                    requestAnimationFrame(tick);
-                }
-            };
-
-            element.textContent = '0';
-            requestAnimationFrame(tick);
-        };
-
-        const playCountersIfReady = () => {
-            if (countersAnimated || !cardVisible || !pendingCounters) return;
-            countersAnimated = true;
-            animateCounter(reposEl, pendingCounters.repos, 900);
-            animateCounter(starsEl, pendingCounters.stars, 1200);
-        };
-
-        if (githubCard && 'IntersectionObserver' in window) {
-            const cardObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-                    cardVisible = true;
-                    playCountersIfReady();
-                    cardObserver.disconnect();
-                });
-            }, { threshold: 0.35, rootMargin: '0px 0px -8% 0px' });
-
-            cardObserver.observe(githubCard);
-        }
 
         try {
             const response = await fetch(`${config.endpoints.githubApi}/users/${username}/repos?per_page=100&sort=updated`);
@@ -612,11 +560,8 @@ export function initProjectsUI({
 
             if (!Array.isArray(reposPayload)) throw new Error('Invalid response');
 
-            pendingCounters = {
-                repos: reposPayload.length,
-                stars: reposPayload.reduce((acc, repo) => acc + repo.stargazers_count, 0)
-            };
-            playCountersIfReady();
+            reposEl.textContent = String(reposPayload.length);
+            starsEl.textContent = String(reposPayload.reduce((acc, repo) => acc + repo.stargazers_count, 0));
 
             const langMap = {};
             let hasRateLimitedLanguageRequest = false;
@@ -655,7 +600,7 @@ export function initProjectsUI({
             if (!totalBytes || topLangs.length === 0) {
                 const label = document.createElement('div');
                 label.className = 'gh-lang-label';
-                label.textContent = t('github.noLanguageData');
+                label.textContent = 'Aucune donnee de langage disponible';
                 langLabels.appendChild(label);
                 return;
             }
@@ -702,93 +647,11 @@ export function initProjectsUI({
         }
     }
 
-    function initCarouselDots() {
-        const track = document.querySelector('.carousel-track');
-        const dotsContainer = document.getElementById('carousel-dots');
-        const prevBtn = document.getElementById('carousel-prev');
-        const nextBtn = document.getElementById('carousel-next');
-        if (!track || !dotsContainer) return;
-
-        function getVisible() {
-            return Array.from(items).filter((el) => !el.classList.contains('project-hidden'));
-        }
-
-        function buildDots() {
-            dotsContainer.innerHTML = '';
-            getVisible().forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.type = 'button';
-                dot.className = 'carousel-dot';
-                dot.setAttribute('role', 'tab');
-                dot.setAttribute('aria-label', t('projects.carousel.dotAria').replace('{n}', String(i + 1)));
-                dot.addEventListener('click', () => scrollToItem(i));
-                dotsContainer.appendChild(dot);
-            });
-            updateActiveDot(0);
-        }
-
-        function updateActiveDot(index) {
-            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-                dot.setAttribute('aria-selected', String(i === index));
-            });
-        }
-
-        function scrollToItem(index) {
-            const visible = getVisible();
-            if (!visible[index]) return;
-            if (window.innerWidth <= 600) {
-                visible[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            }
-            updateActiveDot(index);
-        }
-
-        let currentDotIndex = 0;
-
-        prevBtn?.addEventListener('click', () => {
-            const count = getVisible().length;
-            currentDotIndex = (currentDotIndex - 1 + count) % count;
-            scrollToItem(currentDotIndex);
-        });
-
-        nextBtn?.addEventListener('click', () => {
-            const count = getVisible().length;
-            currentDotIndex = (currentDotIndex + 1) % count;
-            scrollToItem(currentDotIndex);
-        });
-
-        if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (!entry.isIntersecting) return;
-                    const visible = getVisible();
-                    const idx = visible.indexOf(entry.target);
-                    if (idx !== -1) {
-                        currentDotIndex = idx;
-                        updateActiveDot(idx);
-                    }
-                });
-            }, { root: track, threshold: 0.6 });
-
-            items.forEach((item) => observer.observe(item));
-        }
-
-        buildDots();
-
-        filterButtons.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                currentDotIndex = 0;
-                setTimeout(buildDots, 50);
-            });
-        });
-    }
-
     attachProjectInteractions();
     applyProjectStatusBadges();
     initClientModeFilter();
     applyClientFilter('all');
     updateHeroAvailability();
-    initCarouselDots();
 
     return {
         openModal,
