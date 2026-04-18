@@ -216,14 +216,14 @@ export const i18n = {
                     2: '<strong>Points clés :</strong> synchronisation réseau via ENet, comportements physiques personnalisés et boucle de jeu pensée pour le fun immédiat.'
                 }
             },
-            7: {
-                meta: 'APPLICATION DESKTOP',
-                title: 'Home Assistant Desktop',
-                repo: 'nexos20lv/Home-Assistant-Desktop',
-                desc: 'Client desktop dédié à Home Assistant avec capteurs PC et accès rapide.',
+            4: {
+                meta: 'FRONT-END',
+                title: 'Portfolio',
+                repo: 'nexos20lv/nexos20lv.github.io',
+                desc: 'Version actuelle de mon portfolio, pensée pour une expérience moderne et immersive.',
                 details: {
-                    1: 'Application desktop indépendante du navigateur pour piloter Home Assistant avec une interface fluide et une présence native (tray, raccourcis globaux).',
-                    2: '<strong>Fonctions :</strong> auto-updates, intégration des métriques machine (CPU, RAM, batterie, uptime) et workflow pensé pour un usage quotidien.'
+                    1: 'Site portfolio actuellement en production, conçu pour présenter mes projets avec une interface claire, un univers visuel fort et des interactions fluides.',
+                    2: '<strong>Focus :</strong> architecture front-end en HTML/CSS/JavaScript vanilla, animations sur-mesure, modales de présentation et design orienté performance.'
                 }
             },
             5: {
@@ -246,14 +246,14 @@ export const i18n = {
                     2: '<strong>Objectif :</strong> connecter rapidement l’univers web et le serveur Minecraft avec une configuration claire depuis l’admin panel.'
                 }
             },
-            4: {
-                meta: 'FRONT-END',
-                title: 'Portfolio',
-                repo: 'nexos20lv/nexos20lv.github.io',
-                desc: 'Version actuelle de mon portfolio, pensée pour une expérience moderne et immersive.',
+            7: {
+                meta: 'APPLICATION DESKTOP',
+                title: 'Home Assistant Desktop',
+                repo: 'nexos20lv/Home-Assistant-Desktop',
+                desc: 'Client desktop dédié à Home Assistant avec capteurs PC et accès rapide.',
                 details: {
-                    1: 'Site portfolio actuellement en production, conçu pour présenter mes projets avec une interface claire, un univers visuel fort et des interactions fluides.',
-                    2: '<strong>Focus :</strong> architecture front-end en HTML/CSS/JavaScript vanilla, animations sur-mesure, modales de présentation et design orienté performance.'
+                    1: 'Application desktop indépendante du navigateur pour piloter Home Assistant avec une interface fluide et une présence native (tray, raccourcis globaux).',
+                    2: '<strong>Fonctions :</strong> auto-updates, intégration des métriques machine (CPU, RAM, batterie, uptime) et workflow pensé pour un usage quotidien.'
                 }
             },
             8: {
@@ -264,6 +264,37 @@ export const i18n = {
                 details: {
                     1: 'Tableau de bord de supervision affichant CPU, RAM, disque, uptime, bande passante et latence avec actualisation périodique.',
                     2: '<strong>Approche :</strong> stack légère en PHP, métriques système collectées côté serveur et visualisation claire via graphiques interactifs.'
+                }
+            },
+            9: {
+                meta: 'APPLICATION WEB',
+                title: 'NexShare',
+                repo: 'nexos20lv/NexShare',
+                desc: 'Web app de transfert P2P avec code de session et QR code.',
+                details: {
+                    1: 'Application web de transfert direct de fichiers entre deux appareils, sans compte et sans stockage serveur, avec session éphémère et code de partage.',
+                    2: '<strong>Points clés :</strong> connexion P2P via WebRTC, QR code pour connexion rapide, interface responsive desktop/mobile et UX orientée simplicité.'
+                },
+                action: 'Voir l\'application'
+            },
+            10: {
+                meta: 'APPLICATION DESKTOP',
+                title: 'La Guerre Des Capsules Launcher',
+                repo: 'nexos20lv/La-Guerre-Des-Capsules-Launcher',
+                desc: 'Launcher dédié pour installer et lancer le jeu rapidement.',
+                details: {
+                    1: 'Compagnon desktop pour simplifier l\'accès au jeu, centraliser les fichiers utiles et fluidifier le démarrage côté utilisateur.',
+                    2: '<strong>Objectif :</strong> proposer une expérience d\'installation/lancement plus simple qu\'une configuration manuelle.'
+                }
+            },
+            11: {
+                meta: 'DISTRIBUTION JEU',
+                title: 'La Guerre Des Capsules DL',
+                repo: 'nexos20lv/La-Guerre-Des-Capsules-DL',
+                desc: 'Dépôt de distribution pour les builds et fichiers du projet.',
+                details: {
+                    1: 'Dépôt orienté téléchargement et distribution des livrables liés à La Guerre Des Capsules.',
+                    2: '<strong>Usage :</strong> centraliser les versions publiées et simplifier la récupération des fichiers pour les joueurs/testeurs.'
                 }
             }
         },
@@ -611,14 +642,14 @@ export const i18n = {
                     2: '<strong>Highlights:</strong> ENet networking synchronization, custom physics behaviors, and a gameplay loop designed for immediate fun.'
                 }
             },
-            7: {
-                meta: 'DESKTOP APP',
-                title: 'Home Assistant Desktop',
-                repo: 'nexos20lv/Home-Assistant-Desktop',
-                desc: 'Dedicated Home Assistant desktop client with PC sensors and quick access.',
+            4: {
+                meta: 'FRONT-END',
+                title: 'Portfolio',
+                repo: 'nexos20lv/nexos20lv.github.io',
+                desc: 'Current version of my portfolio, designed for a modern immersive experience.',
                 details: {
-                    1: 'Standalone desktop app to control Home Assistant with a smooth interface and native experience (tray, global shortcuts).',
-                    2: '<strong>Features:</strong> auto-updates, machine metrics integration (CPU, RAM, battery, uptime), and a workflow designed for daily use.'
+                    1: 'Production portfolio website designed to showcase my projects through a clear interface, strong visual identity, and fluid interactions.',
+                    2: '<strong>Focus:</strong> vanilla HTML/CSS/JavaScript front-end architecture, custom animations, presentation modals, and performance-oriented design.'
                 }
             },
             5: {
@@ -641,14 +672,14 @@ export const i18n = {
                     2: '<strong>Goal:</strong> quickly bridge the web experience and Minecraft server through a clear admin-side configuration.'
                 }
             },
-            4: {
-                meta: 'FRONT-END',
-                title: 'Portfolio',
-                repo: 'nexos20lv/nexos20lv.github.io',
-                desc: 'Current version of my portfolio, designed for a modern immersive experience.',
+            7: {
+                meta: 'DESKTOP APP',
+                title: 'Home Assistant Desktop',
+                repo: 'nexos20lv/Home-Assistant-Desktop',
+                desc: 'Dedicated Home Assistant desktop client with PC sensors and quick access.',
                 details: {
-                    1: 'Production portfolio website designed to showcase my projects through a clear interface, strong visual identity, and fluid interactions.',
-                    2: '<strong>Focus:</strong> vanilla HTML/CSS/JavaScript front-end architecture, custom animations, presentation modals, and performance-oriented design.'
+                    1: 'Standalone desktop app to control Home Assistant with a smooth interface and native experience (tray, global shortcuts).',
+                    2: '<strong>Features:</strong> auto-updates, machine metrics integration (CPU, RAM, battery, uptime), and a workflow designed for daily use.'
                 }
             },
             8: {
@@ -659,6 +690,37 @@ export const i18n = {
                 details: {
                     1: 'Monitoring dashboard displaying CPU, RAM, disk, uptime, bandwidth, and latency with periodic updates.',
                     2: '<strong>Approach:</strong> lightweight PHP stack, server-side system metrics collection, and clear visualization with interactive charts.'
+                }
+            },
+            9: {
+                meta: 'WEB APP',
+                title: 'NexShare',
+                repo: 'nexos20lv/NexShare',
+                desc: 'P2P file transfer web app with session code and QR support.',
+                details: {
+                    1: 'Web app for direct file transfer between two devices, without account and without server-side storage, using short-lived sessions and a share code.',
+                    2: '<strong>Highlights:</strong> WebRTC peer-to-peer connection, QR code for quick pairing, responsive desktop/mobile interface, and a simplicity-first UX.'
+                },
+                action: 'Open app'
+            },
+            10: {
+                meta: 'DESKTOP APP',
+                title: 'La Guerre Des Capsules Launcher',
+                repo: 'nexos20lv/La-Guerre-Des-Capsules-Launcher',
+                desc: 'Dedicated launcher to install and start the game quickly.',
+                details: {
+                    1: 'Desktop companion app designed to simplify game access, gather useful files, and streamline startup for players.',
+                    2: '<strong>Goal:</strong> provide a smoother install/start workflow than manual setup.'
+                }
+            },
+            11: {
+                meta: 'GAME DISTRIBUTION',
+                title: 'La Guerre Des Capsules DL',
+                repo: 'nexos20lv/La-Guerre-Des-Capsules-DL',
+                desc: 'Distribution repository for project builds and downloadable files.',
+                details: {
+                    1: 'Repository focused on download and distribution of deliverables related to La Guerre Des Capsules.',
+                    2: '<strong>Usage:</strong> centralize published versions and make file retrieval easier for players and testers.'
                 }
             }
         },

@@ -6,8 +6,8 @@
  * Project data is defined in the projectData array inside this module.
  * GitHub API calls are deferred via runWhenIdle to keep initial render fast.
  *
- * To add a project: add an entry to projectData AND a .carousel-item card
- * in index.html with a matching data-index attribute.
+ * To add a project: add an i18n entry and a .carousel-item card.
+ * Cards are auto-sorted by i18n project id (projects.N.*).
  */
 
 /**
@@ -25,26 +25,51 @@ export function initProjectsUI({
     ring,
     languageColors
 }) {
-    const items = document.querySelectorAll('.carousel-item');
+    const carouselTrack = document.querySelector('.carousel-track');
+    if (carouselTrack) {
+        const cards = Array.from(carouselTrack.querySelectorAll('.carousel-item'));
+        cards.sort((a, b) => {
+            const aId = getProjectIdFromItem(a, 0);
+            const bId = getProjectIdFromItem(b, 0);
+            return aId - bId;
+        });
+        cards.forEach((card, index) => {
+            card.dataset.index = String(index);
+            carouselTrack.appendChild(card);
+        });
+    }
+
+    const items = Array.from(document.querySelectorAll('.carousel-item'));
     const filterButtons = document.querySelectorAll('.client-filter-btn');
     const modal = document.getElementById('project-modal');
     const closeModalBtn = modal?.querySelector('.close-modal');
     let activeIndex = 0;
 
-    const projectStatusByIndex = {
-        0: 'production',
+    const projectStatusById = {
         1: 'production',
-        2: 'archived',
-        3: 'production',
+        2: 'production',
+        3: 'archived',
         4: 'production',
-        5: 'testing',
-        6: 'production',
-        7: 'production'
+        5: 'production',
+        6: 'testing',
+        7: 'production',
+        8: 'production',
+        9: 'production',
+        10: 'archived',
+        11: 'archived'
     };
 
-    const projectBuildByIndex = {
-        5: true
+    const projectBuildById = {
+        6: true
     };
+
+    function getProjectIdFromItem(item, fallbackProjectId = 1) {
+        const titleI18nKey = item?.querySelector('.project-title')?.dataset?.i18n || '';
+        const match = titleI18nKey.match(/projects\.(\d+)\.title/);
+        if (!match) return fallbackProjectId;
+        const parsed = Number(match[1]);
+        return Number.isFinite(parsed) ? parsed : fallbackProjectId;
+    }
 
     function getProjectStatusLabel(statusKey) {
         return t(`projects.status.${statusKey}`);
@@ -135,8 +160,8 @@ export function initProjectsUI({
             return;
         }
 
-        const firstVisibleIndex = Number(visibleItems[0].dataset.index || 0);
-        activeIndex = firstVisibleIndex;
+        const firstVisibleIndex = items.indexOf(visibleItems[0]);
+        activeIndex = firstVisibleIndex >= 0 ? firstVisibleIndex : 0;
         markActiveItem(activeIndex);
     }
 
@@ -246,7 +271,8 @@ export function initProjectsUI({
         if (!items.length) return;
 
         items.forEach((card, index) => {
-            const statusKey = projectStatusByIndex[index] || 'creation';
+            const projectId = getProjectIdFromItem(card, index + 1);
+            const statusKey = projectStatusById[projectId] || 'creation';
             const metaNode = card.querySelector('.project-meta');
             if (!metaNode) return;
 
@@ -268,7 +294,7 @@ export function initProjectsUI({
                 badge.insertAdjacentElement('afterend', buildBadge);
             }
 
-            const isBuild = Boolean(projectBuildByIndex[index]);
+            const isBuild = Boolean(projectBuildById[projectId]);
             buildBadge.textContent = getProjectBuildLabel();
             buildBadge.style.display = isBuild ? 'inline-flex' : 'none';
         });
@@ -287,12 +313,13 @@ export function initProjectsUI({
         }
         openOverlay(modal, triggerElement, hideModal);
 
-        const projectData = i18n[getCurrentLang()].projects[index + 1];
         const item = items[index];
         if (!item) return;
+        const projectId = getProjectIdFromItem(item, index + 1);
+        const projectData = i18n[getCurrentLang()].projects[projectId];
         const title = projectData?.title || item.querySelector('.project-title')?.textContent || '';
         const meta = projectData?.meta || item.querySelector('.project-meta')?.textContent || '';
-        const statusKey = projectStatusByIndex[index] || 'creation';
+        const statusKey = projectStatusById[projectId] || 'creation';
         const repo = projectData?.repo;
 
         const detailsClone = item.querySelector('.hidden-details')?.cloneNode(true);
@@ -314,7 +341,7 @@ export function initProjectsUI({
         const modalBuild = document.getElementById('modal-build');
         if (modalBuild) {
             modalBuild.textContent = getProjectBuildLabel();
-            modalBuild.style.display = projectBuildByIndex[index] ? 'inline-flex' : 'none';
+            modalBuild.style.display = projectBuildById[projectId] ? 'inline-flex' : 'none';
         }
 
         const descContainer = document.getElementById('modal-desc');

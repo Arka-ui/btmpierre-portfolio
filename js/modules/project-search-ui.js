@@ -20,6 +20,13 @@ export function initProjectSearchUI({
     applyLanguage,
     toggleTerminal
 }) {
+        function resolveProjectCardIndex(projectId) {
+            const cards = Array.from(document.querySelectorAll('.carousel-item'));
+            const expectedI18nKey = `projects.${projectId}.title`;
+            const foundIndex = cards.findIndex((card) => card.querySelector('.project-title')?.dataset?.i18n === expectedI18nKey);
+            return foundIndex >= 0 ? foundIndex : Number(projectId) - 1;
+        }
+
     const searchModal = document.getElementById('search-modal');
     const searchInput = document.getElementById('projects-search');
     const resultsContainer = document.getElementById('search-results');
@@ -112,13 +119,13 @@ export function initProjectSearchUI({
 
             item.addEventListener('click', () => {
                 toggleSearch(false);
-                openModal(parseInt(project.id, 10) - 1, item);
+                openModal(resolveProjectCardIndex(project.id), item);
             });
             item.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
                     toggleSearch(false);
-                    openModal(parseInt(project.id, 10) - 1, item);
+                    openModal(resolveProjectCardIndex(project.id), item);
                 }
             });
             resultsContainer.appendChild(item);
@@ -197,7 +204,19 @@ export function initProjectSearchUI({
     }
 
     function getProjectIcon(id) {
-        const icons = { '1': '🎤', '2': '⚔️', '3': '💊', '4': '✨', '5': '🚀', '6': '🗺️', '7': '🏠', '8': '📊' };
+        const icons = {
+            '1': '🎤',
+            '2': '⚔️',
+            '3': '💊',
+            '4': '✨',
+            '5': '🚀',
+            '6': '🗺️',
+            '7': '🏠',
+            '8': '📊',
+            '9': '🔗',
+            '10': '🧩',
+            '11': '📦'
+        };
         return icons[id] || '📁';
     }
 }
