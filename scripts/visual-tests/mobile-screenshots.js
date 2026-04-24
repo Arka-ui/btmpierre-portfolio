@@ -21,7 +21,10 @@ const BASE_URL = 'http://localhost:8080';
 const OUTPUT_DIR = 'test-results/mobile';
 
 async function runMobileTests() {
-    const browser = await puppeteer.launch({ headless: 'new' });
+    const browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
 
     // Create output directory
@@ -89,5 +92,8 @@ async function runMobileTests() {
     }
 }
 
-// Run tests
-runMobileTests().catch(console.error);
+// Run tests — surface failures so CI actually fails instead of silently passing.
+runMobileTests().catch((err) => {
+    console.error(err);
+    process.exit(1);
+});

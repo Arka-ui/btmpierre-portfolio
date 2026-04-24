@@ -176,7 +176,10 @@ function updateBaseline(metrics) {
 async function main() {
     if (!fs.existsSync(RESULTS_DIR)) fs.mkdirSync(RESULTS_DIR, { recursive: true });
 
-    const browser = await puppeteer.launch({ headless: 'new' });
+    const browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     const pageErrors = [];
     page.on('console', (msg) => { if (msg.type() === 'error') pageErrors.push(msg.text()); });

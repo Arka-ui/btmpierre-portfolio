@@ -13,7 +13,10 @@ const BASE_URL = 'http://localhost:8080';
 const OUTPUT_DIR = 'test-results/desktop';
 
 async function runDesktopTests() {
-    const browser = await puppeteer.launch({ headless: 'new' });
+    const browser = await puppeteer.launch({
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
 
     // Create output directory
@@ -65,5 +68,8 @@ async function runDesktopTests() {
     }
 }
 
-// Run tests
-runDesktopTests().catch(console.error);
+// Run tests — surface failures so CI actually fails instead of silently passing.
+runDesktopTests().catch((err) => {
+    console.error(err);
+    process.exit(1);
+});
