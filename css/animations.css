@@ -398,19 +398,11 @@
     animation: marqueeScrollReverse 30s linear infinite;
 }
 
-/* Reveal Elements */
+/* Reveal Elements — the actual reveal timing lives in components.css
+   (.reveal / .reveal.visible) so there is a single source of truth.
+   Keep `will-change` here as a paint-optimization hint. */
 .reveal {
-    opacity: 0;
     will-change: opacity, transform;
-}
-
-.reveal.visible {
-    animation: slideUp var(--anim-duration-base) var(--ease-smooth) forwards;
-}
-
-body.motion-ready .motion-section .reveal {
-    transition: all var(--anim-duration-slow) var(--ease-smooth);
-    animation-delay: calc(var(--reveal-index, 0) * var(--anim-stagger-base));
 }
 
 /* Motion Stagger Class - Unified System */

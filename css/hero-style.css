@@ -58,18 +58,30 @@ header .container {
 
 header nav {
     position: sticky;
-    top: 0;
+    top: 8px;
     width: 100%;
-    margin-top: 12px;
-    padding: 14px 18px;
+    margin-top: 10px;
+    padding: 10px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-radius: 999px;
-    border: none;
-    background: hsl(var(--background) / 0.56);
-    backdrop-filter: blur(14px);
+    border: 1px solid hsl(var(--foreground) / 0.06);
+    background: hsl(var(--background) / 0.55);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    transition: padding 220ms ease, background-color 220ms ease,
+                border-color 220ms ease, box-shadow 220ms ease;
     z-index: 999;
+}
+
+/* Scrolled state: subtler pill, more contrast, slight elevation. */
+header.scrolled nav {
+    padding: 8px 14px;
+    background: hsl(var(--background) / 0.72);
+    border-color: hsl(var(--foreground) / 0.1);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
 }
 
 header::after {
@@ -99,10 +111,16 @@ header::after {
     padding: 10px 13px;
 }
 
-.nav-links a:hover,
+.nav-links a:hover {
+    color: hsl(var(--foreground));
+    background: hsl(var(--foreground) / 0.08);
+    text-shadow: none;
+}
+
 .nav-links a.active {
     color: hsl(var(--foreground));
-    background: hsl(var(--foreground) / 0.1);
+    background: hsl(var(--foreground) / 0.14);
+    box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.1);
     text-shadow: none;
 }
 

@@ -2101,17 +2101,14 @@ h1 .highlight-text {
 }
 
 body.motion-ready .motion-section {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: slideUp 0.8s var(--ease-smooth) forwards;
+    opacity: 0.62;
+    transform: translateY(22px) scale(0.988);
+    transition: opacity 520ms var(--ease-smooth), transform 520ms var(--ease-smooth);
 }
 
 body.motion-ready .motion-section.motion-visible {
-    animation: slideUp 0.8s var(--ease-smooth) forwards;
-}
-    opacity: 0.62;
-    transform: translateY(28px) scale(0.986);
-    transition: opacity 720ms var(--ease-smooth), transform 720ms var(--ease-smooth);
+    opacity: 1;
+    transform: none;
 }
 
 body.motion-ready .motion-section::before {
@@ -2131,28 +2128,22 @@ body.motion-ready .motion-section::before {
 body.motion-ready .motion-section .section-header,
 body.motion-ready .motion-section .section-title,
 body.motion-ready .motion-section .section-seo {
-    transition: transform 720ms var(--ease-smooth), opacity 720ms var(--ease-smooth), filter 720ms var(--ease-smooth);
+    transition: transform 500ms var(--ease-smooth), opacity 500ms var(--ease-smooth);
 }
 
 body.motion-ready .motion-section .section-header {
-    transform: translateY(16px);
-    opacity: 0.68;
+    transform: translateY(10px);
+    opacity: 0.8;
 }
 
 body.motion-ready .motion-section .section-title {
-    transform: translateY(20px);
-    opacity: 0.65;
-    filter: blur(1.5px);
+    transform: translateY(12px);
+    opacity: 0.82;
 }
 
 body.motion-ready .motion-section .section-seo {
-    transform: translateY(14px);
-    opacity: 0.72;
-}
-
-body.motion-ready .motion-section.motion-visible {
-    opacity: 1;
-    transform: none;
+    transform: translateY(8px);
+    opacity: 0.85;
 }
 
 body.motion-ready .motion-section.motion-visible::before {
@@ -2165,7 +2156,6 @@ body.motion-ready .motion-section.motion-visible .section-title,
 body.motion-ready .motion-section.motion-visible .section-seo {
     transform: none;
     opacity: 1;
-    filter: blur(0);
 }
 
 .section-header {
@@ -2285,12 +2275,14 @@ body.motion-ready .motion-section.motion-visible .section-title {
     transform: translateX(120%);
 }
 
-/* ── REVEAL ANIMATION ── */
+/* ── REVEAL ANIMATION ──
+   Shorter duration + smaller translate + tighter stagger so sections don't
+   feel sluggish when scrolling through a long page. */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity .7s ease, transform .7s ease;
-    transition-delay: calc(var(--reveal-index, 0) * 0.1s);
+    transform: translateY(18px);
+    transition: opacity 500ms var(--ease-smooth, ease), transform 500ms var(--ease-smooth, ease);
+    transition-delay: calc(var(--reveal-index, 0) * 50ms);
 }
 
 .reveal.visible {
@@ -3131,10 +3123,11 @@ body.motion-ready .hero-content .reveal {
 /* Progress bar */
 .skill-bar {
     position: relative;
-    height: 6px;
-    background: rgba(91, 157, 255, 0.12);
+    height: 8px;
+    background: rgba(200, 208, 222, 0.08);
     border-radius: var(--radius-pill);
     overflow: visible;
+    border: 1px solid rgba(91, 157, 255, 0.14);
 }
 
 .skill-bar-fill {
@@ -3142,11 +3135,25 @@ body.motion-ready .hero-content .reveal {
     z-index: 1;
     height: 100%;
     width: 0;
-    background: linear-gradient(90deg, var(--space-purple), var(--space-cyan));
+    background: linear-gradient(90deg, var(--ice-blue, #5B9DFF), var(--ice-pale, #E6EAF2));
     border-radius: inherit;
-    transition: width 1s var(--ease-smooth);
-    transition-delay: calc(var(--skill-idx, 0) * 120ms + 200ms);
+    box-shadow: 0 0 12px rgba(91, 157, 255, 0.35);
+    transition: width 900ms var(--ease-smooth);
+    transition-delay: calc(var(--skill-idx, 0) * 70ms + 150ms);
     will-change: width;
+}
+
+/* Inline percentage — always visible so the number is readable even
+   without the bar animation (defensive fallback) */
+.skill-pct-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--ice-blue, #5B9DFF);
+    letter-spacing: 0.4px;
+    margin-left: auto;
+    padding-right: 0.35rem;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
 }
 
 .skill-tooltip {

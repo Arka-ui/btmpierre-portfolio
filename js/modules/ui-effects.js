@@ -87,6 +87,7 @@ export function initScrollRevealAndNavSpy() {
     const applySkillTooltip = (row) => {
         const bar = row.querySelector('.skill-bar');
         const fill = row.querySelector('.skill-bar-fill');
+        const top = row.querySelector('.skill-row-top');
         const value = Number(bar?.getAttribute('aria-valuenow') || 0);
         const clamped = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0;
         const tooltip = `${clamped}%`;
@@ -104,6 +105,19 @@ export function initScrollRevealAndNavSpy() {
             }
 
             tooltipNode.textContent = tooltip;
+        }
+
+        // Inline percentage label next to the badge — always visible so the
+        // number is readable even if the bar fill animation hiccups.
+        if (top) {
+            let pctLabel = top.querySelector('.skill-pct-label');
+            if (!pctLabel) {
+                pctLabel = document.createElement('span');
+                pctLabel.className = 'skill-pct-label';
+                pctLabel.setAttribute('aria-hidden', 'true');
+                top.appendChild(pctLabel);
+            }
+            pctLabel.textContent = tooltip;
         }
 
         if (fill) {
