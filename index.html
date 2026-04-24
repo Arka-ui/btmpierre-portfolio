@@ -923,8 +923,8 @@
                 <p class="section-seo" data-i18n="seo.contact">Disponible pour collaborations web/desktop,
                     optimisation produit, automatisation et maintenance d'applications existantes.</p>
                 <div class="contact-layout reveal">
-                    <div class="contact-form-container">
-                        <form id="contact-form" class="card-base contact-form-card reveal">
+                    <div class="contact-form-container feature-blocked" data-feature-blocked="contact">
+                        <form id="contact-form" class="card-base contact-form-card reveal" aria-disabled="true" inert>
                             <!-- Honeypot: real users never fill this. Visually hidden, not tabbable. -->
                             <div class="contact-honeypot" aria-hidden="true">
                                 <label for="contact-website">Website (leave blank)</label>
@@ -932,24 +932,36 @@
                             </div>
                             <div class="form-group" data-error-msg="Ce champ est requis">
                                 <input type="text" id="contact-name" name="name" required placeholder=" "
-                                    data-i18n-placeholder="contact.name">
+                                    data-i18n-placeholder="contact.name" tabindex="-1" disabled>
                                 <label for="contact-name" data-i18n="contact.name">Votre nom</label>
                             </div>
                             <div class="form-group" data-error-msg="Adresse email invalide">
                                 <input type="email" id="contact-email" name="email" required placeholder=" "
-                                    data-i18n-placeholder="contact.email">
+                                    data-i18n-placeholder="contact.email" tabindex="-1" disabled>
                                 <label for="contact-email" data-i18n="contact.email">Votre email</label>
                             </div>
                             <div class="form-group" data-error-msg="Le message est trop court">
                                 <textarea id="contact-message" name="message" required placeholder=" "
-                                    data-i18n-placeholder="contact.message"></textarea>
+                                    data-i18n-placeholder="contact.message" tabindex="-1" disabled></textarea>
                                 <label for="contact-message" data-i18n="contact.message">Votre message...</label>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="contact-submit">
+                            <button type="submit" class="btn btn-primary" id="contact-submit" tabindex="-1" disabled>
                                 <span data-i18n="contact.send">Envoyer le message</span>
                             </button>
                             <div id="form-feedback" class="form-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
                         </form>
+                        <div class="feature-blocked-overlay" role="note" aria-live="polite">
+                            <span class="feature-blocked-tag" data-i18n="blocked.tag">Variante non-officielle</span>
+                            <div class="feature-blocked-icon" aria-hidden="true">
+                                <i class="bi bi-lock-fill"></i>
+                            </div>
+                            <h3 class="feature-blocked-title" data-i18n="blocked.title">Fonctionnalité désactivée</h3>
+                            <p class="feature-blocked-note" data-i18n="blocked.note">Ce formulaire appartient à Pierre. Cette variante n’est pas officielle — pour lui écrire, utilisez son site officiel.</p>
+                            <a href="https://btmpierre.me/" target="_blank" rel="noopener noreferrer" class="feature-blocked-cta">
+                                <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                <span data-i18n="blocked.cta">Aller sur btmpierre.me</span>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="contact-social-links card-base contact-info-card reveal">
@@ -971,19 +983,34 @@
                             </a>
                         </div>
 
-                        <!-- Résa Rapide Modal -->
-                        <button type="button" class="btn btn-secondary btn-booking-toggle" id="booking-toggle-btn">
-                            <i class="bi bi-calendar-check"></i>
-                            <span data-i18n="contact.booking.openQuick">Résa rapide</span>
-                        </button>
+                        <!-- Résa Rapide Modal + Templates — wrapped in a blocker because both
+                             ultimately route a message to Pierre through our infrastructure -->
+                        <div class="booking-tools feature-blocked" data-feature-blocked="booking-tools">
+                            <button type="button" class="btn btn-secondary btn-booking-toggle" id="booking-toggle-btn" tabindex="-1" disabled aria-disabled="true">
+                                <i class="bi bi-calendar-check"></i>
+                                <span data-i18n="contact.booking.openQuick">Résa rapide</span>
+                            </button>
 
-                        <!-- Quick Templates -->
-                        <div class="message-templates">
-                            <span class="templates-label" data-i18n="contact.booking.templatesLabel">Templates rapides :</span>
-                            <div class="template-grid">
-                                <button type="button" class="template-btn" data-contact-template="web" data-i18n="contact.booking.templates.web">Site web</button>
-                                <button type="button" class="template-btn" data-contact-template="desktop" data-i18n="contact.booking.templates.desktop">App desktop</button>
-                                <button type="button" class="template-btn" data-contact-template="maintenance" data-i18n="contact.booking.templates.maintenance">Maintenance</button>
+                            <!-- Quick Templates -->
+                            <div class="message-templates">
+                                <span class="templates-label" data-i18n="contact.booking.templatesLabel">Templates rapides :</span>
+                                <div class="template-grid">
+                                    <button type="button" class="template-btn" data-contact-template="web" data-i18n="contact.booking.templates.web" tabindex="-1" disabled>Site web</button>
+                                    <button type="button" class="template-btn" data-contact-template="desktop" data-i18n="contact.booking.templates.desktop" tabindex="-1" disabled>App desktop</button>
+                                    <button type="button" class="template-btn" data-contact-template="maintenance" data-i18n="contact.booking.templates.maintenance" tabindex="-1" disabled>Maintenance</button>
+                                </div>
+                            </div>
+                            <div class="feature-blocked-overlay" role="note" aria-live="polite">
+                                <span class="feature-blocked-tag" data-i18n="blocked.tag">Variante non-officielle</span>
+                                <div class="feature-blocked-icon" aria-hidden="true">
+                                    <i class="bi bi-lock-fill"></i>
+                                </div>
+                                <h3 class="feature-blocked-title" data-i18n="blocked.title">Fonctionnalité désactivée</h3>
+                                <p class="feature-blocked-note" data-i18n="blocked.note">Ce formulaire appartient à Pierre. Cette variante n’est pas officielle — pour lui écrire, utilisez son site officiel.</p>
+                                <a href="https://btmpierre.me/" target="_blank" rel="noopener noreferrer" class="feature-blocked-cta">
+                                    <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                                    <span data-i18n="blocked.cta">Aller sur btmpierre.me</span>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -1011,10 +1038,22 @@
 
     <!-- Booking Modal -->
     <div id="booking-modal" class="booking-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="booking-dialog-title" aria-hidden="true">
-        <div class="booking-modal-dialog">
-            <button type="button" class="booking-close-btn" aria-label="Fermer la modal" data-i18n-aria-label="contact.booking.closeModalAria">
+        <div class="booking-modal-dialog feature-blocked" data-feature-blocked="booking-modal">
+            <button type="button" class="booking-close-btn" aria-label="Fermer la modal" data-i18n-aria-label="contact.booking.closeModalAria" data-feature-allow>
                 <i class="bi bi-x-lg"></i>
             </button>
+            <div class="feature-blocked-overlay" role="note" aria-live="polite">
+                <span class="feature-blocked-tag" data-i18n="blocked.tag">Variante non-officielle</span>
+                <div class="feature-blocked-icon" aria-hidden="true">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+                <h3 class="feature-blocked-title" data-i18n="blocked.title">Fonctionnalité désactivée</h3>
+                <p class="feature-blocked-note" data-i18n="blocked.note">Ce formulaire appartient à Pierre. Cette variante n’est pas officielle — pour lui écrire, utilisez son site officiel.</p>
+                <a href="https://btmpierre.me/" target="_blank" rel="noopener noreferrer" class="feature-blocked-cta">
+                    <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>
+                    <span data-i18n="blocked.cta">Aller sur btmpierre.me</span>
+                </a>
+            </div>
             <div class="booking-modal-content">
                 <div class="booking-modal-head">
                     <h2 id="booking-dialog-title" data-i18n="contact.booking.formTitle">Réserver un appel</h2>

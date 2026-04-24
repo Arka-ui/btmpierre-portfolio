@@ -324,6 +324,13 @@ export const fr = {
             }
         }
     },
+    blocked: {
+        tag: 'Variante non-officielle',
+        title: 'Fonctionnalité désactivée',
+        note: 'Ce formulaire appartient à Pierre. Cette variante n’est pas officielle — pour lui écrire, utilisez son site officiel.',
+        cta: 'Aller sur btmpierre.me',
+        blockedToast: 'Désactivé sur la variante non-officielle. Rendez-vous sur btmpierre.me pour contacter Pierre.'
+    },
     contact: {
         title: 'Un projet en tête ?',
         formLabel: 'Envoyer un message',

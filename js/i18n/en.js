@@ -324,6 +324,13 @@ export const en = {
             }
         }
     },
+    blocked: {
+        tag: 'Unofficial variant',
+        title: 'Feature disabled',
+        note: 'This form belongs to Pierre. This is an unofficial variant — to reach him, use his official site.',
+        cta: 'Go to btmpierre.me',
+        blockedToast: 'Disabled on the unofficial variant. Use btmpierre.me to contact Pierre.'
+    },
     contact: {
         title: 'Have a project in mind?',
         formLabel: 'Send a message',

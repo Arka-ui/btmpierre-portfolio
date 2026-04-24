@@ -125,14 +125,12 @@ export function initScrollRevealAndNavSpy() {
         }
     };
 
-    // Runtime fallback: prevent fully-filled bars when a stale CSS rule is cached.
+    // Decorate rows with tooltips and accessibility attributes. The actual
+    // fill width is driven entirely by CSS: `.skill-bar-fill` starts at
+    // width: 0 and `.skill-row.visible .skill-bar-fill` animates to the
+    // target `calc(var(--skill-pct) * 100%)`. No inline width — CSS wins.
     skillRows.forEach((row) => {
         applySkillTooltip(row);
-
-        const fill = row.querySelector('.skill-bar-fill');
-        if (fill) {
-            fill.style.width = '0%';
-        }
     });
 
     // Add stagger indices to all reveals
@@ -144,17 +142,8 @@ export function initScrollRevealAndNavSpy() {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-
-                if (entry.target.classList.contains('skill-row')) {
-                    const fill = entry.target.querySelector('.skill-bar-fill');
-                    const bar = entry.target.querySelector('.skill-bar');
-                    const value = Number(bar?.getAttribute('aria-valuenow') || 0);
-                    const clamped = Number.isFinite(value) ? Math.max(0, Math.min(100, value)) : 0;
-
-                    if (fill) {
-                        fill.style.width = `${clamped}%`;
-                    }
-                }
+                // Skill bars animate via pure CSS on `.skill-row.visible`:
+                // no JS inline width manipulation needed.
             }
         });
     }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });

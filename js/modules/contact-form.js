@@ -18,6 +18,14 @@ import { fetchWithTimeout } from './fetch-timeout.js';
 
 /**
  * Wires up the contact form and booking modal to the Supabase edge function.
+ *
+ * UNOFFICIAL VARIANT NOTE: both the contact form and the booking flow are
+ * wrapped in `.feature-blocked` overlays in index.html — they belong to the
+ * upstream author (Pierre). This module short-circuits every submit/open
+ * path as a defense-in-depth so nothing can leak through even if the CSS
+ * overlay is tampered with. The form stays rendered behind the overlay for
+ * visual context only.
+ *
  * @param {{ config: { supabaseUrl: string, supabaseAnonKey: string }, t: Function }} options
  * @returns {void}
  */
@@ -35,6 +43,61 @@ export function initContactForm({ config, t }) {
     const bookingCloseBtn = document.querySelector('.booking-close-btn');
     const bookingCancelBtn = document.getElementById('booking-cancel-btn');
     const bookingFeedback = document.getElementById('booking-feedback');
+
+    // ── HARD BLOCK (unofficial variant) ─────────────────────────────
+    // If the surrounding DOM is marked as blocked, swallow every submit,
+    // template click, and modal-open attempt. Return early before we wire
+    // up any of the submission logic.
+    const isFeatureBlocked = (node) => !!(node && node.closest && node.closest('.feature-blocked'));
+
+    if (isFeatureBlocked(contactForm) || isFeatureBlocked(bookingToggleBtn)) {
+        const blockedMsg = () => (typeof t === 'function' ? t('blocked.blockedToast') : 'Disabled on this unofficial variant.');
+
+        const swallow = (ev) => {
+            if (ev) {
+                ev.preventDefault();
+                ev.stopImmediatePropagation();
+            }
+            if (feedback) {
+                feedback.textContent = blockedMsg();
+                feedback.classList.remove('success');
+                feedback.classList.add('error');
+                feedback.style.display = 'block';
+                setTimeout(() => { feedback.style.display = 'none'; }, 4000);
+            }
+        };
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', swallow, { capture: true });
+        }
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', swallow, { capture: true });
+        }
+        if (bookingToggleBtn) {
+            bookingToggleBtn.addEventListener('click', swallow, { capture: true });
+        }
+        templateButtons.forEach((btn) => btn.addEventListener('click', swallow, { capture: true }));
+
+        // Still wire the close-button so that if someone triggers the modal
+        // open programmatically, the user can dismiss it.
+        if (bookingCloseBtn && bookingModal) {
+            bookingCloseBtn.addEventListener('click', () => {
+                bookingModal.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+        if (bookingCancelBtn && bookingModal) {
+            bookingCancelBtn.addEventListener('click', () => {
+                bookingModal.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // Log once for transparency in devtools so debuggers know why
+        // nothing seems to happen.
+        console.info('[contact-form] Blocked on unofficial variant. Use btmpierre.me to contact Pierre.');
+        return;
+    }
 
     const formatTelegramMessage = ({ title, lines }) => {
         const safeLines = lines.map((line) => (line === null || line === undefined ? '' : String(line).trim()));

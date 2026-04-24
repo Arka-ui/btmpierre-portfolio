@@ -154,8 +154,10 @@ body {
     background-color: var(--bg);
     color: var(--text-main);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* ── FILM GRAIN OVERLAY ── */
