@@ -64,61 +64,15 @@ export function initLoader(t) {
 }
 
 /**
- * Initializes custom cursor dot and ring elements for fine-pointer devices.
- * @returns {{ dot: HTMLElement|null, ring: HTMLElement|null }}
+ * Custom cursor has been removed — the portfolio now uses the native cursor.
+ * Kept as a no-op with the same signature so existing callers compile.
  */
 export function initCustomCursor() {
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-
-    if (dot && window.matchMedia('(pointer: fine)').matches && !document.body.classList.contains('native-cursor')) {
-        let mx = 0;
-        let my = 0;
-        let ringX = 0;
-        let ringY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mx = event.clientX;
-            my = event.clientY;
-        });
-
-        const animate = () => {
-            dot.style.left = `${mx}px`;
-            dot.style.top = `${my}px`;
-
-            // Smooth ring tracking with lerp
-            ringX += (mx - ringX) * 0.08;
-            ringY += (my - ringY) * 0.08;
-
-            if (ring) {
-                ring.style.left = `${ringX}px`;
-                ring.style.top = `${ringY}px`;
-            }
-
-            requestAnimationFrame(animate);
-        };
-
-        animate();
-
-        // Ring expansion on interactive element hover
-        const interactiveElements = document.querySelectorAll('a, button, input, textarea, [role="button"]');
-        interactiveElements.forEach((el) => {
-            el.addEventListener('mouseenter', () => {
-                if (ring) {
-                    ring.style.width = '50px';
-                    ring.style.height = '50px';
-                }
-            });
-            el.addEventListener('mouseleave', () => {
-                if (ring) {
-                    ring.style.width = '38px';
-                    ring.style.height = '38px';
-                }
-            });
-        });
-    }
-
-    return { dot, ring };
+    document.body.classList.add('native-cursor');
+    // Hide any lingering cursor nodes left in the DOM.
+    document.getElementById('cursorDot')?.remove();
+    document.getElementById('cursorRing')?.remove();
+    return { dot: null, ring: null };
 }
 
 /**
@@ -336,18 +290,67 @@ export function initHeaderScroll() {
 }
 
 /**
- * Updates reading progress bar width based on page scroll position.
+ * Reading progress bar as an ARIA slider. Tracks scroll on the way in and
+ * lets the user click or arrow-key to seek to a position in the document.
  */
 export function initReadingProgress() {
+    const track = document.getElementById('reading-progress-track');
     const progressBar = document.getElementById('reading-progress');
-    if (!progressBar) return;
+    if (!progressBar || !track) return;
 
-    window.addEventListener('scroll', () => {
+    let rafId = 0;
+    const update = () => {
+        rafId = 0;
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = `${scrolled}%`;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        const clamped = Math.max(0, Math.min(100, scrolled));
+        progressBar.style.width = `${clamped}%`;
+        track.setAttribute('aria-valuenow', String(Math.round(clamped)));
+    };
+
+    window.addEventListener('scroll', () => {
+        if (rafId) return;
+        rafId = requestAnimationFrame(update);
+    }, { passive: true });
+
+    const seekTo = (ratio) => {
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const target = height * Math.max(0, Math.min(1, ratio));
+        window.scrollTo({ top: target, behavior: 'smooth' });
+    };
+
+    track.addEventListener('click', (event) => {
+        const rect = track.getBoundingClientRect();
+        seekTo((event.clientX - rect.left) / rect.width);
     });
+
+    track.addEventListener('keydown', (event) => {
+        const step = event.shiftKey ? 0.1 : 0.05;
+        const current = Number(track.getAttribute('aria-valuenow') || 0) / 100;
+        switch (event.key) {
+            case 'ArrowRight':
+            case 'ArrowUp':
+                event.preventDefault();
+                seekTo(current + step);
+                break;
+            case 'ArrowLeft':
+            case 'ArrowDown':
+                event.preventDefault();
+                seekTo(current - step);
+                break;
+            case 'Home':
+                event.preventDefault();
+                seekTo(0);
+                break;
+            case 'End':
+                event.preventDefault();
+                seekTo(1);
+                break;
+        }
+    });
+
+    update();
 }
 
 /**

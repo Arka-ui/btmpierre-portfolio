@@ -33,15 +33,17 @@ export class SpaceStars {
     }
 
     _init() {
-        const COUNT = 5000;
+        // Count scales with viewport area so mobile doesn't render a sphere built for 4K.
+        const area = this.W * this.H;
+        const BASELINE_AREA = 1920 * 1080;
+        const COUNT = Math.round(Math.min(1200, Math.max(350, 800 * (area / BASELINE_AREA))));
         this.stars = [];
         for (let i = 0; i < COUNT; i++) {
-            // Uniform random point on a sphere shell (maath/random inSphere equivalent)
             const u = Math.random();
             const v = Math.random();
             const theta = 2 * Math.PI * u;
             const phi   = Math.acos(2 * v - 1);
-            const r     = this.R * Math.cbrt(Math.random()); // uniform in sphere volume
+            const r     = this.R * Math.cbrt(Math.random());
             this.stars.push({
                 x: r * Math.sin(phi) * Math.cos(theta),
                 y: r * Math.sin(phi) * Math.sin(theta),

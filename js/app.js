@@ -36,6 +36,7 @@ import {
 import { initScrollAnimations } from './modules/scroll-animations.js';
 import { initLazyImages } from './modules/lazy-images.js';
 import { initWebVitals } from './modules/web-vitals.js';
+import { initHeroMonogramParallax, initHeroStatusCaret } from './modules/hero-effects.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Basic cross-origin frame defense
@@ -412,6 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initTimelineCollapse();
     initDiscordCardMobile();
     initBackToTop();
+    initHeroMonogramParallax();
+    initHeroStatusCaret();
 
     console.log('System Initialized: Ultra Modern Portfolio V3');
 });
