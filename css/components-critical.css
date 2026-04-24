@@ -22,19 +22,19 @@
     background: rgba(3, 0, 14, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(112, 66, 248, 0.2);
+    border: 1px solid rgba(91, 157, 255, 0.2);
     border-radius: var(--radius-lg);
     padding: var(--space-5);
     width: 320px;
     text-align: left;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(112, 66, 248, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(91, 157, 255, 0.15);
     transition: all 0.4s var(--ease-smooth);
 }
 
 .discord-card:hover {
-    border-color: rgba(112, 66, 248, 0.6);
+    border-color: rgba(91, 157, 255, 0.6);
     transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(112, 66, 248, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(91, 157, 255, 0.3);
     background: rgba(3, 0, 14, 0.95);
 }
 
@@ -77,7 +77,7 @@
 .nav-drawer-close:focus-visible {
     outline: 2px solid var(--violet);
     outline-offset: 3px;
-    box-shadow: 0 0 16px rgba(112, 66, 248, 0.35), 0 0 4px rgba(112, 66, 248, 0.2);
+    box-shadow: 0 0 16px rgba(91, 157, 255, 0.35), 0 0 4px rgba(91, 157, 255, 0.2);
 }
 
 /* ----------------
@@ -106,8 +106,8 @@
 }
 
 .perf-btn:hover {
-    background: rgba(112, 66, 248, 0.1);
-    border-color: rgba(112, 66, 248, 0.3);
+    background: rgba(91, 157, 255, 0.1);
+    border-color: rgba(91, 157, 255, 0.3);
     color: var(--violet-light);
     transform: translateY(-2px);
 }
@@ -116,7 +116,7 @@
     background: var(--violet);
     border-color: var(--violet-light);
     color: #fff;
-    box-shadow: 0 0 15px rgba(112, 66, 248, 0.4);
+    box-shadow: 0 0 15px rgba(91, 157, 255, 0.4);
     animation: pulse-perf 2s infinite;
 }
 
@@ -141,7 +141,7 @@ body.motion-ready .logo::after {
     position: absolute;
     inset: -6px -12px;
     border-radius: 999px;
-    background: radial-gradient(circle at 40% 50%, rgba(112, 66, 248, 0.28), transparent 65%);
+    background: radial-gradient(circle at 40% 50%, rgba(91, 157, 255, 0.28), transparent 65%);
     filter: blur(10px);
     opacity: 0;
     transform: scale(0.8);
@@ -197,15 +197,15 @@ body.motion-ready .logo-img {
 
 @keyframes pulse-perf {
     0% {
-        box-shadow: 0 0 0 0 rgba(112, 66, 248, 0.4);
+        box-shadow: 0 0 0 0 rgba(91, 157, 255, 0.4);
     }
 
     70% {
-        box-shadow: 0 0 0 8px rgba(112, 66, 248, 0);
+        box-shadow: 0 0 0 8px rgba(91, 157, 255, 0);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(112, 66, 248, 0);
+        box-shadow: 0 0 0 0 rgba(91, 157, 255, 0);
     }
 }
 
@@ -220,11 +220,11 @@ body.motion-ready .logo-img {
     padding: 0.55rem 1.25rem;
     /* Pill */
     background: rgba(3, 0, 20, 0.37);
-    border: 1px solid rgba(112, 66, 248, 0.38);
+    border: 1px solid rgba(91, 157, 255, 0.38);
     border-radius: 9999px;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    box-shadow: 0 10px 40px rgba(42, 14, 97, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     /* Absolute center */
     position: absolute;
     left: 50%;
@@ -237,7 +237,7 @@ body.motion-ready .logo-img {
     font-size: 0.82rem;
     font-weight: 400;
     letter-spacing: 0.5px;
-    color: #e2d9f3;
+    color: #E6EAF2;
     transition: color 0.3s;
     display: flex;
     align-items: center;
@@ -252,12 +252,12 @@ body.motion-ready .logo-img {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: rgb(112, 66, 248);
+    color: rgb(91, 157, 255);
 }
 
 .nav-links a:hover i,
 .nav-links a.active i {
-    color: rgb(112, 66, 248);
+    color: rgb(91, 157, 255);
 }
 
 /* ----------------
@@ -272,8 +272,8 @@ body.motion-ready .logo-img {
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-radius: 32px;
-    box-shadow: inset 0 -7px 11px rgba(164, 143, 255, 0.12);
-    border: 1px solid rgba(112, 66, 248, 0.55);
+    box-shadow: inset 0 -7px 11px rgba(200, 208, 222, 0.12);
+    border: 1px solid rgba(91, 157, 255, 0.55);
     background: rgba(3, 0, 20, 0.4);
     padding: 0.5rem 1.1rem;
     width: max-content;
@@ -281,7 +281,7 @@ body.motion-ready .logo-img {
     font-family: var(--font-mono);
     font-size: 0.78rem;
     letter-spacing: 1.2px;
-    color: var(--space-purple-light, #b49bff);
+    color: var(--space-purple-light, #8DBAFF);
     margin-bottom: 2rem;
     transition: transform 0.3s, opacity 0.3s;
 }
@@ -309,10 +309,10 @@ body.motion-ready .logo-img {
     margin-bottom: 1.5rem;
     border-radius: 32px;
     font-size: 0.8rem;
-    color: var(--space-purple-light, #b49bff);
+    color: var(--space-purple-light, #8DBAFF);
     background: rgba(3, 0, 20, 0.4);
-    border: 1px solid rgba(112, 66, 248, 0.55);
-    box-shadow: inset 0 -7px 11px rgba(164, 143, 255, 0.12);
+    border: 1px solid rgba(91, 157, 255, 0.55);
+    box-shadow: inset 0 -7px 11px rgba(200, 208, 222, 0.12);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(10px);
@@ -397,7 +397,7 @@ body.motion-ready .hero-content .reveal {
 }
 
 .skill-item:hover {
-    background: rgba(112, 66, 248, 0.05);
+    background: rgba(91, 157, 255, 0.05);
     border-radius: 20px;
     transform: scale(1.1);
 }
@@ -536,7 +536,7 @@ body.nav-open .hamburger-btn .hamburger-bar:nth-child(3) {
 .nav-drawer-links a:hover,
 .nav-drawer-links a.active {
     color: var(--text-main);
-    background: rgba(112, 66, 248, 0.12);
+    background: rgba(91, 157, 255, 0.12);
 }
 
 .nav-drawer-lang {

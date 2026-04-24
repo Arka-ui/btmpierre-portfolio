@@ -1,43 +1,54 @@
 :root {
-    /* ── SPACE PORTFOLIO PALETTE (sanidhyy/space-portfolio) ── */
-    --bg:              #030014;
-    --surface:         #0a0025;
-    --card:            rgba(3, 0, 20, 0.6);
+    /* ── ACIER / GLACE PALETTE (steel + ice, cold neutrals + one blue accent) ── */
+    --bg:              #0A0D12;
+    --surface:         #10151F;
+    --card:            rgba(16, 21, 31, 0.62);
 
-    /* Primary: space purple */
-    --space-purple:       #7042f8;
-    --space-purple-light: #b49bff;
-    --space-purple-pale:  #e2d9f3;
-    /* Closer harmony color instead of faraway cyan */
-    --space-magenta:      #d946ef;   
-    --space-border:       var(--space-purple);
+    /* Steel neutrals + single ice-blue accent */
+    --steel-900:      #0A0D12;
+    --steel-800:      #10151F;
+    --steel-700:      #1A2130;
+    --steel-500:      #4A5568;
+    --steel-300:      #8894A8;
+    --steel-100:      #C8D0DE;
+    --ice-blue:       #5B9DFF;
+    --ice-blue-soft:  #8DBAFF;
+    --ice-pale:       #E6EAF2;
 
-    /* Aliases for backwards-compat with components */
-    --violet:         var(--space-purple);
-    --violet-light:   var(--space-purple-light);
-    --violet-pale:    var(--space-purple-pale);
-    --accent:         var(--space-magenta);
+    /* Aliases kept so the existing `var(--space-*)` and `var(--violet*)` calls in
+       components.css resolve without a full rename. They now all point at the
+       steel/ice values. */
+    --space-purple:       var(--ice-blue);
+    --space-purple-light: var(--ice-blue-soft);
+    --space-purple-pale:  var(--ice-pale);
+    --space-magenta:      var(--steel-100);
+    --space-border:       var(--ice-blue);
+    --violet:         var(--ice-blue);
+    --violet-light:   var(--ice-blue-soft);
+    --violet-pale:    var(--ice-pale);
+    --accent:         var(--steel-100);
 
-    --text-main:  #e2d9f3;
-    --text-muted: #9ca3af;   /* gray-400 — matches space-portfolio */
+    --text-main:  var(--ice-pale);
+    --text-muted: var(--steel-300);
 
-    /* Modern color additions */
-    --success:     #86efac;
-    --warning:     #fcd34d;
-    --info:        #93c5fd;
-    --danger:      #f87171;
+    /* Signal colors (muted to fit the cold palette) */
+    --success:     #8FE0B8;
+    --warning:     #F5D58A;
+    --info:        var(--ice-blue-soft);
+    --danger:      #F08A8A;
 
-    --border: rgba(112, 66, 248, 0.22);
-    --glow:   rgba(112, 66, 248, 0.4);
+    --border: rgba(200, 208, 222, 0.12);
+    --glow:   rgba(91, 157, 255, 0.35);
 
-    --primary:      var(--space-purple);
+    --primary:      var(--ice-blue);
     --primary-glow: var(--glow);
-    --secondary:    var(--space-magenta);
+    --secondary:    var(--steel-100);
 
     /* Fonts & Typography Variables */
-    --font-heading: 'Syne', sans-serif;
-    --font-main:    'DM Mono', monospace;
-    --font-mono:    'DM Mono', monospace;
+    --font-heading: 'Fraunces', 'Syne', serif;
+    --font-main:    'Geist Mono', 'DM Mono', monospace;
+    --font-mono:    'Geist Mono', 'DM Mono', monospace;
+    --font-pixel:   'VT323', 'Geist Mono', monospace;
 
     /* Text Sizes & Weights */
     --text-xs:   0.75rem;
@@ -94,30 +105,33 @@
     --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     --shadow-md:   0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
     --shadow-lg:   0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-card: 0 10px 40px rgba(42, 14, 97, 0.4), 0 1px 0 rgba(112, 66, 248, 0.08);
-    --glow-hover:  0 0 24px rgba(112, 66, 248, 0.45), 0 0 60px rgba(112, 66, 248, 0.15);
-    --glass-bg:    rgba(3, 0, 20, 0.37);
-    --glass-border: rgba(112, 66, 248, 0.38);
-    --glass-blur:  blur(16px);
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(200, 208, 222, 0.05);
+    --glow-hover:  0 0 24px rgba(91, 157, 255, 0.35), 0 0 60px rgba(91, 157, 255, 0.12);
+    --glass-bg:    rgba(10, 13, 18, 0.55);
+    --glass-border: rgba(200, 208, 222, 0.18);
+    --glass-blur:  blur(10px);
 
-    /* Welcome-box (space-portfolio style frosted pill) */
-    --welcome-bg:     rgba(3, 0, 20, 0.4);
-    --welcome-border: rgba(112, 66, 248, 0.55);
-    --welcome-shadow: inset 0 -7px 11px rgba(164, 143, 255, 0.12);
+    /* Welcome-box — a frosted rim instead of a purple halo */
+    --welcome-bg:     rgba(10, 13, 18, 0.55);
+    --welcome-border: rgba(200, 208, 222, 0.25);
+    --welcome-shadow: inset 0 -7px 11px rgba(200, 208, 222, 0.06);
 
     /* ── CARD BASE SYSTEM ── */
-    --card-bg:             rgba(6, 0, 20, 0.4);
-    --card-border:         #2A0E61;
-    --card-blur:           blur(16px) saturate(150%);
+    --card-bg:             rgba(10, 13, 18, 0.55);
+    --card-border:         rgba(200, 208, 222, 0.12);
+    --card-blur:           blur(10px) saturate(120%);
     --card-padding:        var(--space-5);
     --card-radius:         var(--radius-lg);
-    --card-shadow:         0 10px 30px rgba(0, 0, 0, 0.4);
-    --card-shadow-hover:   0 0 30px rgba(112, 66, 248, 0.3), 0 20px 60px rgba(42, 14, 97, 0.5);
-    --card-border-gradient: linear-gradient(135deg, rgba(112, 66, 248, 0.3), transparent 40%, rgba(112, 66, 248, 0.1) 60%, rgba(112, 66, 248, 0.3));
+    --card-shadow:         0 10px 30px rgba(0, 0, 0, 0.45);
+    --card-shadow-hover:   0 0 30px rgba(91, 157, 255, 0.18), 0 20px 60px rgba(0, 0, 0, 0.55);
+    --card-border-gradient: linear-gradient(135deg, rgba(200, 208, 222, 0.25), transparent 40%, rgba(91, 157, 255, 0.12) 60%, rgba(200, 208, 222, 0.25));
 
-    /* Gradient overlays */
-    --gradient-primary:   linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-    --gradient-hover:     linear-gradient(135deg, var(--violet-light) 0%, var(--secondary) 100%);
+    /* Gradient overlays — ice blue fading into cold steel white */
+    --gradient-primary:   linear-gradient(135deg, var(--ice-blue) 0%, var(--steel-100) 100%);
+    --gradient-hover:     linear-gradient(135deg, var(--ice-blue-soft) 0%, var(--ice-pale) 100%);
+
+    /* Grain overlay tunables (used by body::before in Phase A) */
+    --grain-opacity: 0.06;
 }
 
 /* Base resets */
@@ -127,33 +141,7 @@
     box-sizing: border-box;
 }
 
-body:not(.native-cursor) *,
-body:not(.native-cursor) *::before,
-body:not(.native-cursor) *::after {
-    cursor: none !important;
-}
-
-body.use-native-cursor *,
-body.use-native-cursor *::before,
-body.use-native-cursor *::after {
-    cursor: auto !important;
-}
-
-body.native-cursor *,
-body.native-cursor *::before,
-body.native-cursor *::after {
-    cursor: auto !important;
-}
-
-body.use-native-cursor .cursor-dot,
-body.use-native-cursor .cursor-outline {
-    display: none !important;
-}
-
-body.native-cursor .cursor-dot,
-body.native-cursor .cursor-outline {
-    display: none !important;
-}
+/* Custom cursor was removed — we always use the native system cursor now. */
 
 html {
     scroll-behavior: smooth;
@@ -170,13 +158,14 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ── SUBTLE NOISE OVERLAY ── */
+/* ── FILM GRAIN OVERLAY ── */
 body::before {
     content: '';
     position: fixed; inset: 0; z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    opacity: .025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: var(--grain-opacity, 0.06);
     pointer-events: none;
+    mix-blend-mode: overlay;
 }
 
 /* ── STAR CANVAS BACKGROUND ── */
@@ -188,12 +177,12 @@ body::before {
     opacity: 1;
 }
 
-/* Subtle deep-space radial for depth */
+/* Cold radial wash for depth — steel top, faint ice-blue bottom */
 body::after {
     content: '';
     position: fixed; inset: 0; z-index: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(42, 14, 97, 0.35) 0%, transparent 65%),
-                radial-gradient(ellipse at 80% 100%, rgba(6, 182, 212, 0.06) 0%, transparent 55%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(26, 33, 48, 0.55) 0%, transparent 65%),
+                radial-gradient(ellipse at 80% 100%, rgba(91, 157, 255, 0.05) 0%, transparent 55%);
     pointer-events: none;
 }
 
@@ -260,29 +249,22 @@ a {
 }
 
 .welcome-box:hover {
-    box-shadow: var(--welcome-shadow), 0 0 20px rgba(112, 66, 248, 0.25);
+    box-shadow: var(--welcome-shadow), 0 0 20px rgba(91, 157, 255, 0.22);
 }
 
-/* Gradient text inside welcome-box (Welcome-text) */
+/* Welcome-text — cold white with a hairline ice-blue weight on one edge */
 .welcome-text {
-    background: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.4),
-        rgba(255, 255, 255, 0.4)
-    ),
-    linear-gradient(90.01deg, var(--space-magenta) 0.01%, var(--space-purple-light) 50.01%, var(--space-purple-pale) 100%);
-    background-blend-mode: normal, screen;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--ice-pale);
+    font-weight: 500;
+    letter-spacing: 1.4px;
 }
 
 /* Sparkle icon inside welcome-box */
 .welcome-box .sparkle {
-    color: var(--space-purple-light);
+    color: var(--ice-blue);
     font-size: 1rem;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 6px rgba(180, 155, 255, 0.8));
+    filter: drop-shadow(0 0 4px rgba(91, 157, 255, 0.45));
 }
 
 /* Shimmer Loading base components */
@@ -316,27 +298,6 @@ a {
     }
 }
 
-/* Custom Cursor */
-.cursor-dot {
-    position: fixed; top: 0; left: 0; z-index: 9999;
-    pointer-events: none;
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--secondary);
-    transform: translate(-50%, -50%);
-    transition: transform .1s;
-    will-change: transform;
-}
-.cursor-outline {
-    position: fixed; top: 0; left: 0; z-index: 9999;
-    pointer-events: none;
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 1.5px solid var(--space-purple-light);
-    transform: translate(-50%, -50%);
-    transition: width .25s, height .25s, transform .08s;
-    opacity: .5;
-    background: transparent;
-}
-body:hover .cursor-outline { opacity: .5; }
 
 /* ----------------
  * Navigation
@@ -352,11 +313,11 @@ header {
 
 header.scrolled {
     padding: 0.65rem 0;
-    background: rgba(3, 0, 20, 0.27);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(112, 66, 248, 0.15);
-    box-shadow: 0 10px 40px rgba(42, 14, 97, 0.5);
+    background: rgba(10, 13, 18, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(200, 208, 222, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
 }
 
 nav {
@@ -375,22 +336,22 @@ nav {
 .logo {
     font-weight: 700;
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--ice-pale);
     letter-spacing: -1px;
-    text-shadow: 0 0 12px rgba(112, 66, 248, 0.5);
+    text-shadow: 0 0 10px rgba(91, 157, 255, 0.3);
     position: relative;
     z-index: 2;
 }
 
-/* ── CENTER PILL NAV (space-portfolio style) ── */
+/* ── CENTER PILL NAV ── */
 .nav-links {
     display: flex;
     gap: 0;
     list-style: none;
 
     /* Pill container */
-    background: rgba(3, 0, 20, 0.37);
-    border: 1px solid rgba(112, 66, 248, 0.38);
+    background: rgba(10, 13, 18, 0.55);
+    border: 1px solid rgba(200, 208, 222, 0.14);
     border-radius: 9999px;
     padding: 0.55rem 1.25rem;
     gap: 2rem;
@@ -402,13 +363,13 @@ nav {
     top: 50%;
     transform: translate(-50%, -50%);
 
-    box-shadow: 0 10px 40px rgba(42, 14, 97, 0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
 }
 
 .nav-links a {
-    color: #e2d9f3;
+    color: var(--ice-pale);
     font-size: 0.82rem;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
@@ -420,20 +381,20 @@ nav {
 
 .nav-links a i {
     font-size: 0.9rem;
-    color: rgba(226, 217, 243, 0.6);
+    color: rgba(200, 208, 222, 0.55);
     transition: all 0.3s;
 }
 
 .nav-links a:hover {
-    color: rgb(112, 66, 248);
+    color: var(--ice-blue);
 }
 
 .nav-links a:hover i {
-    color: rgb(112, 66, 248);
+    color: var(--ice-blue);
 }
 
 .nav-links a.active {
-    color: rgb(112, 66, 248);
+    color: var(--ice-blue);
 }
 
 .lang-switch {
@@ -463,29 +424,41 @@ nav {
 }
 
 .lang-btn.active {
-    color: #fff;
-    background: rgba(112, 66, 248, 0.3);
-    box-shadow: 0 0 12px rgba(112, 66, 248, 0.35);
+    color: var(--ice-pale);
+    background: rgba(91, 157, 255, 0.22);
+    box-shadow: 0 0 10px rgba(91, 157, 255, 0.28);
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-    background: rgba(112, 66, 248, 0.45);
+    background: rgba(200, 208, 222, 0.22);
     border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(112, 66, 248, 0.7); }
+::-webkit-scrollbar-thumb:hover { background: rgba(91, 157, 255, 0.55); }
 
-/* ── READING PROGRESS ── */
-#reading-progress {
+/* ── READING PROGRESS — clickable slider ── */
+#reading-progress-track {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    z-index: 1002;
+    cursor: pointer;
+}
+
+#reading-progress-track:focus-visible {
+    outline: 2px solid var(--ice-blue);
+    outline-offset: 2px;
+}
+
+#reading-progress {
     height: 3px;
     width: 0%;
     background: var(--gradient-primary);
-    z-index: 1002;
     pointer-events: none;
     transition: width 0.1s linear;
 }
@@ -531,9 +504,7 @@ nav {
         scroll-behavior: auto !important;
     }
 
-    #star-canvas,
-    .cursor-dot,
-    .cursor-outline {
+    #star-canvas {
         display: none !important;
     }
 }
@@ -551,14 +522,14 @@ nav {
     padding-top: 5rem;
 }
 
-/* Hero background glow */
+/* Hero background glow — single ice wash, no purple bloom */
 .hero::before {
     content: '';
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 60vw; height: 60vw;
-    background: radial-gradient(circle, rgba(112, 66, 248, 0.18) 0%, transparent 65%);
+    width: 55vw; height: 55vw;
+    background: radial-gradient(circle, rgba(91, 157, 255, 0.10) 0%, transparent 65%);
     z-index: -1;
     pointer-events: none;
     filter: blur(80px);
