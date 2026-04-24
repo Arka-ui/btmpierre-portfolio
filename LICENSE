@@ -1,0 +1,114 @@
+PROPRIETARY LICENSE — ALL RIGHTS RESERVED
+
+Copyright (c) 2026 Arka (https://github.com/Arka-ui)
+
+This repository contains a customized fork and derivative work of the
+portfolio originally authored by Pierre Bouteman / NeXoS_20
+(https://github.com/nexos20lv/nexos20lv.github.io). All modifications,
+additions, refactorings, design tokens, copy, assets, and any derivative
+design choices introduced in this repository are the exclusive property
+of Arka.
+
+================================================================================
+1. PERMITTED USE
+================================================================================
+
+The source code, assets, design, and all accompanying files in this
+repository (collectively, "the Work") may only be used, hosted, deployed,
+served, mirrored, or otherwise made accessible for the following singular
+purpose:
+
+    The live deployment of Pierre Bouteman's personal portfolio at:
+        https://btmpierre.riftmc.net/
+
+No other use of the Work, in whole or in part, is permitted without the
+prior, explicit, written consent of Arka.
+
+================================================================================
+2. RESTRICTIONS
+================================================================================
+
+Without prior written authorization from Arka, you MAY NOT:
+
+  (a) Use the Work, in whole or in part, in any other portfolio, personal
+      site, commercial project, public deployment, client deliverable, or
+      derivative product.
+
+  (b) Copy, fork, clone, mirror, republish, or redistribute the Work or
+      any substantial portion of it for any purpose other than the one
+      stated in Section 1.
+
+  (c) Sublicense, sell, rent, lease, or transfer the Work to any third
+      party.
+
+  (d) Remove, alter, obscure, or bypass this LICENSE file, any embedded
+      copyright notices, attribution lines, or license headers contained
+      in the source.
+
+  (e) Remix, rebrand, restyle, rewrite, or repurpose the design system,
+      layout, copy, iconography, or visual identity for any derivative
+      work outside the scope defined in Section 1.
+
+  (f) Claim authorship of the Work or pass it off as your own creation.
+
+================================================================================
+3. MANDATORY ATTRIBUTION
+================================================================================
+
+If any portion of the Work — including but not limited to code, markup,
+CSS, design tokens, copy, or visual composition — is quoted, excerpted,
+referenced, or studied for any permitted purpose (e.g., educational
+commentary, code review, or explicit written authorization from Arka),
+the following attribution MUST be preserved verbatim and displayed
+visibly alongside the quoted material:
+
+    Copyright (c) 2026 Arka — https://github.com/Arka-ui
+    Licensed use only. All rights reserved.
+    Source: https://github.com/Arka-ui/btmpierre-portfolio
+
+Removing, obscuring, or paraphrasing this attribution constitutes a
+breach of this license.
+
+================================================================================
+4. ORIGINAL UPSTREAM WORK
+================================================================================
+
+Portions of this codebase originate from the upstream portfolio of
+Pierre Bouteman (NeXoS_20). All original copyright, moral rights, and
+authorship of the upstream work remain vested in its original author.
+This license governs ONLY the derivative work, modifications, and
+additions introduced by Arka in this repository.
+
+Nothing in this license shall be construed as transferring, waiving, or
+diminishing the rights of the upstream original author.
+
+================================================================================
+5. ENFORCEMENT
+================================================================================
+
+Unauthorized use of the Work — including copying into another portfolio,
+redeploying to another domain, or any form of redistribution — will be
+considered a breach of this license and an infringement of copyright,
+subject to legal remedies under applicable copyright law.
+
+To request permission for any use outside the scope of Section 1,
+contact Arka directly via https://github.com/Arka-ui.
+
+================================================================================
+6. NO WARRANTY
+================================================================================
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING
+FROM, OUT OF, OR IN CONNECTION WITH THE WORK OR THE USE OR OTHER
+DEALINGS IN THE WORK.
+
+================================================================================
+CONTACT
+================================================================================
+
+Licensing inquiries, permission requests, and attribution questions:
+    Arka — https://github.com/Arka-ui
