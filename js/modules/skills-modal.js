@@ -59,7 +59,9 @@ export function initSkillsModal({ openOverlay, closeOverlay, dot, ring, t, getCu
         };
 
         skillModalTitle.textContent = skillName;
-        skillModalDesc.innerHTML = `<p>${getCurrentLang() === 'en' ? details.en : details.fr}</p>`;
+        const p = document.createElement('p');
+        p.textContent = getCurrentLang() === 'en' ? details.en : details.fr;
+        skillModalDesc.replaceChildren(p);
         skillModalIcon.className = details.icon;
 
         document.body.classList.add('modal-open');

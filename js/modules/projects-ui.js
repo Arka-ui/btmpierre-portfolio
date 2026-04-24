@@ -10,6 +10,8 @@
  * Cards are auto-sorted by i18n project id (projects.N.*).
  */
 
+import { fetchWithTimeout } from './fetch-timeout.js';
+
 /**
  * @param {{ i18n: object, config: object, t: Function, getCurrentLang: Function, openOverlay: Function, closeOverlay: Function, dot: HTMLElement, ring: HTMLElement, languageColors: Record<string, string> }} options
  * @returns {{ openModal: Function, applyProjectStatusBadges: Function, refreshOpenModal: Function, initGitHubStats: Function, initFeaturedMetrics: Function }}
@@ -203,9 +205,9 @@ export function initProjectsUI({
         try {
             const repoPayloads = await Promise.all(featuredRepos.map(async (repo) => {
                 const [repoRes, releaseRes, runsRes] = await Promise.all([
-                    fetch(`${config.endpoints.githubApi}/repos/${repo}`),
-                    fetch(`${config.endpoints.githubApi}/repos/${repo}/releases/latest`),
-                    fetch(`${config.endpoints.githubApi}/repos/${repo}/actions/runs?per_page=1`)
+                    fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}`),
+                    fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}/releases/latest`),
+                    fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}/actions/runs?per_page=1`)
                 ]);
 
                 const repoData = await repoRes.json().catch(() => ({}));
@@ -367,7 +369,7 @@ export function initProjectsUI({
         if (!repo) return;
 
         try {
-            const repoRes = await fetch(`${config.endpoints.githubApi}/repos/${repo}`);
+            const repoRes = await fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}`);
             const repoData = await repoRes.json();
             if (!repoRes.ok) {
                 if (isGitHubRateLimited(repoRes, repoData)) {
@@ -380,9 +382,9 @@ export function initProjectsUI({
             }
 
             const [langRes, releaseRes, runsRes] = await Promise.all([
-                fetch(`${config.endpoints.githubApi}/repos/${repo}/languages`),
-                fetch(`${config.endpoints.githubApi}/repos/${repo}/releases/latest`),
-                fetch(`${config.endpoints.githubApi}/repos/${repo}/actions/runs?per_page=1`)
+                fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}/languages`),
+                fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}/releases/latest`),
+                fetchWithTimeout(`${config.endpoints.githubApi}/repos/${repo}/actions/runs?per_page=1`)
             ]);
 
             const languagesPayload = await langRes.json().catch(() => ({}));
@@ -571,7 +573,7 @@ export function initProjectsUI({
         if (!reposEl) return;
 
         try {
-            const response = await fetch(`${config.endpoints.githubApi}/users/${username}/repos?per_page=100&sort=updated`);
+            const response = await fetchWithTimeout(`${config.endpoints.githubApi}/users/${username}/repos?per_page=100&sort=updated`);
             const reposPayload = await response.json();
             if (!response.ok) {
                 if (isGitHubRateLimited(response, reposPayload)) {
@@ -595,7 +597,7 @@ export function initProjectsUI({
 
             const langPromises = reposPayload.map(async (repo) => {
                 try {
-                    const res = await fetch(repo.languages_url);
+                    const res = await fetchWithTimeout(repo.languages_url);
                     if (!res.ok) {
                         const payload = await res.json().catch(() => ({}));
                         if (isGitHubRateLimited(res, payload)) {

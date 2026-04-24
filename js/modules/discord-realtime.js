@@ -1,4 +1,5 @@
 import { i18n } from '../i18n.js';
+import { fetchWithTimeout } from './fetch-timeout.js';
 
 /**
  * @module discord-realtime
@@ -30,6 +31,7 @@ export function initDiscordRealtime({
 
     let lanyardAttempts = 0;
     let lanyardReconnectTimer = null;
+    let currentLanyardSocket = null;
     let visitorsAttempts = 0;
     let visitorsChannel = null;
     let statusAttempts = 0;
@@ -53,7 +55,13 @@ export function initDiscordRealtime({
         : null;
 
     function connectLanyard() {
+        // Close any previous socket so reconnects don't accumulate listeners/leaks.
+        if (currentLanyardSocket) {
+            try { currentLanyardSocket.close(); } catch (_) { /* ignore */ }
+        }
+
         const ws = new WebSocket(config.endpoints.lanyardSocket);
+        currentLanyardSocket = ws;
 
         ws.onopen = () => {
             lanyardAttempts = 0;
@@ -73,10 +81,11 @@ export function initDiscordRealtime({
         };
 
         ws.onerror = () => {
-            ws.close();
+            try { ws.close(); } catch (_) { /* already closing */ }
         };
 
         ws.onclose = () => {
+            if (currentLanyardSocket === ws) currentLanyardSocket = null;
             const delay = getBackoffDelay(lanyardAttempts++, config.retries);
             clearTimeout(lanyardReconnectTimer);
             lanyardReconnectTimer = setTimeout(connectLanyard, delay);
@@ -101,7 +110,7 @@ export function initDiscordRealtime({
         }
 
         try {
-            const response = await fetch(`${config.endpoints.discordAppRpc}/${applicationId}/rpc`);
+            const response = await fetchWithTimeout(`${config.endpoints.discordAppRpc}/${applicationId}/rpc`, { timeoutMs: 5000 });
             if (!response.ok) {
                 discordApplicationIconCache.set(applicationId, '');
                 return '';
@@ -296,7 +305,7 @@ export function initDiscordRealtime({
             if (!heroTag) return;
 
             try {
-                const res = await fetch(`js/status.json?t=${Date.now()}`);
+                const res = await fetchWithTimeout(`js/status.json?t=${Date.now()}`);
                 const data = await res.json();
 
                 if (data.isAvailable === false) {
