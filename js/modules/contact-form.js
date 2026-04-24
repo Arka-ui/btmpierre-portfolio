@@ -14,6 +14,8 @@
  * }
  */
 
+import { fetchWithTimeout } from './fetch-timeout.js';
+
 /**
  * Wires up the contact form and booking modal to the Supabase edge function.
  * @param {{ config: { supabaseUrl: string, supabaseAnonKey: string }, t: Function }} options
@@ -97,10 +99,15 @@ export function initContactForm({ config, t }) {
             dateStyle: 'short',
             timeStyle: 'short'
         });
+        const turnstileToken = typeof window.turnstile?.getResponse === 'function'
+            ? window.turnstile.getResponse() || ''
+            : '';
         const payload = {
             provider: 'telegram',
             type: 'contact',
             timestamp: new Date().toISOString(),
+            website: formData.get('website') || '',
+            turnstileToken,
             contact: {
                 name: formData.get('name'),
                 email: formData.get('email'),
@@ -136,7 +143,7 @@ export function initContactForm({ config, t }) {
         const functionUrl = `${config.supabaseUrl}/functions/v1/contact-handler`;
 
         try {
-            const res = await fetch(functionUrl, {
+            const res = await fetchWithTimeout(functionUrl, { timeoutMs: 12000,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -411,10 +418,15 @@ export function initContactForm({ config, t }) {
                 timeStyle: 'short'
             });
 
+            const turnstileToken = typeof window.turnstile?.getResponse === 'function'
+                ? window.turnstile.getResponse() || ''
+                : '';
             const payload = {
                 provider: 'telegram',
                 type: 'booking',
                 timestamp: new Date().toISOString(),
+                website: formData.get('website') || '',
+                turnstileToken,
                 booking: {
                     name: formData.get('name'),
                     email: formData.get('email'),
@@ -458,7 +470,7 @@ export function initContactForm({ config, t }) {
             const functionUrl = `${config.supabaseUrl}/functions/v1/contact-handler`;
 
             try {
-                const res = await fetch(functionUrl, {
+                const res = await fetchWithTimeout(functionUrl, { timeoutMs: 12000,
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

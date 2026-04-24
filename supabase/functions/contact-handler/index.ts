@@ -14,6 +14,10 @@ type ContactPayload = {
     type?: 'contact' | 'booking' | string;
     timestamp?: string;
     text?: string;
+    /** Honeypot field — any non-empty value means it's a bot. */
+    website?: string;
+    /** Cloudflare Turnstile response token from the client widget. */
+    turnstileToken?: string;
     contact?: {
         name?: string;
         email?: string;
@@ -29,6 +33,53 @@ type ContactPayload = {
         description?: string;
     };
 };
+
+// ── In-memory rate limit (per Deno isolate). Not a distributed limiter but
+// enough to throttle a single noisy IP between cold starts. ───────────────
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const ipHits = new Map<string, number[]>();
+
+function rateLimit(ip: string): { ok: boolean; retryAfterSec: number } {
+    const now = Date.now();
+    const cutoff = now - RATE_LIMIT_WINDOW_MS;
+    const prior = (ipHits.get(ip) || []).filter((t) => t > cutoff);
+    if (prior.length >= RATE_LIMIT_MAX) {
+        const retryAfterSec = Math.max(1, Math.ceil((prior[0] + RATE_LIMIT_WINDOW_MS - now) / 1000));
+        return { ok: false, retryAfterSec };
+    }
+    prior.push(now);
+    ipHits.set(ip, prior);
+
+    // Opportunistic GC so the map doesn't grow forever.
+    if (ipHits.size > 5000) {
+        for (const [key, times] of ipHits) {
+            const filtered = times.filter((t) => t > cutoff);
+            if (filtered.length === 0) ipHits.delete(key);
+            else ipHits.set(key, filtered);
+        }
+    }
+    return { ok: true, retryAfterSec: 0 };
+}
+
+async function verifyTurnstile(token: string, remoteIp: string): Promise<boolean> {
+    const secret = Deno.env.get('TURNSTILE_SECRET');
+    // No secret configured → skip verification (dev / staging fallback).
+    if (!secret) return true;
+    if (!token) return false;
+
+    try {
+        const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ secret, response: token, remoteip: remoteIp }).toString()
+        });
+        const data = await res.json().catch(() => ({}));
+        return Boolean(data.success);
+    } catch {
+        return false;
+    }
+}
 
 function toSafeLine(value: unknown): string {
     if (value === null || value === undefined) return '';
@@ -144,9 +195,43 @@ Deno.serve(async (req) => {
         });
     }
 
+    const clientIp = (req.headers.get('cf-connecting-ip')
+        || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+        || 'unknown').slice(0, 64);
+
+    const limit = rateLimit(clientIp);
+    if (!limit.ok) {
+        return new Response(JSON.stringify({ error: 'Too many requests.' }), {
+            status: 429,
+            headers: {
+                ...corsHeaders,
+                'Content-Type': 'application/json',
+                'Retry-After': String(limit.retryAfterSec)
+            }
+        });
+    }
+
     try {
         const body = await req.json();
         const payload: ContactPayload = body?.payload || {};
+
+        // Honeypot — a real user never fills the hidden `website` field.
+        if (toSafeLine(payload.website).length > 0) {
+            // Respond 200 to avoid giving bots feedback. Silently drop.
+            return new Response(JSON.stringify({ ok: true }), {
+                status: 200,
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+        }
+
+        // Turnstile challenge (skipped when TURNSTILE_SECRET is not set).
+        const captchaOk = await verifyTurnstile(toSafeLine(payload.turnstileToken), clientIp);
+        if (!captchaOk) {
+            return new Response(JSON.stringify({ error: 'Captcha failed.' }), {
+                status: 403,
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+        }
 
         const provider = toSafeLine(payload.provider).toLowerCase();
         if (provider && provider !== 'telegram') {
@@ -160,6 +245,14 @@ Deno.serve(async (req) => {
         if (!text) {
             return new Response(JSON.stringify({ error: 'Empty message payload.' }), {
                 status: 400,
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+            });
+        }
+
+        // Hard cap so oversized payloads can't pile into Telegram.
+        if (text.length > 4000) {
+            return new Response(JSON.stringify({ error: 'Message too long.' }), {
+                status: 413,
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' }
             });
         }
