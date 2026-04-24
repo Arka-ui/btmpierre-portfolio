@@ -35,7 +35,7 @@ async function runDesktopTests() {
         // Test with scrolled view
         console.log('📸 Testing scroll view...');
         await page.evaluate(() => window.scrollBy(0, window.innerHeight * 2));
-        await page.waitForTimeout(500);
+        await new Promise((r) => setTimeout(r, 500));
         await page.screenshot({ path: `${OUTPUT_DIR}/scrolled-view.png` });
 
         // Test with compact mode
@@ -55,7 +55,7 @@ async function runDesktopTests() {
             const toggle = document.getElementById('accessibilityToggle');
             if (toggle) toggle.click();
         });
-        await page.waitForTimeout(500);
+        await new Promise((r) => setTimeout(r, 500));
         await page.screenshot({ path: `${OUTPUT_DIR}/accessibility-mode.png` });
 
         console.log('✅ Desktop visual tests completed!');

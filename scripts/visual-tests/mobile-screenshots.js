@@ -57,7 +57,7 @@ async function runMobileTests() {
 
                 // Test scrolled view
                 await page.evaluate(() => window.scrollBy(0, window.innerHeight));
-                await page.waitForTimeout(300);
+                await new Promise((r) => setTimeout(r, 300));
                 await page.screenshot({ path: `${deviceDir}/scrolled.png` });
 
                 // Test compact mode
