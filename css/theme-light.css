@@ -1,0 +1,984 @@
+/* ──────────────────────────────────────────────────────────────────────────
+ * LIGHT THEME OVERRIDES
+ *
+ * components.css (5.7k lines) hardcodes a lot of `rgba(10, 13, 18, ...)`,
+ * `rgba(91, 157, 255, ...)`, and `rgba(255, 255, 255, ...)` directly. Those
+ * literals are tuned for the dark palette — when the page swaps to
+ * data-theme="light" they create the "white aura on white" effect because
+ * the dark surfaces stay dark.
+ *
+ * This file is the override layer: every prominent surface gets a
+ * data-theme="light" rule that replaces the hardcoded dark color with a
+ * coherent ice/parchment equivalent. It runs AFTER components.css so its
+ * higher specificity ([data-theme="light"]) wins without !important.
+ *
+ * Design language for light theme:
+ *   - bg:           #F4F6FA (cool parchment)
+ *   - panels:       rgba(255, 255, 255, 0.78) (frosted glass)
+ *   - text strong:  #0A0D12
+ *   - text muted:   #4A5568
+ *   - borders:      rgba(10, 13, 18, 0.10)
+ *   - accent:       #2563EB (deeper ice-blue for AA contrast on light)
+ *   - accent soft:  #3B82F6
+ *   - shadows:      cool blue-tinted, much lower opacity than dark theme
+ * ────────────────────────────────────────────────────────────────────────── */
+
+:root[data-theme="light"] {
+    /* Unified shadow + glow tokens for light surfaces */
+    --light-card-bg:        rgba(255, 255, 255, 0.78);
+    --light-card-bg-hover:  rgba(255, 255, 255, 0.92);
+    --light-card-border:    rgba(10, 13, 18, 0.10);
+    --light-text-strong:    #0A0D12;
+    --light-text-muted:     #4A5568;
+    --light-accent:         #2563EB;
+    --light-accent-soft:    #3B82F6;
+    --light-accent-bg-12:   rgba(37, 99, 235, 0.12);
+    --light-accent-bg-08:   rgba(37, 99, 235, 0.08);
+    --light-shadow-card:    0 1px 2px rgba(10, 20, 40, 0.04), 0 8px 28px rgba(10, 20, 40, 0.08);
+    --light-shadow-hover:   0 0 0 1px rgba(37, 99, 235, 0.20), 0 14px 40px rgba(10, 20, 40, 0.10);
+}
+
+/* ── BODY / MAIN BACKDROP ─────────────────────────────────────────────── */
+:root[data-theme="light"] body {
+    background-color: var(--bg);
+    color: var(--text-main);
+}
+
+/* The dark grain (mix-blend: overlay) becomes a faint paper texture in light */
+:root[data-theme="light"] body::before {
+    mix-blend-mode: multiply;
+    opacity: 0.03;
+}
+
+/* Subtle hero glow becomes warmer wash on light bg */
+:root[data-theme="light"] body::after {
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(220, 230, 245, 0.7) 0%, transparent 65%),
+        radial-gradient(ellipse at 80% 100%, rgba(37, 99, 235, 0.045) 0%, transparent 55%);
+}
+
+/* ── HEADER / NAV ─────────────────────────────────────────────────────── */
+:root[data-theme="light"] header.scrolled {
+    background: rgba(244, 246, 250, 0.80);
+    border-bottom-color: rgba(10, 13, 18, 0.08);
+    box-shadow: 0 8px 28px rgba(10, 20, 40, 0.06);
+}
+
+:root[data-theme="light"] header nav {
+    background: rgba(255, 255, 255, 0.66) !important;
+    border-color: rgba(10, 13, 18, 0.08) !important;
+    box-shadow: 0 2px 12px rgba(10, 20, 40, 0.06) !important;
+}
+
+:root[data-theme="light"] header.scrolled nav {
+    background: rgba(255, 255, 255, 0.86) !important;
+    border-color: rgba(10, 13, 18, 0.10) !important;
+    box-shadow: 0 6px 22px rgba(10, 20, 40, 0.08) !important;
+}
+
+:root[data-theme="light"] .nav-links {
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: 0 6px 18px rgba(10, 20, 40, 0.06);
+}
+
+:root[data-theme="light"] .nav-links a {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .nav-links a i {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .nav-links a:hover,
+:root[data-theme="light"] .nav-links a.active {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .nav-links a:hover i,
+:root[data-theme="light"] .nav-links a.active i {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .lang-switch {
+    background: rgba(255, 255, 255, 0.66);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .lang-btn {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .lang-btn:hover {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .lang-btn.active {
+    color: #ffffff;
+    background: var(--light-accent);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.30);
+}
+
+:root[data-theme="light"] .logo {
+    color: var(--light-text-strong);
+    text-shadow: 0 0 10px rgba(37, 99, 235, 0.18);
+}
+
+:root[data-theme="light"] .hamburger-bar {
+    background: var(--light-text-strong) !important;
+}
+
+/* ── DISCORD CARD ─────────────────────────────────────────────────────── */
+:root[data-theme="light"] .discord-card {
+    background: var(--light-card-bg);
+    border-color: rgba(37, 99, 235, 0.22);
+    box-shadow: var(--light-shadow-card);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .discord-card .username {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .discord-card .status-text-scroller,
+:root[data-theme="light"] .discord-card .activity-placeholder {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .activity-row {
+    background: rgba(10, 13, 18, 0.04);
+}
+
+:root[data-theme="light"] .act-name,
+:root[data-theme="light"] .activity-extra-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .act-details,
+:root[data-theme="light"] .act-state,
+:root[data-theme="light"] .activity-meta-label,
+:root[data-theme="light"] .activity-meta-value {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .spotify-bar {
+    background: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .activity-popup {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+/* ── CARD BASE (.card-base) ───────────────────────────────────────────── */
+:root[data-theme="light"] .card-base {
+    background: var(--light-card-bg);
+    border-color: rgba(37, 99, 235, 0.22);
+    box-shadow:
+        0 0 0 1px rgba(37, 99, 235, 0.06),
+        var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .card-base:hover {
+    background: var(--light-card-bg-hover);
+    border-color: rgba(37, 99, 235, 0.45);
+    box-shadow: var(--light-shadow-hover);
+}
+
+:root[data-theme="light"] .card-base::after {
+    border-right-color: rgba(37, 99, 235, 0.30);
+    border-top-color: rgba(37, 99, 235, 0.30);
+}
+
+:root[data-theme="light"] .card-base:hover::after {
+    border-color: rgba(37, 99, 235, 0.60);
+    box-shadow: 0 0 14px rgba(37, 99, 235, 0.30);
+}
+
+/* ── HERO ──────────────────────────────────────────────────────────────── */
+:root[data-theme="light"] .hero h1 {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .hero h1 .dim {
+    color: rgba(10, 13, 18, 0.55);
+}
+
+:root[data-theme="light"] .hero h1 .glow-word {
+    /* gradient already reads from --ice-blue (deeper in light), but ensure
+       fallback color is set for engines that don't support background-clip */
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .hero-sub {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .hero-tag {
+    background: rgba(255, 255, 255, 0.74);
+    border: 1px solid rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+    box-shadow: 0 6px 18px rgba(10, 20, 40, 0.06);
+}
+
+:root[data-theme="light"] .hero-monogram {
+    color: rgba(10, 13, 18, 0.07);
+    text-shadow: 0 0 30px rgba(37, 99, 235, 0.10);
+}
+
+/* ── SECTIONS / TAGS / TITLES ─────────────────────────────────────────── */
+:root[data-theme="light"] .section-tag {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .section-tag .sparkle {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .section-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .section-seo,
+:root[data-theme="light"] .big-text {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .big-text .highlight {
+    color: var(--light-accent);
+}
+
+/* Welcome box / pill chrome */
+:root[data-theme="light"] .welcome-box {
+    background: rgba(255, 255, 255, 0.74);
+    border-color: rgba(10, 13, 18, 0.14);
+}
+
+:root[data-theme="light"] .welcome-text {
+    color: var(--light-text-strong);
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────────────────── */
+:root[data-theme="light"] .btn-primary {
+    background: var(--light-accent);
+    color: #ffffff !important;
+    border-color: var(--light-accent);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+}
+
+:root[data-theme="light"] .btn-primary:hover {
+    background: var(--light-accent-soft);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.36);
+}
+
+:root[data-theme="light"] .btn-secondary {
+    background: var(--light-card-bg);
+    color: var(--light-text-strong);
+    border-color: rgba(10, 13, 18, 0.16);
+    backdrop-filter: blur(8px);
+}
+
+:root[data-theme="light"] .btn-secondary:hover {
+    background: var(--light-card-bg-hover);
+    border-color: var(--light-accent);
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .btn-sm,
+:root[data-theme="light"] .learn-more-btn {
+    background: rgba(255, 255, 255, 0.66);
+    color: var(--light-text-strong);
+    border: 1px solid rgba(10, 13, 18, 0.12);
+}
+
+:root[data-theme="light"] .btn-sm:hover,
+:root[data-theme="light"] .learn-more-btn:hover {
+    background: rgba(255, 255, 255, 0.90);
+    border-color: var(--light-accent);
+    color: var(--light-accent);
+}
+
+/* ── CAROUSEL (PROJECT CARDS) ─────────────────────────────────────────── */
+:root[data-theme="light"] .carousel-item {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .carousel-item:hover {
+    background: var(--light-card-bg-hover);
+    border-color: rgba(37, 99, 235, 0.50);
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.20), 0 24px 60px rgba(10, 20, 40, 0.12);
+}
+
+:root[data-theme="light"] .carousel-item::before {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.22), transparent 40%, rgba(37, 99, 235, 0.08) 60%, rgba(37, 99, 235, 0.22));
+}
+
+:root[data-theme="light"] .carousel-item::after {
+    border-right-color: rgba(37, 99, 235, 0.30);
+    border-top-color: rgba(37, 99, 235, 0.30);
+}
+
+:root[data-theme="light"] .carousel-item:hover::after {
+    border-color: rgba(37, 99, 235, 0.70);
+    box-shadow: 0 0 14px rgba(37, 99, 235, 0.30);
+}
+
+:root[data-theme="light"] .carousel-item i.bi {
+    background: rgba(37, 99, 235, 0.10);
+    color: var(--light-accent);
+    filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.30));
+}
+
+:root[data-theme="light"] .project-meta {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .project-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .project-desc {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .tech-pill {
+    background: rgba(37, 99, 235, 0.10);
+    color: var(--light-accent);
+    border: 1px solid rgba(37, 99, 235, 0.22);
+}
+
+/* Project status / build / quality badges */
+:root[data-theme="light"] .project-status-badge {
+    background: rgba(10, 13, 18, 0.06);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .project-status-badge[data-status="production"] {
+    background: rgba(34, 197, 94, 0.16);
+    color: #166534;
+    border-color: rgba(34, 197, 94, 0.45);
+}
+
+:root[data-theme="light"] .project-status-badge[data-status="testing"] {
+    background: rgba(245, 213, 138, 0.30);
+    color: #854d0e;
+    border-color: rgba(245, 213, 138, 0.55);
+}
+
+:root[data-theme="light"] .project-build-badge {
+    background: rgba(10, 13, 18, 0.06);
+    color: var(--light-text-strong);
+    border-color: rgba(10, 13, 18, 0.12);
+}
+
+:root[data-theme="light"] .project-quality-badge {
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--light-text-strong);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+/* Carousel nav arrows + dots */
+:root[data-theme="light"] .carousel-nav,
+:root[data-theme="light"] .nav-btn {
+    background: rgba(255, 255, 255, 0.86);
+    border-color: rgba(10, 13, 18, 0.14);
+    color: var(--light-text-strong);
+    box-shadow: 0 4px 14px rgba(10, 20, 40, 0.08);
+}
+
+:root[data-theme="light"] .carousel-nav:hover,
+:root[data-theme="light"] .nav-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    border-color: var(--light-accent);
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .carousel-dot {
+    background: rgba(10, 13, 18, 0.20);
+}
+
+:root[data-theme="light"] .carousel-dot.active {
+    background: var(--light-accent);
+}
+
+/* Featured metrics panel */
+:root[data-theme="light"] .featured-metrics-panel {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .featured-metric-label {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .featured-metric-value {
+    color: var(--light-text-strong);
+}
+
+/* Client-mode toolbar */
+:root[data-theme="light"] .client-mode-toolbar {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .client-mode-label {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .client-filter-btn {
+    background: rgba(255, 255, 255, 0.65);
+    color: var(--light-text-muted);
+    border: 1px solid rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .client-filter-btn:hover {
+    color: var(--light-accent);
+    border-color: var(--light-accent);
+}
+
+:root[data-theme="light"] .client-filter-btn.active {
+    background: var(--light-accent);
+    color: #ffffff;
+    border-color: var(--light-accent);
+}
+
+/* ── ABOUT / GLASS PANELS ─────────────────────────────────────────────── */
+:root[data-theme="light"] .glass-panel {
+    background: var(--light-card-bg) !important;
+    border-color: rgba(10, 13, 18, 0.10) !important;
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .expertise-title,
+:root[data-theme="light"] .expertise-item-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .expertise-icon {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .expertise-item-desc {
+    color: var(--light-text-muted);
+}
+
+/* GitHub metrics card */
+:root[data-theme="light"] .github-metrics-title,
+:root[data-theme="light"] .github-logo-icon {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .gh-stat-value {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .gh-stat-label,
+:root[data-theme="light"] .gh-lang-label {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .gh-lang-bar-container {
+    background: rgba(10, 13, 18, 0.08);
+}
+
+/* ── SKILLS ───────────────────────────────────────────────────────────── */
+:root[data-theme="light"] .skills-category {
+    /* glass-panel already covered */
+}
+
+:root[data-theme="light"] .skills-category-header h3 {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .skills-category-header i {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .skill-name {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .skill-bar {
+    background: rgba(10, 13, 18, 0.08);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .skill-bar-fill {
+    background: linear-gradient(90deg, var(--light-accent) 0%, var(--light-accent-soft) 100%);
+}
+
+:root[data-theme="light"] .skill-pct-label {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .skill-tooltip {
+    background: var(--light-text-strong);
+    color: #ffffff;
+}
+
+:root[data-theme="light"] .skill-badge {
+    background: rgba(10, 13, 18, 0.05);
+    color: var(--light-text-strong);
+    border: 1px solid rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .skill-badge.level-expert {
+    background: rgba(37, 99, 235, 0.14);
+    color: var(--light-accent);
+    border-color: rgba(37, 99, 235, 0.30);
+}
+
+:root[data-theme="light"] .skill-badge.level-advanced {
+    background: rgba(34, 197, 94, 0.12);
+    color: #166534;
+    border-color: rgba(34, 197, 94, 0.30);
+}
+
+:root[data-theme="light"] .skill-badge.level-intermediate {
+    background: rgba(245, 213, 138, 0.30);
+    color: #854d0e;
+    border-color: rgba(245, 213, 138, 0.55);
+}
+
+:root[data-theme="light"] .skill-badge.level-beginner {
+    background: rgba(10, 13, 18, 0.06);
+    color: var(--light-text-muted);
+}
+
+/* ── EXPERIENCE / TIMELINE ────────────────────────────────────────────── */
+:root[data-theme="light"] .timeline {
+    border-left-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .tl-item {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .tl-item::before {
+    background: var(--light-accent);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+:root[data-theme="light"] .tl-date {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .tl-company {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .tl-role {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .tl-toggle {
+    color: var(--light-text-muted);
+    background: rgba(10, 13, 18, 0.04);
+    border-color: rgba(10, 13, 18, 0.08);
+}
+
+:root[data-theme="light"] .tl-toggle:hover {
+    color: var(--light-accent);
+    border-color: var(--light-accent);
+}
+
+:root[data-theme="light"] .tl-desc {
+    color: var(--light-text-muted);
+}
+
+/* ── MARQUEE ──────────────────────────────────────────────────────────── */
+:root[data-theme="light"] .marquee-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .brand-item {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .liquid-glass.brand-icon,
+:root[data-theme="light"] .brand-icon {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid rgba(10, 13, 18, 0.08);
+    box-shadow: 0 4px 12px rgba(10, 20, 40, 0.06);
+}
+
+/* ── CONTACT / FOOTER-CTA ─────────────────────────────────────────────── */
+:root[data-theme="light"] .response-time-pill {
+    background: rgba(37, 99, 235, 0.10);
+    color: var(--light-accent);
+    border-color: rgba(37, 99, 235, 0.22);
+}
+
+:root[data-theme="light"] .contact-link {
+    background: rgba(255, 255, 255, 0.74);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .contact-link:hover {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: var(--light-accent);
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .contact-link .icon {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .contact-info-card {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+/* Site footer */
+:root[data-theme="light"] .site-footer {
+    border-top-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .site-footer-name,
+:root[data-theme="light"] .site-footer-copy {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .site-footer-icon {
+    background: rgba(255, 255, 255, 0.74);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .site-footer-icon:hover {
+    background: var(--light-accent);
+    color: #ffffff;
+    border-color: var(--light-accent);
+}
+
+/* ── MODAL OVERLAY (project + skill details) ──────────────────────────── */
+:root[data-theme="light"] .modal-overlay {
+    background: rgba(20, 30, 60, 0.40);
+    backdrop-filter: blur(8px);
+}
+
+:root[data-theme="light"] .modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: 0 30px 80px rgba(10, 20, 40, 0.18);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .modal-content h2,
+:root[data-theme="light"] #modal-title,
+:root[data-theme="light"] #skill-modal-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .modal-description {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .close-modal {
+    background: rgba(10, 13, 18, 0.06);
+    color: var(--light-text-strong);
+    border: 1px solid rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .close-modal:hover {
+    background: var(--light-accent);
+    color: #ffffff;
+    border-color: var(--light-accent);
+}
+
+:root[data-theme="light"] .modal-meta-text {
+    color: var(--light-text-muted);
+}
+
+/* ── SEARCH OVERLAY (legacy Ctrl+K, kept in DOM) ──────────────────────── */
+:root[data-theme="light"] .search-overlay {
+    background: rgba(20, 30, 60, 0.34);
+}
+
+:root[data-theme="light"] .search-container {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(10, 13, 18, 0.10) !important;
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .search-header input {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .search-header input::placeholder {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .search-kbd {
+    background: rgba(10, 13, 18, 0.06);
+    color: var(--light-text-muted);
+    border: 1px solid rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .search-item {
+    color: var(--light-text-strong);
+    border-bottom-color: rgba(10, 13, 18, 0.06);
+}
+
+:root[data-theme="light"] .search-item:hover {
+    background: rgba(37, 99, 235, 0.08);
+}
+
+/* ── TERMINAL OVERLAY ─────────────────────────────────────────────────── */
+/* Terminal stays dark even in light theme — code aesthetics expect dark.
+   We only soften the surrounding overlay tint. */
+:root[data-theme="light"] .terminal-overlay {
+    background: rgba(20, 30, 60, 0.55);
+}
+
+/* ── FEATURE-BLOCKED OVERLAY (visual polish ONLY — markup contract intact) ─ */
+:root[data-theme="light"] .feature-blocked-overlay {
+    background: rgba(255, 255, 255, 0.88) !important;
+    border-color: rgba(10, 13, 18, 0.10) !important;
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .feature-blocked-tag {
+    background: rgba(245, 213, 138, 0.30);
+    color: #854d0e;
+    border-color: rgba(245, 213, 138, 0.55);
+}
+
+:root[data-theme="light"] .feature-blocked-icon {
+    background: rgba(37, 99, 235, 0.10);
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .feature-blocked-title {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .feature-blocked-note {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .feature-blocked-cta {
+    background: var(--light-accent);
+    color: #ffffff;
+    border-color: var(--light-accent);
+}
+
+:root[data-theme="light"] .feature-blocked-cta:hover {
+    background: var(--light-accent-soft);
+}
+
+/* ── NAV DRAWER (mobile) ──────────────────────────────────────────────── */
+:root[data-theme="light"] .nav-drawer-panel {
+    background: rgba(255, 255, 255, 0.96);
+    border-left-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .nav-drawer-overlay {
+    background: rgba(20, 30, 60, 0.30);
+}
+
+:root[data-theme="light"] .nav-drawer-links a {
+    color: var(--light-text-strong);
+    border-bottom-color: rgba(10, 13, 18, 0.06);
+}
+
+:root[data-theme="light"] .nav-drawer-links a:hover {
+    color: var(--light-accent);
+    background: rgba(37, 99, 235, 0.06);
+}
+
+:root[data-theme="light"] .nav-drawer-close {
+    color: var(--light-text-strong);
+}
+
+/* ── BACK-TO-TOP / READING PROGRESS ───────────────────────────────────── */
+:root[data-theme="light"] .back-to-top {
+    background: var(--light-card-bg);
+    border-color: rgba(10, 13, 18, 0.12);
+    color: var(--light-text-strong);
+    box-shadow: var(--light-shadow-card);
+}
+
+:root[data-theme="light"] .back-to-top:hover {
+    background: var(--light-accent);
+    color: #ffffff;
+}
+
+/* ── BOOKING MODAL (kept frozen — visual polish on overlay only) ──────── */
+:root[data-theme="light"] .booking-modal-overlay {
+    background: rgba(20, 30, 60, 0.42);
+}
+
+:root[data-theme="light"] .booking-modal-dialog {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: var(--light-text-strong);
+}
+
+/* ── PROJECT QUALITY / EXTRA BADGES ───────────────────────────────────── */
+:root[data-theme="light"] .gh-modal-stats,
+:root[data-theme="light"] .modal-action-space {
+    color: var(--light-text-muted);
+}
+
+/* ── PALETTE TRIGGER (theme-aware kbd hint) ───────────────────────────── */
+:root[data-theme="light"] .palette-trigger {
+    background: rgba(255, 255, 255, 0.74);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .palette-trigger:hover {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: var(--light-accent);
+}
+
+:root[data-theme="light"] .palette-trigger i {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .palette-trigger-kbd {
+    background: rgba(37, 99, 235, 0.10);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+/* ── THEME TOGGLE BUTTON (light-theme variant) ────────────────────────── */
+:root[data-theme="light"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .theme-toggle:hover {
+    border-color: var(--light-accent);
+    box-shadow: 0 0 14px rgba(37, 99, 235, 0.30);
+}
+
+/* ── COMMAND PALETTE (theme-aware accents) ────────────────────────────── */
+:root[data-theme="light"] .palette-shell {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: 0 30px 80px rgba(10, 20, 40, 0.16), 0 0 0 1px rgba(10, 13, 18, 0.06) inset;
+}
+
+:root[data-theme="light"] .palette-input {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .palette-input::placeholder {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .palette-search-icon,
+:root[data-theme="light"] .palette-group-label,
+:root[data-theme="light"] .palette-item-desc {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .palette-item {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .palette-item-icon {
+    color: var(--light-accent);
+}
+
+:root[data-theme="light"] .palette-foot {
+    color: var(--light-text-muted);
+    border-top-color: rgba(10, 13, 18, 0.08);
+}
+
+:root[data-theme="light"] .palette-brand {
+    color: var(--light-accent);
+}
+
+/* ── KONAMI TOAST ─────────────────────────────────────────────────────── */
+:root[data-theme="light"] .konami-toast {
+    background: rgba(255, 255, 255, 0.94);
+    border-color: var(--light-accent);
+    color: var(--light-accent);
+    box-shadow: 0 0 24px rgba(37, 99, 235, 0.30), 0 12px 36px rgba(10, 20, 40, 0.18);
+}
+
+/* ── CASE-STUDY MODAL ─────────────────────────────────────────────────── */
+:root[data-theme="light"] .case-study-shell {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(10, 13, 18, 0.10);
+    box-shadow: 0 40px 100px rgba(10, 20, 40, 0.18);
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .case-study-tag,
+:root[data-theme="light"] .case-study-h3 {
+    color: var(--light-text-strong);
+}
+
+:root[data-theme="light"] .case-study-section p,
+:root[data-theme="light"] .case-study-metric-label {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .case-study-h3-pip {
+    background: rgba(37, 99, 235, 0.12);
+    color: var(--light-accent);
+    border-color: rgba(10, 13, 18, 0.10);
+}
+
+:root[data-theme="light"] .case-study-pill {
+    background: rgba(255, 255, 255, 0.86);
+    border-color: rgba(10, 13, 18, 0.12);
+    color: var(--light-text-strong);
+}
+
+/* ── HERO STATUS CARET ────────────────────────────────────────────────── */
+:root[data-theme="light"] .hero-tag .hero-status-caret {
+    color: var(--light-accent);
+}
+
+/* ── SECTIONS BG WASH — kill the dark gradient overlays ───────────────── */
+:root[data-theme="light"] .section::before,
+:root[data-theme="light"] .section::after {
+    opacity: 0.4;
+}
+
+/* ── SCROLLBAR ────────────────────────────────────────────────────────── */
+:root[data-theme="light"] ::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+/* ── TOOLTIP / POPUP TWEAKS ───────────────────────────────────────────── */
+:root[data-theme="light"] .activity-popup,
+:root[data-theme="light"] .activity-popup-overlay {
+    color: var(--light-text-strong);
+}
+
+/* ── SEARCH KBD HINT (when open in light) ─────────────────────────────── */
+:root[data-theme="light"] .palette-kbd-hint {
+    color: var(--light-text-muted);
+}
+
+:root[data-theme="light"] .palette-kbd-hint kbd {
+    background: rgba(37, 99, 235, 0.10);
+    border-color: rgba(10, 13, 18, 0.10);
+    color: var(--light-text-strong);
+}
+
+/* ── Edge cases: any element using rgba(91, 157, 255, low-alpha) for a
+ *    background tint reads OK against light bg already (it's just a faint
+ *    blue wash). No override needed for those — keep them. ────────────── */
+
+/* ── HOVERS THAT INVERT TO DARK BG IN ORIGINAL CSS ────────────────────── */
+:root[data-theme="light"] .gh-api-badge {
+    background: rgba(255, 255, 255, 0.74);
+    color: var(--light-text-strong);
+    border-color: rgba(10, 13, 18, 0.10);
+}

@@ -109,6 +109,15 @@ export function initThemeToggle({ t } = {}) {
         button.dataset.theme = theme;
     };
 
+    // First-visit hint: the CSS pulse runs unless the user already made a
+    // theme choice (stored in localStorage). Set the data attribute now so
+    // returning visitors don't see the pulse.
+    try {
+        if (localStorage.getItem(STORAGE_KEY)) {
+            button.dataset.themeHint = 'off';
+        }
+    } catch (_) { /* localStorage denied — let the pulse run */ }
+
     const toggle = (event) => {
         const next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
         let originX = null;
@@ -123,6 +132,8 @@ export function initThemeToggle({ t } = {}) {
         }
         setTheme(next, { x: originX, y: originY });
         refresh();
+        // User has now seen + used the toggle — kill the first-visit hint.
+        button.dataset.themeHint = 'off';
     };
 
     button.addEventListener('click', toggle);

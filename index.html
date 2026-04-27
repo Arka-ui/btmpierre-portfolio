@@ -60,21 +60,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
     <!-- Styles -->
-    <link rel="preload" href="css/base.css?v=2.4" as="style">
+    <link rel="preload" href="css/base.css?v=2.5" as="style">
     <link rel="preload" href="css/components-critical.css?v=1.1" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/components-critical.css?v=1.1"></noscript>
-    <link rel="preload" href="css/components.css?v=4.0" as="style">
+    <link rel="preload" href="css/components.css?v=4.1" as="style">
     <link rel="preload" href="css/animations.css?v=1.2" as="style">
-    <link rel="preload" href="css/ui-modern.css?v=1.2" as="style">
+    <link rel="preload" href="css/ui-modern.css?v=1.3" as="style">
+    <link rel="preload" href="css/theme.css?v=1.2" as="style">
+    <link rel="preload" href="css/theme-light.css?v=1.0" as="style">
     <link rel="modulepreload" href="js/main.js?v=4.1">
-    <link rel="stylesheet" href="css/base.css?v=2.4">
-    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/base.css?v=2.5">
+    <link rel="stylesheet" href="css/components.css?v=4.1">
     <link rel="stylesheet" href="css/animations.css?v=1.2">
-    <link rel="stylesheet" href="css/hero-style.css?v=1.2">
-    <link rel="stylesheet" href="css/ui-modern.css?v=1.2">
-    <link rel="stylesheet" href="css/theme.css?v=1.0">
+    <link rel="stylesheet" href="css/hero-style.css?v=1.3">
+    <link rel="stylesheet" href="css/ui-modern.css?v=1.3">
+    <link rel="stylesheet" href="css/theme.css?v=1.2">
     <link rel="stylesheet" href="css/command-palette.css?v=1.0">
     <link rel="stylesheet" href="css/case-study.css?v=1.0">
+    <!-- LIGHT THEME OVERRIDES — must load AFTER components.css so the higher
+         specificity ([data-theme="light"]) wins over hardcoded dark literals. -->
+    <link rel="stylesheet" href="css/theme-light.css?v=1.0">
 
     <script type="application/ld+json">
 {

@@ -7,6 +7,31 @@
  * crossfade fallback (Firefox/Safari). Reduced-motion bails to instant.
  * ────────────────────────────────────────────────────────────────────────── */
 
+/* hero-style.css hides the whole .nav-actions container under 1024px so the
+ * pre-existing language switcher gets relocated to the drawer. We override
+ * that for the two new fork-only controls so the theme toggle + palette
+ * trigger stay reachable at every viewport. The legacy lang-switch inside
+ * the same container stays hidden (the drawer has its own copy). */
+@media (max-width: 1024px) {
+    .nav-actions {
+        display: flex !important;
+        gap: 0.4rem;
+        align-items: center;
+    }
+
+    .nav-actions .lang-switch {
+        display: none;
+    }
+}
+
+@media (max-width: 540px) {
+    /* On really narrow screens, drop the palette trigger — Cmd+K still works
+     * and the palette is otherwise reachable through the drawer. */
+    .palette-trigger {
+        display: none;
+    }
+}
+
 /* Button shell — matches the existing lang-switch pill aesthetic */
 .theme-toggle {
     --toggle-size: 2.1rem;
@@ -97,6 +122,31 @@
 /* Light theme button background gets a touch warmer */
 :root[data-theme="light"] .theme-toggle {
     background: rgba(255, 255, 255, 0.78);
+}
+
+/* First-visit hint pulse — announces the new toggle once. The pulse fires
+ * 3 times after a 1.2s delay then fades out. We add `data-theme-hint="off"`
+ * (set by theme-toggle.js once the user has clicked it OR has a stored
+ * preference) to skip the hint for returning visitors. */
+.theme-toggle:not([data-theme-hint="off"]) {
+    animation: theme-hint-pulse 1.6s var(--ease-bounce-soft) 1.2s 3 both;
+}
+
+@keyframes theme-hint-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 rgba(91, 157, 255, 0);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(91, 157, 255, 0.0), 0 0 22px rgba(91, 157, 255, 0.55);
+        transform: scale(1.06);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-toggle:not([data-theme-hint="off"]) {
+        animation: none;
+    }
 }
 
 /* Mobile drawer copy of the button */

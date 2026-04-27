@@ -3,11 +3,12 @@
  * Caches critical assets and enables offline support
  */
 
-const CACHE_VERSION = 'v1.4.0-2026-04-27';
+const CACHE_VERSION = 'v1.5.0-2026-04-27-light-theme';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
-// Assets to precache on install. Bumped 2026-04-27 to include the new
-// theme + palette + case-study + monogram + konami modules.
+// Assets to precache on install. Bumped 2026-04-27 (twice) to include the new
+// theme + palette + case-study + monogram + konami modules + the light-theme
+// override layer. Aggressive bump to flush stale clients from the prior deploy.
 const PRECACHE_URLS = [
     '/',
     '/index.html',
@@ -18,6 +19,7 @@ const PRECACHE_URLS = [
     '/css/hero-style.css',
     '/css/ui-modern.css',
     '/css/theme.css',
+    '/css/theme-light.css',
     '/css/command-palette.css',
     '/css/case-study.css',
     '/js/main.js',
