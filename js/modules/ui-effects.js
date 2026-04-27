@@ -243,9 +243,15 @@ export function initMotionEnhancements() {
 
 /**
  * Adds 3D tilt transform effect to cards on mousemove for fine-pointer devices.
+ * Magnitude reads from --tilt-max-deg (default 3°) so it can be tuned in CSS
+ * without touching this code.
  */
 export function initTiltEffect() {
     if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const rootStyles = getComputedStyle(document.documentElement);
+    const maxDeg = Number(rootStyles.getPropertyValue('--tilt-max-deg').trim()) || 3;
 
     const cards = document.querySelectorAll('.card-3d');
     cards.forEach((card) => {
@@ -261,14 +267,14 @@ export function initTiltEffect() {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
+            const rotateX = ((y - centerY) / centerY) * -maxDeg;
+            const rotateY = ((x - centerX) / centerX) * maxDeg;
 
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.012, 1.012, 1.012)`;
         });
 
         card.addEventListener('mouseleave', () => {
-            card.style.transition = 'all 0.5s ease';
+            card.style.transition = 'transform 0.5s var(--ease-bounce-soft, ease)';
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
         });
     });

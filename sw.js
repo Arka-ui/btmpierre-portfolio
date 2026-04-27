@@ -3,20 +3,38 @@
  * Caches critical assets and enables offline support
  */
 
-const CACHE_VERSION = 'v1.0.1';
+const CACHE_VERSION = 'v1.4.0-2026-04-27';
 const CACHE_NAME = `portfolio-cache-${CACHE_VERSION}`;
 
-// Assets to precache on install
+// Assets to precache on install. Bumped 2026-04-27 to include the new
+// theme + palette + case-study + monogram + konami modules.
 const PRECACHE_URLS = [
     '/',
     '/index.html',
     '/css/base.css',
     '/css/components.css',
+    '/css/components-critical.css',
     '/css/animations.css',
+    '/css/hero-style.css',
+    '/css/ui-modern.css',
+    '/css/theme.css',
+    '/css/command-palette.css',
+    '/css/case-study.css',
     '/js/main.js',
     '/js/config.js',
     '/js/i18n.js',
     '/js/app.js',
+    '/js/particles.js',
+    '/js/data/projects.js',
+    '/js/modules/theme-toggle.js',
+    '/js/modules/command-palette.js',
+    '/js/modules/project-modal.js',
+    '/js/modules/monogram-particles.js',
+    '/js/modules/konami-matrix.js',
+    '/js/modules/hero-effects.js',
+    '/manifest.json',
+    '/robots.txt',
+    '/sitemap.xml',
     '/assets/logo.svg',
     '/assets/og-image.svg',
     '/assets/structured-data.json'

@@ -52,12 +52,10 @@ export function initProjectSearchUI({
         }
     };
 
-    window.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            toggleSearch(!searchModal.classList.contains('open'), document.activeElement);
-        }
-    });
+    // 2026-04-27: the Cmd/Ctrl+K shortcut was reassigned to the new command
+    // palette (js/modules/command-palette.js) which subsumes project search.
+    // The legacy search modal is kept in DOM and still openable via the
+    // search trigger button, but no longer claims the global hotkey.
 
     searchModal.addEventListener('click', (e) => {
         if (e.target === searchModal) toggleSearch(false);

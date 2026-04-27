@@ -1,0 +1,312 @@
+/* ──────────────────────────────────────────────────────────────────────────
+ * CASE STUDY MODAL — rich expanded view for flagship projects.
+ * Hooked up by js/modules/project-modal.js (renderer) +
+ * js/modules/projects-ui.js (click→open routing).
+ *
+ * Visually mirrors the existing project modal but with a hero strip,
+ * accent-driven gradient, and a multi-section body.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+.case-study-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10500;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4vh 1rem 2rem;
+    background: rgba(2, 4, 9, 0.62);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    overflow-y: auto;
+    transition: opacity 0.28s var(--ease-smooth);
+}
+
+:root[data-theme="light"] .case-study-overlay {
+    background: rgba(20, 30, 60, 0.34);
+}
+
+.case-study-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.case-study-shell {
+    position: relative;
+    width: min(960px, 100%);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55);
+    backdrop-filter: var(--card-blur);
+    -webkit-backdrop-filter: var(--card-blur);
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    opacity: 0;
+    transition: transform 0.40s var(--ease-bounce-soft),
+                opacity 0.30s var(--ease-smooth);
+    outline: none;
+}
+
+.case-study-overlay.open .case-study-shell {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Close button — pinned top-right of the shell, glass pill */
+.case-study-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-main);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: transform 0.24s var(--ease-bounce-soft),
+                border-color 0.24s var(--ease-smooth),
+                box-shadow 0.24s var(--ease-smooth);
+}
+
+.case-study-close:hover {
+    border-color: var(--ice-blue);
+    box-shadow: 0 0 14px var(--glow);
+    transform: rotate(90deg);
+}
+
+.case-study-close:focus-visible {
+    outline: 2px solid var(--ice-blue);
+    outline-offset: 2px;
+}
+
+/* ── Hero strip ── */
+.case-study-hero {
+    position: relative;
+    padding: 2.4rem 2rem 1.4rem;
+    background:
+        radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 55%),
+        radial-gradient(circle at 10% 90%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 45%),
+        linear-gradient(180deg, color-mix(in srgb, var(--accent) 12%, var(--bg)) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* color-mix is recent — fall back to a translucent overlay for older engines */
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .case-study-hero {
+        background: linear-gradient(135deg, var(--card-bg) 0%, var(--bg) 100%);
+    }
+}
+
+.case-study-hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.case-study-tag {
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+.case-study-icon {
+    font-size: 1.7rem;
+    color: var(--accent, var(--ice-blue));
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 40%, transparent));
+}
+
+.case-study-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    color: var(--text-strong);
+    max-width: 38ch;
+}
+
+.case-study-meta {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-top: 1.4rem;
+    flex-wrap: wrap;
+}
+
+.case-study-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.case-study-metric-value {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    font-weight: 800;
+    color: var(--accent, var(--ice-blue));
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.case-study-metric-label {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.7px;
+    max-width: 22ch;
+}
+
+.case-study-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: flex-end;
+}
+
+.case-study-pill {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* ── Body sections ── */
+.case-study-body {
+    padding: 1.6rem 2rem 2.4rem;
+}
+
+.case-study-section {
+    padding: 1.4rem 0;
+    border-bottom: 1px dashed var(--glass-border);
+}
+
+.case-study-section:last-of-type {
+    border-bottom: none;
+}
+
+.case-study-h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-strong);
+    margin-bottom: 0.8rem;
+}
+
+.case-study-h3-pip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 6px;
+    background: rgba(91, 157, 255, 0.16);
+    color: var(--ice-blue);
+    font-size: 0.72rem;
+    border: 1px solid var(--glass-border);
+}
+
+.case-study-section p {
+    color: var(--text-main);
+    line-height: 1.75;
+    font-size: 0.96rem;
+    max-width: 72ch;
+}
+
+/* ── Screenshots grid ── */
+.case-study-shots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.case-study-shot {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    background: var(--surface);
+    margin: 0;
+}
+
+.case-study-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Placeholder gradient when no real screenshot is provided */
+.case-study-shot--placeholder {
+    background:
+        radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--shot-accent) 50%, transparent), transparent 60%),
+        radial-gradient(circle at 80% 80%, color-mix(in srgb, var(--shot-accent) 25%, transparent), transparent 65%),
+        linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%);
+}
+
+@supports not (background: color-mix(in srgb, red, blue)) {
+    .case-study-shot--placeholder {
+        background: linear-gradient(135deg, var(--surface) 0%, var(--card-bg) 100%);
+    }
+}
+
+.case-study-shot-pip {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.7rem;
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+/* ── Footer actions ── */
+.case-study-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+@media (max-width: 720px) {
+    .case-study-hero {
+        padding: 1.6rem 1.2rem 1rem;
+    }
+    .case-study-body {
+        padding: 1rem 1.2rem 1.6rem;
+    }
+    .case-study-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .case-study-stack {
+        justify-content: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .case-study-overlay,
+    .case-study-shell,
+    .case-study-close {
+        transition: none !important;
+    }
+}

@@ -4,9 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Pierre Bouteman — Dev full-stack qui livre vraiment</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#0A0D12">
+    <link rel="canonical" href="https://btmpierre.riftmc.net/">
+    <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <link rel="apple-touch-icon" href="assets/logo.svg">
+    <link rel="alternate" hreflang="fr" href="https://btmpierre.riftmc.net/">
+    <link rel="alternate" hreflang="en" href="https://btmpierre.riftmc.net/?lang=en">
+    <link rel="alternate" hreflang="x-default" href="https://btmpierre.riftmc.net/">
+
+    <!-- Theme boot — resolves dark/light from localStorage or system pref BEFORE
+         any stylesheet parses, so the page never paints the wrong palette.
+         Hashed via SHA-256 in CSP `script-src`. -->
+    <script>(function(){try{var t=localStorage.getItem('portfolio-theme');if(t!=='dark'&&t!=='light'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();</script>
     <meta name="description"
         content="Je construis des apps web et desktop solides, sans l'esthétique generic AI. Portfolio de Pierre Bouteman — architecture, perf, et un peu de caractère."
         data-i18n-content="meta.description">
@@ -29,13 +41,13 @@
 
     <!-- Security Policy (meta fallback). Real security headers must be set by the HTTP server. -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';
-    script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=' https://cdn.jsdelivr.net https://api.lanyard.rest;
+    script-src 'self' 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE=' 'sha256-y7fN4HFxRdrdL0iR/y/N6y0tMQZMZb/7O0v4xWIBMKg=' https://cdn.jsdelivr.net https://api.lanyard.rest;
     style-src 'self' https://fonts.googleapis.com https://cdn.jsdelivr.net;
     font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
-    img-src 'self' data: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com https://opengraph.githubassets.com https://s.wordpress.com https://i.scdn.co https://mosaic.scdn.co;
+    img-src 'self' data: blob: https://cdn.discordapp.com https://cdn.discordapp.net https://media.discordapp.net https://avatars.githubusercontent.com https://api.github.com https://opengraph.githubassets.com https://s.wordpress.com https://i.scdn.co https://mosaic.scdn.co;
     connect-src 'self' https://cdn.jsdelivr.net wss://api.lanyard.rest wss://*.supabase.co https://api.github.com https://*.supabase.co https://discord.com;
     frame-src https://conferencesorientationpdz.eclozionmc.ovh https://nexaria.netlib.re;
-    base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none';">
+    manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'none';">
 
     <!-- Fonts & Icons — Fraunces (display serif) + Geist Mono (body/mono) + VT323 (pixel gag) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,18 +60,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
     <!-- Styles -->
-    <link rel="preload" href="css/base.css?v=2.3" as="style">
+    <link rel="preload" href="css/base.css?v=2.4" as="style">
     <link rel="preload" href="css/components-critical.css?v=1.1" as="style" onload="this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="css/components-critical.css?v=1.1"></noscript>
-    <link rel="preload" href="css/components.css?v=3.9" as="style">
-    <link rel="preload" href="css/animations.css?v=1.1" as="style">
-    <link rel="preload" href="css/ui-modern.css?v=1.1" as="style">
-    <link rel="modulepreload" href="js/main.js?v=4.0">
-    <link rel="stylesheet" href="css/base.css?v=2.3">
-    <link rel="stylesheet" href="css/components.css?v=3.9">
-    <link rel="stylesheet" href="css/animations.css?v=1.1">
-    <link rel="stylesheet" href="css/hero-style.css?v=1.1">
-    <link rel="stylesheet" href="css/ui-modern.css?v=1.1">
+    <link rel="preload" href="css/components.css?v=4.0" as="style">
+    <link rel="preload" href="css/animations.css?v=1.2" as="style">
+    <link rel="preload" href="css/ui-modern.css?v=1.2" as="style">
+    <link rel="modulepreload" href="js/main.js?v=4.1">
+    <link rel="stylesheet" href="css/base.css?v=2.4">
+    <link rel="stylesheet" href="css/components.css?v=4.0">
+    <link rel="stylesheet" href="css/animations.css?v=1.2">
+    <link rel="stylesheet" href="css/hero-style.css?v=1.2">
+    <link rel="stylesheet" href="css/ui-modern.css?v=1.2">
+    <link rel="stylesheet" href="css/theme.css?v=1.0">
+    <link rel="stylesheet" href="css/command-palette.css?v=1.0">
+    <link rel="stylesheet" href="css/case-study.css?v=1.0">
 
     <script type="application/ld+json">
 {
@@ -112,6 +127,18 @@
                         <li><a href="#contact"><span data-i18n="nav.contact">Contact</span></a></li>
                     </ul>
                     <div class="nav-actions">
+                        <button type="button" class="palette-trigger" id="palette-trigger" aria-label="Ouvrir la palette de commandes" data-i18n-aria-label="palette.triggerAria" title="Cmd/Ctrl + K">
+                            <i class="bi bi-command" aria-hidden="true"></i>
+                            <span class="palette-trigger-kbd mono">K</span>
+                        </button>
+                        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème" data-i18n-aria-label="theme.toggleAria" aria-pressed="false">
+                            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                            </span>
+                            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                            </span>
+                        </button>
                         <div class="lang-switch" role="group" aria-label="Language switcher" data-i18n-aria-label="common.languageSwitcher">
                             <button type="button" class="lang-btn active" data-lang="fr">FR</button>
                             <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -139,6 +166,15 @@
                 <li><a href="#contact"><i class="bi bi-envelope-at-fill"></i> <span data-i18n="nav.contact">Contact</span></a></li>
             </ul>
             <div class="nav-drawer-lang">
+                <button type="button" class="theme-toggle nav-drawer-theme-btn" id="theme-toggle-mobile" aria-label="Basculer le thème" data-i18n-aria-label="theme.toggleAria" aria-pressed="false">
+                    <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                    </span>
+                    <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </span>
+                    <span class="theme-toggle__label" data-i18n="theme.label">Thème</span>
+                </button>
                 <div class="lang-switch" role="group" aria-label="Language switcher" data-i18n-aria-label="common.languageSwitcher">
                     <button type="button" class="lang-btn active" data-lang="fr">FR</button>
                     <button type="button" class="lang-btn" data-lang="en">EN</button>
@@ -174,14 +210,11 @@
         <section class="hero">
             <div class="hero-blur-shape" aria-hidden="true"></div>
             <div class="hero-monogram" aria-hidden="true" data-parallax="0.35">P.</div>
+            <canvas id="monogram-canvas" class="hero-monogram-canvas" aria-hidden="true"></canvas>
             <div class="hero-content">
                 <div class="hero-tag reveal" id="hero-availability" role="status" aria-live="polite" aria-atomic="true">
                     <span class="hero-status-text" data-i18n="hero.status.loading" style="visibility: hidden;">Synchronisation du statut...</span>
                     <span class="hero-status-caret" aria-hidden="true">▎</span>
-                </div>
-                <div class="hero-tag reveal" id="live-visitors" aria-live="polite">
-                    <i class="bi bi-people-fill sparkle"></i>
-                    <span id="live-visitors-text" data-i18n="visitors.loading">Visiteurs en ligne: ...</span>
                 </div>
                 <h1 class="reveal ai-hero-title">
                     <span class="line dim" data-i18n="hero.title.prefix">Développeur</span>
@@ -1204,8 +1237,43 @@
     <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <!-- Command Palette (Cmd/Ctrl + K) — populated at runtime by command-palette.js -->
+    <div id="command-palette" class="palette-overlay" role="dialog" aria-modal="true" aria-labelledby="palette-title" aria-hidden="true">
+        <div class="palette-shell">
+            <div class="palette-head">
+                <i class="bi bi-search palette-search-icon" aria-hidden="true"></i>
+                <input type="text" id="palette-input" class="palette-input"
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    placeholder="Tape une commande, un projet, > pour le terminal…"
+                    data-i18n-placeholder="palette.placeholder"
+                    aria-controls="palette-list" aria-autocomplete="list" aria-activedescendant="">
+                <span class="palette-kbd-hint mono">
+                    <kbd>↑</kbd><kbd>↓</kbd>
+                    <span data-i18n="palette.navigateHint">naviguer</span>
+                    <kbd>↵</kbd>
+                    <span data-i18n="palette.selectHint">choisir</span>
+                    <kbd>esc</kbd>
+                    <span data-i18n="palette.closeHint">fermer</span>
+                </span>
+            </div>
+            <div id="palette-list" class="palette-list" role="listbox" aria-labelledby="palette-title">
+                <div class="palette-empty" data-i18n="palette.empty">Aucun résultat. Essaye « projets », « thème » ou « > help ».</div>
+            </div>
+            <div class="palette-foot mono">
+                <span class="palette-brand" id="palette-title">btm.palette</span>
+                <span class="palette-foot-mode" data-i18n="palette.brandLine">variant by Arka</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Konami toast — fades in when matrix mode triggers -->
+    <div id="konami-toast" class="konami-toast" role="status" aria-live="polite" aria-hidden="true">
+        <span class="konami-glyph mono">▣</span>
+        <span class="konami-text" data-i18n="konami.activated">Code Konami activé · matrix mode</span>
+    </div>
+
     <!-- Main Script Module -->
-    <script type="module" src="js/main.js?v=4.0"></script>
+    <script type="module" src="js/main.js?v=4.1"></script>
 
     <!-- Attribution, if required, should remain as normal markup and be enforced via project policy or build checks, not by rewriting the DOM at runtime. -->
 

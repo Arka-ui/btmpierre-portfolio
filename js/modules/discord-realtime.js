@@ -5,13 +5,12 @@ import { fetchWithTimeout } from './fetch-timeout.js';
  * @module discord-realtime
  * @description Connects to the Lanyard WebSocket API for real-time Discord presence
  * (status, activity, Spotify). Reconnects automatically with exponential backoff.
- * Also subscribes to Supabase realtime for live visitor count.
  *
  * Protocol: wss://api.lanyard.rest/socket — heartbeat every 30s.
  */
 
 /**
- * @param {{ config: object, t: Function, getCurrentLang: Function, getBackoffDelay: Function, onStatusChange: (status: string) => void, onVisitorsCountChange: (count: number) => void }} options
+ * @param {{ config: object, t: Function, getCurrentLang: Function, getBackoffDelay: Function, onStatusChange: (status: string) => void }} options
  * @returns {void}
  */
 export function initDiscordRealtime({
@@ -19,8 +18,7 @@ export function initDiscordRealtime({
     t,
     getCurrentLang,
     getBackoffDelay,
-    onStatusChange,
-    onVisitorsCountChange
+    onStatusChange
 }) {
     const discordID = config.discordId;
     const avatarImg = document.getElementById('discord-avatar');
@@ -32,8 +30,6 @@ export function initDiscordRealtime({
     let lanyardAttempts = 0;
     let lanyardReconnectTimer = null;
     let currentLanyardSocket = null;
-    let visitorsAttempts = 0;
-    let visitorsChannel = null;
     let statusAttempts = 0;
     let statusChannel = null;
     let hasSupabaseStatusSync = false;
@@ -163,62 +159,6 @@ export function initDiscordRealtime({
         } else {
             renderIdle();
         }
-    }
-
-    function initLiveVisitorsCounter() {
-        if (!supabaseClient) {
-            onVisitorsCountChange?.(null);
-            return;
-        }
-
-        const subscribeVisitorsChannel = () => {
-            const presenceKey = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-            visitorsChannel = supabaseClient.channel('portfolio-live-visitors', {
-                config: {
-                    presence: { key: presenceKey }
-                }
-            });
-
-            const syncVisitorsCount = () => {
-                const state = visitorsChannel.presenceState();
-                const count = Object.values(state).reduce((acc, entries) => {
-                    if (Array.isArray(entries)) return acc + entries.length;
-                    return acc + 1;
-                }, 0);
-
-                onVisitorsCountChange?.(count);
-            };
-
-            visitorsChannel
-                .on('presence', { event: 'sync' }, syncVisitorsCount)
-                .on('presence', { event: 'join' }, syncVisitorsCount)
-                .on('presence', { event: 'leave' }, syncVisitorsCount)
-                .subscribe(async (status) => {
-                    if (status === 'SUBSCRIBED') {
-                        visitorsAttempts = 0;
-                        await visitorsChannel.track({
-                            online_at: new Date().toISOString(),
-                            lang: getCurrentLang()
-                        });
-                        syncVisitorsCount();
-                        return;
-                    }
-
-                    if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
-                        supabaseClient.removeChannel(visitorsChannel);
-                        const delay = getBackoffDelay(visitorsAttempts++, config.retries);
-                        setTimeout(subscribeVisitorsChannel, delay);
-                    }
-                });
-        };
-
-        subscribeVisitorsChannel();
-
-        window.addEventListener('beforeunload', () => {
-            if (!visitorsChannel) return;
-            visitorsChannel.untrack();
-            supabaseClient.removeChannel(visitorsChannel);
-        });
     }
 
     async function updateHeroFromSupabase() {
@@ -698,7 +638,6 @@ export function initDiscordRealtime({
         connectLanyard();
     }
 
-    initLiveVisitorsCounter();
     updateHeroFromJSON();
 
     const card = document.getElementById('lanyard-card');

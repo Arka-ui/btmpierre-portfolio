@@ -36,7 +36,12 @@ import {
 import { initScrollAnimations } from './modules/scroll-animations.js';
 import { initLazyImages } from './modules/lazy-images.js';
 import { initWebVitals } from './modules/web-vitals.js';
-import { initHeroMonogramParallax, initHeroStatusCaret } from './modules/hero-effects.js';
+import { initHeroMonogramParallax, initHeroStatusCaret, initAuroraReactive } from './modules/hero-effects.js';
+import { initThemeToggle } from './modules/theme-toggle.js';
+import { initCommandPalette } from './modules/command-palette.js';
+import { initProjectModal } from './modules/project-modal.js';
+import { initMonogramParticles } from './modules/monogram-particles.js';
+import { initKonamiMatrix } from './modules/konami-matrix.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Basic cross-origin frame defense
@@ -70,25 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-    let liveVisitorsCount = null;
     // Supabase status reference
     window.lastSupabaseStatus = null;
     const { openOverlay, closeOverlay } = createOverlayManager();
     let projectsUI = null;
-
-    // Update hero live visitor counter
-    function renderLiveVisitorsCount(count) {
-        const visitorsText = document.getElementById('live-visitors-text');
-        if (!visitorsText) return;
-
-        if (!Number.isInteger(count) || count < 0) {
-            visitorsText.textContent = t('visitors.loading');
-            return;
-        }
-
-        const key = count > 1 ? 'visitors.plural' : 'visitors.singular';
-        visitorsText.textContent = t(key).replace('{count}', count);
-    }
 
     // Translate key to string in active language
     function t(key) {
@@ -173,7 +163,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.applyStatusToUI(window.lastSupabaseStatus);
         }
 
-        renderLiveVisitorsCount(liveVisitorsCount);
         projectsUI?.applyProjectStatusBadges();
         projectsUI?.refreshOpenModal();
     }
@@ -362,10 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
         getBackoffDelay,
         onStatusChange: (status) => {
             lastDiscordStatus = status;
-        },
-        onVisitorsCountChange: (count) => {
-            liveVisitorsCount = count;
-            renderLiveVisitorsCount(liveVisitorsCount);
         }
     });
 
@@ -416,5 +401,57 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroMonogramParallax();
     initHeroStatusCaret();
 
-    console.log('System Initialized: Ultra Modern Portfolio V3');
+    // ── 2026-04-27 upgrade modules ───────────────────────────────────────
+    const themeApi = initThemeToggle({ t });
+
+    // The mobile copy of the toggle dispatches the same toggle action.
+    document.getElementById('theme-toggle-mobile')?.addEventListener('click', () => {
+        themeApi?.toggle?.();
+    });
+
+    const projectModal = initProjectModal({
+        t,
+        getCurrentLang: () => currentLang,
+        overlayManager: { openOverlay, closeOverlay }
+    });
+
+    // Project carousel cards: route flagship clicks into the case-study modal.
+    document.querySelectorAll('.carousel-item').forEach((card) => {
+        const idx = Number(card.dataset.index);
+        if (Number.isNaN(idx) || !projectModal.hasFlagship(idx)) return;
+        const learnMoreBtn = card.querySelector('.learn-more-btn');
+        const interceptor = (event) => {
+            // Ctrl/Cmd-click: let the legacy modal handle it (gives the user an out)
+            if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            projectModal.open(idx, event.currentTarget);
+        };
+        learnMoreBtn?.addEventListener('click', interceptor, true);
+    });
+
+    initCommandPalette({
+        t,
+        applyLanguage,
+        getCurrentLang: () => currentLang,
+        theme: themeApi,
+        projectsUI: { openModal: (idx) => {
+            const opened = projectModal.open(idx, document.activeElement);
+            if (!opened && projectsUI && typeof projectsUI.openModal === 'function') {
+                projectsUI.openModal(idx);
+            }
+        } }
+    });
+
+    initAuroraReactive();
+    initKonamiMatrix();
+
+    runWhenIdle(() => initMonogramParticles(), 1400);
+
+    // Bridge for i18n consumers that need to react when language changes.
+    document.addEventListener('languagechange', () => {
+        // No-op for now — the theme button + palette already refresh on demand.
+    });
+
+    console.log('System Initialized: Ultra Modern Portfolio V3.1 (variant fork — 2026-04-27 upgrade)');
 });

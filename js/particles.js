@@ -14,13 +14,36 @@ export class SpaceStars {
         this.rotY = 0;
         this.raf = null;
         this.active = true;
+        this.starColor = this._readStarColor();
 
         this._resize = () => this._onResize();
+        this._themeChange = () => { this.starColor = this._readStarColor(); };
         window.addEventListener('resize', this._resize);
+        document.addEventListener('themechange', this._themeChange);
 
         this._onResize();
         this._init();
         this._tick();
+    }
+
+    /**
+     * Read --star-color from the active theme tokens. Falls back to white.
+     * Returns the rgba prefix + opening of the alpha channel so _tick() can
+     * just append the per-star alpha. e.g. "rgba(255, 255, 255, "
+     */
+    _readStarColor() {
+        const value = getComputedStyle(document.documentElement)
+            .getPropertyValue('--star-color').trim();
+        if (!value) return { prefix: 'rgba(255, 255, 255, ', suffix: ')' };
+
+        // Try to extract rgba(...) and reuse channels.
+        const m = value.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/);
+        if (m) {
+            const [, r, g, b] = m;
+            return { prefix: `rgba(${r}, ${g}, ${b}, `, suffix: ')' };
+        }
+        // Hex / other — let CSS evaluate; we'll just multiply alpha into globalAlpha.
+        return { prefix: 'rgba(255, 255, 255, ', suffix: ')' };
     }
 
     _onResize() {
@@ -89,7 +112,7 @@ export class SpaceStars {
             const sz   = Math.max(0.3, s.size * d);
             const a    = s.alpha * Math.min(1, d * 1.2);
 
-            this.ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+            this.ctx.fillStyle = `${this.starColor.prefix}${a.toFixed(3)}${this.starColor.suffix}`;
             this.ctx.beginPath();
             this.ctx.arc(px, py, sz, 0, Math.PI * 2);
             this.ctx.fill();
@@ -115,5 +138,6 @@ export class SpaceStars {
         this.active = false;
         if (this.raf) cancelAnimationFrame(this.raf);
         window.removeEventListener('resize', this._resize);
+        document.removeEventListener('themechange', this._themeChange);
     }
 }

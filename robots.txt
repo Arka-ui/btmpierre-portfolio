@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Block AI scrapers from training on this fork's content (upstream is Pierre's official site).
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://btmpierre.riftmc.net/sitemap.xml

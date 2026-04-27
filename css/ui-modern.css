@@ -588,3 +588,168 @@ footer-divider {
         justify-content: center;
     }
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * 2026-04-27 UPGRADE — appended polish + new-feature support styles.
+ *
+ * Sections:
+ *   §1 — Konami toast + matrix overlay
+ *   §2 — Button micro-bounce on .btn:hover (uses --ease-spring)
+ *   §3 — Skill-bar tooltip delay (only show after fill animation completes)
+ *   §4 — Site footer signature line
+ *   §5 — Hover lift + spring on .carousel-item / .card-base
+ *   §6 — Card tilt magnitude (8° → 3° via CSS var consumed by JS)
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* §1 — KONAMI TOAST + MATRIX OVERLAY ─────────────────────────────────── */
+.konami-toast {
+    position: fixed;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid var(--ice-blue);
+    background: var(--glass-bg);
+    color: var(--ice-blue);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    box-shadow: 0 0 24px var(--glow), 0 12px 36px rgba(0, 0, 0, 0.45);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    z-index: 12000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s var(--ease-smooth),
+                transform 0.42s var(--ease-bounce-soft);
+}
+
+.konami-toast.is-on {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.konami-glyph {
+    color: var(--ice-blue);
+    text-shadow: 0 0 12px var(--glow);
+    animation: konami-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes konami-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+}
+
+.matrix-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11800;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(2, 4, 9, 0.92);
+    transition: opacity 0.6s var(--ease-smooth);
+}
+
+.matrix-overlay.is-on {
+    opacity: 1;
+}
+
+.matrix-overlay canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* §2 — BUTTON MICRO-BOUNCE ────────────────────────────────────────────── */
+.btn {
+    transition: transform 0.32s var(--ease-spring),
+                box-shadow 0.32s var(--ease-smooth),
+                background 0.32s var(--ease-smooth),
+                color 0.32s var(--ease-smooth),
+                border-color 0.32s var(--ease-smooth);
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.015);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.985);
+    transition-duration: 0.14s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn:hover:not(:disabled),
+    .btn:active:not(:disabled) {
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* §3 — SKILL-BAR TOOLTIP DELAY — wait for fill animation (~600ms) ─────── */
+.skill-tooltip {
+    transition: opacity 0.24s var(--ease-smooth) 0ms,
+                transform 0.24s var(--ease-bounce-soft) 0ms;
+}
+
+.skill-row.visible .skill-tooltip {
+    /* Stagger: tooltip becomes hoverable only after the bar finishes its fill */
+    transition-delay: 0.62s;
+}
+
+/* §4 — SITE FOOTER SIGNATURE — small classy "crafted by" line ────────── */
+.site-footer {
+    position: relative;
+}
+
+.site-footer::before {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 1px;
+    margin: 0 auto 1.4rem;
+    background: linear-gradient(90deg, transparent, var(--ice-blue), transparent);
+    opacity: 0.6;
+}
+
+.site-footer-copy {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.4px;
+}
+
+.site-footer-actions a:hover {
+    color: var(--ice-blue);
+    box-shadow: 0 0 10px var(--glow);
+}
+
+/* §5 — CARD HOVER LIFT (subtle, spring easing) ────────────────────────── */
+.carousel-item,
+.card-base {
+    transition: transform 0.42s var(--ease-spring),
+                box-shadow 0.42s var(--ease-smooth),
+                border-color 0.42s var(--ease-smooth);
+}
+
+@media (hover: hover) {
+    .carousel-item:hover {
+        transform: translateY(-4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carousel-item:hover {
+        transform: none !important;
+    }
+}
+
+/* §6 — TILT MAGNITUDE — JS reads this to scale rotateX/rotateY ────────── */
+:root {
+    --tilt-max-deg: 3;
+}

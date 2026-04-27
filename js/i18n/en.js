@@ -57,11 +57,6 @@ export const en = {
             loading: ' Syncing status...'
         }
     },
-    visitors: {
-        loading: 'Visitors online: ...',
-        singular: '{count} visitor online',
-        plural: '{count} visitors online'
-    },
     skills: {
         1: 'JavaScript',
         2: 'Electron',
@@ -429,5 +424,55 @@ export const en = {
             dnd: 'DO NOT DISTURB',
             offline: 'OFFLINE'
         }
+    },
+    theme: {
+        label: 'Theme',
+        toggleAria: 'Toggle light/dark theme',
+        toggleToLight: 'Switch to light theme',
+        toggleToDark: 'Switch to dark theme'
+    },
+    palette: {
+        triggerAria: 'Open command palette (Cmd/Ctrl + K)',
+        placeholder: 'Type a command, a project, > for terminal…',
+        empty: 'No results. Try "projects", "theme", or "> help".',
+        noResults: 'No results.',
+        navigateHint: 'navigate',
+        selectHint: 'select',
+        closeHint: 'close',
+        brandLine: 'variant by Arka',
+        scrollTo: 'Scroll to section',
+        themeHint: 'Toggle light/dark',
+        langHint: 'Change page language',
+        switchToFrench: 'Passer en français',
+        switchToEnglish: 'Switch to English',
+        emailHint: 'Open a new message',
+        upstream: "Pierre's official site",
+        groups: {
+            nav: 'Navigate',
+            settings: 'Settings',
+            projects: 'Projects',
+            links: 'Links',
+            terminal: 'Terminal'
+        },
+        cmds: {
+            whoami: 'Print current user',
+            whoamiOutput: "You're visiting Pierre's variant portfolio, maintained by Arka. Welcome.",
+            matrix: 'Trigger matrix mode (6 seconds)',
+            coffee: 'Run the coffee routine (placebo)',
+            coffeeOutput: '☕ Brewing… hang on, loading the vibes.',
+            credits: 'Print variant credits',
+            creditsOutput: 'Variant fork — design + code by Arka. Original portfolio by Pierre Bouteman (btmpierre.me).',
+            source: 'Open the source code of this variant'
+        }
+    },
+    konami: {
+        activated: 'Konami code unlocked · matrix mode'
+    },
+    caseStudy: {
+        tag: 'CASE STUDY',
+        problem: 'Problem',
+        approach: 'Approach',
+        shots: 'Shots',
+        lessons: 'What I took away'
     }
 };

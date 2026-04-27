@@ -1,0 +1,185 @@
+/* ──────────────────────────────────────────────────────────────────────────
+ * THEME TOGGLE — sun/moon button + View Transitions circular reveal.
+ * Hooked up by js/modules/theme-toggle.js.
+ *
+ * The button lives in the nav next to the language switcher. Clicking it
+ * triggers a View Transition (Chrome/Edge) or a graceful 220ms opacity
+ * crossfade fallback (Firefox/Safari). Reduced-motion bails to instant.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Button shell — matches the existing lang-switch pill aesthetic */
+.theme-toggle {
+    --toggle-size: 2.1rem;
+    position: relative;
+    width: var(--toggle-size);
+    height: var(--toggle-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0 0.4rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--ice-pale);
+    border-radius: 999px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.32s var(--ease-smooth),
+                box-shadow 0.32s var(--ease-smooth),
+                transform 0.32s var(--ease-bounce-soft),
+                background 0.32s var(--ease-smooth);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.theme-toggle:hover {
+    border-color: var(--ice-blue);
+    box-shadow: 0 0 14px var(--glow);
+    transform: translateY(-1px);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--ice-blue);
+    outline-offset: 3px;
+}
+
+.theme-toggle:active {
+    transform: translateY(0) scale(0.96);
+    transition-duration: 0.12s;
+}
+
+/* The two icons live stacked. Active theme = visible one. */
+.theme-toggle__icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.42s var(--ease-smooth),
+                transform 0.42s var(--ease-bounce-soft);
+}
+
+.theme-toggle__icon svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Sun = light theme would-become; Moon = dark theme would-become.
+   In dark theme, button shows sun (click → switch to light).
+   In light theme, button shows moon (click → switch back to dark).
+   This matches every well-known toggle convention. */
+.theme-toggle[data-theme="dark"] .theme-toggle__sun {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+}
+
+.theme-toggle[data-theme="dark"] .theme-toggle__moon {
+    opacity: 0;
+    transform: translateY(60%) rotate(-30deg);
+}
+
+.theme-toggle[data-theme="light"] .theme-toggle__sun {
+    opacity: 0;
+    transform: translateY(-60%) rotate(45deg);
+}
+
+.theme-toggle[data-theme="light"] .theme-toggle__moon {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+    color: var(--ice-blue);
+}
+
+/* Light theme button background gets a touch warmer */
+:root[data-theme="light"] .theme-toggle {
+    background: rgba(255, 255, 255, 0.78);
+}
+
+/* Mobile drawer copy of the button */
+.nav-drawer .theme-toggle {
+    width: auto;
+    height: auto;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    gap: 0.45rem;
+}
+
+.nav-drawer .theme-toggle .theme-toggle__icon {
+    position: relative;
+    inset: auto;
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.nav-drawer .theme-toggle .theme-toggle__label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * VIEW TRANSITIONS — circular reveal from click origin.
+ * Browsers without `document.startViewTransition` (Firefox/Safari today)
+ * fall back to the @keyframes below applied via the .vt-fallback class.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+@supports (view-transition-name: root) {
+    /* Disable the default crossfade — we want only the new screen to circle in. */
+    ::view-transition-old(root) {
+        animation: none;
+    }
+
+    ::view-transition-new(root) {
+        animation: vt-circle-in 0.55s var(--ease-bounce-soft);
+        animation-fill-mode: forwards;
+    }
+
+    /* Reverse direction when going from light back to dark — tasteful symmetry. */
+    :root[data-theme="dark"].vt-circular-reveal::view-transition-new(root) {
+        animation-name: vt-circle-in-reverse;
+    }
+}
+
+@keyframes vt-circle-in {
+    from {
+        clip-path: circle(0 at var(--vt-origin-x, 50%) var(--vt-origin-y, 50%));
+    }
+    to {
+        clip-path: circle(150% at var(--vt-origin-x, 50%) var(--vt-origin-y, 50%));
+    }
+}
+
+@keyframes vt-circle-in-reverse {
+    from {
+        clip-path: circle(0 at var(--vt-origin-x, 50%) var(--vt-origin-y, 50%));
+    }
+    to {
+        clip-path: circle(150% at var(--vt-origin-x, 50%) var(--vt-origin-y, 50%));
+    }
+}
+
+/* Fallback crossfade for browsers without View Transitions. The data-theme
+   change itself triggers a paint, so we use a CSS variable transition on the
+   body backdrop (defined in base.css via body::after's background transition).
+   Nothing to do here unless we want extra polish — the per-property transitions
+   on header/card/text colors give a 0.3s smooth swap by default. */
+
+/* Reduced motion: disable the circle animation entirely */
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+    }
+}
+
+/* Theme color transitions on body — the per-property transitions give the
+   non-VT path a subtle crossfade rather than a hard swap. */
+body {
+    transition: background-color 0.36s var(--ease-smooth),
+                color 0.36s var(--ease-smooth);
+}

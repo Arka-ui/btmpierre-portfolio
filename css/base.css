@@ -1,4 +1,16 @@
-:root {
+/* ──────────────────────────────────────────────────────────────────────────
+ * COLOR TOKENS — scoped under [data-theme] so the active theme is one
+ * attribute swap on <html>. Non-color tokens (typography, spacing, motion)
+ * live in the second :root block below and stay theme-agnostic.
+ *
+ * Default = dark; the inline boot script in index.html resolves the
+ * preferred theme from localStorage / prefers-color-scheme before any
+ * stylesheet parses, so the page never paints the wrong palette.
+ * ────────────────────────────────────────────────────────────────────────── */
+:root,
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
     /* ── ACIER / GLACE PALETTE (steel + ice, cold neutrals + one blue accent) ── */
     --bg:              #0A0D12;
     --surface:         #10151F;
@@ -15,6 +27,119 @@
     --ice-blue-soft:  #8DBAFF;
     --ice-pale:       #E6EAF2;
 
+    --text-main:  var(--ice-pale);
+    --text-muted: var(--steel-300);
+    --text-strong: #FFFFFF;
+
+    --border: rgba(200, 208, 222, 0.12);
+    --glow:   rgba(91, 157, 255, 0.35);
+
+    /* Star canvas reads this — single source of truth */
+    --star-color:           rgba(255, 255, 255, 1);
+    --grain-opacity:        0.06;
+    --grain-blend:          overlay;
+
+    /* Hero radial wash + page tint */
+    --bg-wash-top:          rgba(26, 33, 48, 0.55);
+    --bg-wash-bottom:       rgba(91, 157, 255, 0.05);
+    --hero-glow:            rgba(91, 157, 255, 0.10);
+
+    /* Card surfaces */
+    --card-bg:              rgba(10, 13, 18, 0.55);
+    --card-border:          rgba(200, 208, 222, 0.12);
+    --card-blur:            blur(10px) saturate(120%);
+    --card-shadow:          0 10px 30px rgba(0, 0, 0, 0.45);
+    --card-shadow-hover:    0 0 30px rgba(91, 157, 255, 0.18), 0 20px 60px rgba(0, 0, 0, 0.55);
+    --card-border-gradient: linear-gradient(135deg, rgba(200, 208, 222, 0.25), transparent 40%, rgba(91, 157, 255, 0.12) 60%, rgba(200, 208, 222, 0.25));
+
+    /* Glass + welcome rim */
+    --glass-bg:       rgba(10, 13, 18, 0.55);
+    --glass-border:   rgba(200, 208, 222, 0.18);
+    --glass-blur:     blur(10px);
+    --welcome-bg:     rgba(10, 13, 18, 0.55);
+    --welcome-border: rgba(200, 208, 222, 0.25);
+    --welcome-shadow: inset 0 -7px 11px rgba(200, 208, 222, 0.06);
+
+    /* Header chrome */
+    --header-bg:      rgba(10, 13, 18, 0.55);
+    --header-border:  rgba(200, 208, 222, 0.08);
+
+    /* Scrollbar */
+    --scroll-thumb:       rgba(200, 208, 222, 0.22);
+    --scroll-thumb-hover: rgba(91, 157, 255, 0.55);
+
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(200, 208, 222, 0.05);
+    --glow-hover:  0 0 24px rgba(91, 157, 255, 0.35), 0 0 60px rgba(91, 157, 255, 0.12);
+
+    /* Selection */
+    --selection-bg: var(--ice-blue);
+    --selection-fg: #ffffff;
+}
+
+/* ── ICE / PARCHMENT (light theme) — same temperature as the dark palette,
+ *    just inverted luminance. Same accent (ice-blue) but deeper for AA contrast
+ *    on a parchment background. ─────────────────────────────────────────── */
+:root[data-theme="light"] {
+    color-scheme: light;
+
+    --bg:              #F4F6FA;
+    --surface:         #FFFFFF;
+    --card:            rgba(255, 255, 255, 0.82);
+
+    --steel-900:      #0A0D12;
+    --steel-800:      #1A2130;
+    --steel-700:      #2D3548;
+    --steel-500:      #4A5568;
+    --steel-300:      #6B7488;
+    --steel-100:      #2D3548;
+    --ice-blue:       #2563EB;
+    --ice-blue-soft:  #3B82F6;
+    --ice-pale:       #0A0D12;
+
+    --text-main:  #0A0D12;
+    --text-muted: #4A5568;
+    --text-strong: #0A0D12;
+
+    --border: rgba(10, 13, 18, 0.10);
+    --glow:   rgba(37, 99, 235, 0.20);
+
+    --star-color:           rgba(37, 99, 235, 0.55);
+    --grain-opacity:        0.025;
+    --grain-blend:          multiply;
+
+    --bg-wash-top:          rgba(220, 230, 245, 0.65);
+    --bg-wash-bottom:       rgba(37, 99, 235, 0.04);
+    --hero-glow:            rgba(37, 99, 235, 0.07);
+
+    --card-bg:              rgba(255, 255, 255, 0.78);
+    --card-border:          rgba(10, 13, 18, 0.10);
+    --card-blur:            blur(12px) saturate(115%);
+    --card-shadow:          0 10px 30px rgba(10, 20, 40, 0.08);
+    --card-shadow-hover:    0 0 24px rgba(37, 99, 235, 0.16), 0 16px 50px rgba(10, 20, 40, 0.10);
+    --card-border-gradient: linear-gradient(135deg, rgba(10, 13, 18, 0.12), transparent 40%, rgba(37, 99, 235, 0.16) 60%, rgba(10, 13, 18, 0.10));
+
+    --glass-bg:       rgba(255, 255, 255, 0.70);
+    --glass-border:   rgba(10, 13, 18, 0.12);
+    --glass-blur:     blur(14px);
+    --welcome-bg:     rgba(255, 255, 255, 0.75);
+    --welcome-border: rgba(10, 13, 18, 0.16);
+    --welcome-shadow: inset 0 -7px 11px rgba(10, 13, 18, 0.05);
+
+    --header-bg:      rgba(244, 246, 250, 0.72);
+    --header-border:  rgba(10, 13, 18, 0.08);
+
+    --scroll-thumb:       rgba(10, 13, 18, 0.22);
+    --scroll-thumb-hover: rgba(37, 99, 235, 0.55);
+
+    --shadow-card: 0 10px 40px rgba(10, 20, 40, 0.10), 0 1px 0 rgba(10, 13, 18, 0.03);
+    --glow-hover:  0 0 24px rgba(37, 99, 235, 0.18), 0 0 60px rgba(37, 99, 235, 0.08);
+
+    --selection-bg: var(--ice-blue);
+    --selection-fg: #ffffff;
+}
+
+/* ── Static tokens (typography, spacing, motion, radius) — theme-agnostic ── */
+:root {
     /* Aliases kept so the existing `var(--space-*)` and `var(--violet*)` calls in
        components.css resolve without a full rename. They now all point at the
        steel/ice values. */
@@ -28,17 +153,11 @@
     --violet-pale:    var(--ice-pale);
     --accent:         var(--steel-100);
 
-    --text-main:  var(--ice-pale);
-    --text-muted: var(--steel-300);
-
     /* Signal colors (muted to fit the cold palette) */
     --success:     #8FE0B8;
     --warning:     #F5D58A;
     --info:        var(--ice-blue-soft);
     --danger:      #F08A8A;
-
-    --border: rgba(200, 208, 222, 0.12);
-    --glow:   rgba(91, 157, 255, 0.35);
 
     --primary:      var(--ice-blue);
     --primary-glow: var(--glow);
@@ -100,38 +219,41 @@
     /* Motion */
     /* Handled above */
 
-    /* Elevation & Glass system */
+    /* Generic shadow scale (theme-agnostic — colors come from rgba black) */
     --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
     --shadow-md:   0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
     --shadow-lg:   0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(200, 208, 222, 0.05);
-    --glow-hover:  0 0 24px rgba(91, 157, 255, 0.35), 0 0 60px rgba(91, 157, 255, 0.12);
-    --glass-bg:    rgba(10, 13, 18, 0.55);
-    --glass-border: rgba(200, 208, 222, 0.18);
-    --glass-blur:  blur(10px);
 
-    /* Welcome-box — a frosted rim instead of a purple halo */
-    --welcome-bg:     rgba(10, 13, 18, 0.55);
-    --welcome-border: rgba(200, 208, 222, 0.25);
-    --welcome-shadow: inset 0 -7px 11px rgba(200, 208, 222, 0.06);
-
-    /* ── CARD BASE SYSTEM ── */
-    --card-bg:             rgba(10, 13, 18, 0.55);
-    --card-border:         rgba(200, 208, 222, 0.12);
-    --card-blur:           blur(10px) saturate(120%);
+    /* Card layout (sizes, not colors — theme-agnostic) */
     --card-padding:        var(--space-5);
     --card-radius:         var(--radius-lg);
-    --card-shadow:         0 10px 30px rgba(0, 0, 0, 0.45);
-    --card-shadow-hover:   0 0 30px rgba(91, 157, 255, 0.18), 0 20px 60px rgba(0, 0, 0, 0.55);
-    --card-border-gradient: linear-gradient(135deg, rgba(200, 208, 222, 0.25), transparent 40%, rgba(91, 157, 255, 0.12) 60%, rgba(200, 208, 222, 0.25));
 
-    /* Gradient overlays — ice blue fading into cold steel white */
+    /* Gradient overlays — drive from --ice-blue/--steel-100, automatically theme-aware */
     --gradient-primary:   linear-gradient(135deg, var(--ice-blue) 0%, var(--steel-100) 100%);
     --gradient-hover:     linear-gradient(135deg, var(--ice-blue-soft) 0%, var(--ice-pale) 100%);
 
-    /* Grain overlay tunables (used by body::before in Phase A) */
-    --grain-opacity: 0.06;
+    /* Easing tokens for spring/bounce micro-interactions */
+    --ease-spring:      cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-bounce-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── REDUCED-MOTION / DATA / TRANSPARENCY GATES ─────────────────────────────
+ * These tokens are read by hero, stars, monogram, aurora, etc. so the gates
+ * affect every decorative layer at once. */
+@media (prefers-reduced-data: reduce) {
+    :root {
+        --grain-opacity: 0;
+        --hero-glow: transparent;
+        --bg-wash-bottom: transparent;
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    :root {
+        --glass-blur: blur(0);
+        --card-blur: blur(0);
+    }
 }
 
 /* Base resets */
@@ -167,7 +289,7 @@ body::before {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
     opacity: var(--grain-opacity, 0.06);
     pointer-events: none;
-    mix-blend-mode: overlay;
+    mix-blend-mode: var(--grain-blend, overlay);
 }
 
 /* ── STAR CANVAS BACKGROUND ── */
@@ -179,13 +301,14 @@ body::before {
     opacity: 1;
 }
 
-/* Cold radial wash for depth — steel top, faint ice-blue bottom */
+/* Cold radial wash for depth — steel top, faint ice-blue bottom (theme-aware) */
 body::after {
     content: '';
     position: fixed; inset: 0; z-index: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(26, 33, 48, 0.55) 0%, transparent 65%),
-                radial-gradient(ellipse at 80% 100%, rgba(91, 157, 255, 0.05) 0%, transparent 55%);
+    background: radial-gradient(ellipse at 50% 0%, var(--bg-wash-top) 0%, transparent 65%),
+                radial-gradient(ellipse at 80% 100%, var(--bg-wash-bottom) 0%, transparent 55%);
     pointer-events: none;
+    transition: background 0.4s ease;
 }
 
 main {
@@ -194,8 +317,15 @@ main {
 }
 
 ::selection {
-    background: var(--primary);
-    color: #fff;
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+}
+
+/* Lock CLS — imgs that declare data-aspect-ratio reserve intrinsic space
+   until loaded. The CSS attr(... type) syntax is Chromium 133+, so we use a
+   discrete CSS variable fallback that any engine handles. */
+img[data-aspect-ratio] {
+    aspect-ratio: var(--img-aspect, auto);
 }
 
 img {
@@ -315,11 +445,11 @@ header {
 
 header.scrolled {
     padding: 0.65rem 0;
-    background: rgba(10, 13, 18, 0.55);
+    background: var(--header-bg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(200, 208, 222, 0.08);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+    border-bottom: 1px solid var(--header-border);
+    box-shadow: var(--shadow-card);
 }
 
 nav {
@@ -340,7 +470,7 @@ nav {
     font-size: 1.5rem;
     color: var(--ice-pale);
     letter-spacing: -1px;
-    text-shadow: 0 0 10px rgba(91, 157, 255, 0.3);
+    text-shadow: 0 0 10px var(--glow);
     position: relative;
     z-index: 2;
 }
@@ -352,8 +482,8 @@ nav {
     list-style: none;
 
     /* Pill container */
-    background: rgba(10, 13, 18, 0.55);
-    border: 1px solid rgba(200, 208, 222, 0.14);
+    background: var(--header-bg);
+    border: 1px solid var(--glass-border);
     border-radius: 9999px;
     padding: 0.55rem 1.25rem;
     gap: 2rem;
@@ -365,9 +495,9 @@ nav {
     top: 50%;
     transform: translate(-50%, -50%);
 
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .nav-links a {
@@ -383,8 +513,38 @@ nav {
 
 .nav-links a i {
     font-size: 0.9rem;
-    color: rgba(200, 208, 222, 0.55);
+    color: var(--text-muted);
     transition: all 0.3s;
+}
+
+.nav-links a {
+    position: relative;
+}
+
+/* Animated underline on hover/active — scaleX from 0 → 1 with ice-blue pip */
+.nav-links a span {
+    position: relative;
+}
+
+.nav-links a span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--ice-blue);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.36s var(--ease-bounce-soft);
+    box-shadow: 0 0 8px var(--glow);
+    pointer-events: none;
+}
+
+.nav-links a:hover span::after,
+.nav-links a.active span::after {
+    transform: scaleX(1);
 }
 
 .nav-links a:hover {
@@ -426,19 +586,19 @@ nav {
 }
 
 .lang-btn.active {
-    color: var(--ice-pale);
-    background: rgba(91, 157, 255, 0.22);
-    box-shadow: 0 0 10px rgba(91, 157, 255, 0.28);
+    color: #ffffff;
+    background: var(--ice-blue);
+    box-shadow: 0 0 10px var(--glow);
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
-    background: rgba(200, 208, 222, 0.22);
+    background: var(--scroll-thumb);
     border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(91, 157, 255, 0.55); }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
 
 /* ── READING PROGRESS — clickable slider ── */
 #reading-progress-track {
@@ -476,18 +636,25 @@ nav {
     position: absolute;
     top: -48px;
     left: 1rem;
-    padding: 0.5rem 1rem;
-    background: var(--space-purple);
-    color: #fff;
+    padding: 0.55rem 1.1rem;
+    background: var(--ice-blue);
+    color: #ffffff;
     font-family: var(--font-mono);
-    font-size: 0.875rem;
-    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius-md);
     z-index: 10001;
-    transition: top 0.2s;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--glass-border);
+    transition: top 0.22s var(--ease-bounce-soft);
 }
 
 .skip-link:focus {
     top: 0.75rem;
+}
+
+.skip-link:focus-visible {
+    outline: 2px solid var(--ice-pale);
+    outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -524,18 +691,19 @@ nav {
     padding-top: 5rem;
 }
 
-/* Hero background glow — single ice wash, no purple bloom */
+/* Hero background glow — single ice wash, no purple bloom (theme-aware) */
 .hero::before {
     content: '';
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 55vw; height: 55vw;
-    background: radial-gradient(circle, rgba(91, 157, 255, 0.10) 0%, transparent 65%);
+    background: radial-gradient(circle, var(--hero-glow) 0%, transparent 65%);
     z-index: -1;
     pointer-events: none;
     filter: blur(80px);
     animation: hero-pulse 6s ease-in-out infinite alternate;
+    transition: background 0.4s ease;
 }
 
 @keyframes hero-pulse {

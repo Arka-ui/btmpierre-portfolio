@@ -83,25 +83,7 @@ Live rendering in Discord card
 **Retry logic**: `retry.js` avec backoff exponential (1.2s → 30s max)
 **Fallback**: Affiche "offline" si connexion échoue
 
-### 2. **Visiteurs en direct** (Supabase Realtime)
-
-```
-app.js (initSupabasePresence)
-    ↓
-Supabase.from('presence').on('*').subscribe()
-    ↓
-Real-time count changes
-    ↓
-renderLiveVisitorsCount(count)
-    ↓
-Update DOM (#live-visitors-text)
-```
-
-**Interaction**: 
-- Client connecté = +1 visiteur
-- Client déconnecté / timeout = -1 visiteur
-
-### 3. **Statistiques GitHub**
+### 2. **Statistiques GitHub**
 
 ```
 projects-ui.js (init, then lazy)

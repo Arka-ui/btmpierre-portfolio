@@ -1,18 +1,28 @@
 {
-    "name": "Pierre Bouteman — Développeur Full-Stack",
-    "short_name": "Pierre Bouteman",
-    "description": "Portfolio de Pierre Bouteman, développeur full-stack orienté applications web et desktop.",
+    "name": "Pierre Bouteman — Portfolio (variant)",
+    "short_name": "Pierre B.",
+    "description": "Apps web, apps desktop, back-end PHP, outils Minecraft. Code qui tient, pas de templates Vercel recyclés.",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
-    "background_color": "#030014",
-    "theme_color": "#7042f8",
+    "orientation": "portrait-primary",
     "lang": "fr",
+    "dir": "ltr",
+    "theme_color": "#0A0D12",
+    "background_color": "#0A0D12",
     "icons": [
         {
             "src": "assets/logo.svg",
-            "sizes": "any",
             "type": "image/svg+xml",
-            "purpose": "any maskable"
+            "sizes": "any",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/logo.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "maskable"
         }
-    ]
+    ],
+    "categories": ["productivity", "developer", "portfolio"]
 }

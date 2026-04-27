@@ -1,0 +1,331 @@
+/* ──────────────────────────────────────────────────────────────────────────
+ * COMMAND PALETTE — Cmd/Ctrl+K. Glass-morphism overlay matching the existing
+ * terminal-modal aesthetic. Hooked up by js/modules/command-palette.js.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Trigger button in the nav (the little ⌘K pill) */
+.palette-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.34rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: color 0.24s var(--ease-smooth),
+                border-color 0.24s var(--ease-smooth),
+                box-shadow 0.24s var(--ease-smooth),
+                transform 0.24s var(--ease-bounce-soft);
+}
+
+.palette-trigger i {
+    font-size: 0.95rem;
+    color: var(--ice-blue);
+}
+
+.palette-trigger-kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.05rem;
+    padding: 0 0.28rem;
+    height: 1.05rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 5px;
+    background: rgba(91, 157, 255, 0.10);
+    color: var(--text-main);
+    font-size: 0.66rem;
+}
+
+.palette-trigger:hover {
+    color: var(--text-main);
+    border-color: var(--ice-blue);
+    box-shadow: 0 0 12px var(--glow);
+    transform: translateY(-1px);
+}
+
+.palette-trigger:focus-visible {
+    outline: 2px solid var(--ice-blue);
+    outline-offset: 3px;
+}
+
+/* Hide the trigger label on small viewports to avoid crowding the nav */
+@media (max-width: 768px) {
+    .palette-trigger {
+        padding: 0.42rem 0.5rem;
+    }
+    .palette-trigger-kbd {
+        display: none;
+    }
+}
+
+/* ── Overlay + shell ── */
+.palette-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12vh 1rem 1rem;
+    background: rgba(2, 4, 9, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s var(--ease-smooth);
+}
+
+:root[data-theme="light"] .palette-overlay {
+    background: rgba(20, 30, 60, 0.32);
+}
+
+.palette-overlay.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.palette-shell {
+    width: min(640px, 100%);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--glass-border) inset;
+    backdrop-filter: var(--glass-blur) saturate(140%);
+    -webkit-backdrop-filter: var(--glass-blur) saturate(140%);
+    overflow: hidden;
+    transform: translateY(-12px) scale(0.98);
+    opacity: 0;
+    transition: transform 0.32s var(--ease-bounce-soft),
+                opacity 0.22s var(--ease-smooth);
+}
+
+.palette-overlay.is-open .palette-shell {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Body lock so background doesn't scroll while palette is open */
+body.palette-locked {
+    overflow: hidden;
+}
+
+/* ── Search head ── */
+.palette-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--glass-border);
+    background: linear-gradient(180deg, rgba(91, 157, 255, 0.04) 0%, transparent 100%);
+}
+
+.palette-search-icon {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+}
+
+.palette-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    padding: 0.2rem 0;
+    outline: none;
+}
+
+.palette-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.palette-kbd-hint {
+    display: none;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--text-muted);
+    font-size: 0.66rem;
+    letter-spacing: 0.5px;
+}
+
+.palette-kbd-hint kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1rem;
+    padding: 0 0.28rem;
+    height: 1rem;
+    border-radius: 4px;
+    background: rgba(91, 157, 255, 0.10);
+    border: 1px solid var(--glass-border);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+}
+
+@media (min-width: 768px) {
+    .palette-kbd-hint {
+        display: inline-flex;
+    }
+}
+
+/* ── Results list ── */
+.palette-list {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 0.4rem 0.4rem 0.6rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) transparent;
+}
+
+.palette-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.palette-list::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb);
+    border-radius: 3px;
+}
+
+.palette-group-label {
+    padding: 0.7rem 0.85rem 0.3rem;
+    color: var(--text-muted);
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.palette-item {
+    display: grid;
+    grid-template-columns: 1.4rem 1fr auto auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.85rem;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--text-main);
+    font-size: 0.88rem;
+    line-height: 1.3;
+    transition: background 0.16s var(--ease-smooth),
+                color 0.16s var(--ease-smooth),
+                transform 0.16s var(--ease-smooth);
+}
+
+.palette-item-icon {
+    color: var(--ice-blue);
+    font-size: 0.95rem;
+}
+
+.palette-item-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.palette-item-desc {
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px;
+}
+
+.palette-item-enter {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    opacity: 0;
+    transition: opacity 0.16s var(--ease-smooth);
+}
+
+.palette-item.is-active {
+    background: linear-gradient(90deg, rgba(91, 157, 255, 0.18), rgba(91, 157, 255, 0.06));
+    box-shadow: inset 0 0 0 1px rgba(91, 157, 255, 0.30);
+}
+
+:root[data-theme="light"] .palette-item.is-active {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.14), rgba(37, 99, 235, 0.05));
+    box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.32);
+}
+
+.palette-item.is-active .palette-item-icon {
+    color: var(--ice-blue);
+    transform: scale(1.05);
+}
+
+.palette-item.is-active .palette-item-enter {
+    opacity: 1;
+    color: var(--ice-blue);
+}
+
+/* Highlighted match span */
+.palette-hl {
+    background: rgba(91, 157, 255, 0.30);
+    color: var(--text-strong);
+    padding: 0 0.18em;
+    border-radius: 3px;
+}
+
+:root[data-theme="light"] .palette-hl {
+    background: rgba(37, 99, 235, 0.20);
+    color: var(--ice-blue);
+}
+
+.palette-empty {
+    padding: 1.4rem 1rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* ── Foot ── */
+.palette-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 0.95rem;
+    border-top: 1px solid var(--glass-border);
+    color: var(--text-muted);
+    font-size: 0.66rem;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.palette-brand {
+    color: var(--ice-blue);
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .palette-overlay {
+        padding-top: 4vh;
+    }
+    .palette-shell {
+        width: 100%;
+    }
+    .palette-item-desc {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .palette-overlay,
+    .palette-shell,
+    .palette-item,
+    .palette-item-icon,
+    .palette-trigger {
+        transition: none !important;
+    }
+}

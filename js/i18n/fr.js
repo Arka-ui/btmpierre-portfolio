@@ -57,11 +57,6 @@ export const fr = {
             loading: ' Synchronisation du statut...'
         }
     },
-    visitors: {
-        loading: 'Visiteurs en ligne: ...',
-        singular: '{count} visiteur en ligne',
-        plural: '{count} visiteurs en ligne'
-    },
     skills: {
         1: 'JavaScript',
         2: 'Electron',
@@ -429,5 +424,55 @@ export const fr = {
             dnd: 'NE PAS DÉRANGER',
             offline: 'HORS LIGNE'
         }
+    },
+    theme: {
+        label: 'Thème',
+        toggleAria: 'Basculer le thème clair/sombre',
+        toggleToLight: 'Passer au thème clair',
+        toggleToDark: 'Passer au thème sombre'
+    },
+    palette: {
+        triggerAria: 'Ouvrir la palette de commandes (Cmd/Ctrl + K)',
+        placeholder: 'Tape une commande, un projet, > pour le terminal…',
+        empty: 'Aucun résultat. Essaye « projets », « thème » ou « > help ».',
+        noResults: 'Aucun résultat.',
+        navigateHint: 'naviguer',
+        selectHint: 'choisir',
+        closeHint: 'fermer',
+        brandLine: 'variant by Arka',
+        scrollTo: 'Aller à la section',
+        themeHint: 'Bascule clair/sombre',
+        langHint: 'Change la langue de la page',
+        switchToFrench: 'Passer en français',
+        switchToEnglish: 'Switch to English',
+        emailHint: 'Ouvrir un nouveau message',
+        upstream: 'Site officiel de Pierre',
+        groups: {
+            nav: 'Navigation',
+            settings: 'Réglages',
+            projects: 'Projets',
+            links: 'Liens',
+            terminal: 'Terminal'
+        },
+        cmds: {
+            whoami: 'Affiche l’utilisateur courant',
+            whoamiOutput: 'Tu visites le portfolio variant de Pierre, maintenu par Arka. Bienvenue.',
+            matrix: 'Active le mode matrix (6 secondes)',
+            coffee: 'Lance la routine café (placebo)',
+            coffeeOutput: '☕ Café en cours… Patiente, je charge l’ambiance.',
+            credits: 'Affiche les crédits de la variante',
+            creditsOutput: 'Variant fork — design + code par Arka. Portfolio original par Pierre Bouteman (btmpierre.me).',
+            source: 'Ouvre le code source de cette variante'
+        }
+    },
+    konami: {
+        activated: 'Code Konami activé · matrix mode'
+    },
+    caseStudy: {
+        tag: 'CASE STUDY',
+        problem: 'Problème',
+        approach: 'Approche',
+        shots: 'Aperçus',
+        lessons: 'Ce que j’en retiens'
     }
 };
